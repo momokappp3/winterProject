@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Application">
+      <UniqueIdentifier>{4ca63305-d083-453b-88a9-706f0a1ac180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModeServer">
+      <UniqueIdentifier>{f65d1d8e-b785-4c0b-a849-085fd92b4b60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="momoka">
+      <UniqueIdentifier>{a00ee1e3-416e-4fa0-ad64-bbc833f847b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="momoka\ヘッダー">
+      <UniqueIdentifier>{ccb1d7ba-2b0c-4ef6-a173-2359eded991a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\Application\ApplicationBase.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Application\WinMain.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeBase.cpp">
+      <Filter>ModeServer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeServer.cpp">
+      <Filter>ModeServer</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>momoka</Filter>
+    </ClCompile>
+    <ClCompile Include="Twen.cpp">
+      <Filter>momoka</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBase.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectServer.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect3D.cpp">
+      <Filter>momoka</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>momoka</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInput.cpp">
+      <Filter>momoka</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorTween.cpp">
+      <Filter>momoka</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Application\ApplicationBase.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Application\UtilMacro.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\appframe.h" />
+    <ClInclude Include="source\Mode\ModeBase.h">
+      <Filter>ModeServer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeServer.h">
+      <Filter>ModeServer</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBase.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectServer.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Tween.h">
+      <Filter>momoka\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>momoka\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect3D.h">
+      <Filter>momoka\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>momoka\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>momoka\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>momoka\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorTween.h">
+      <Filter>momoka\ヘッダー</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
