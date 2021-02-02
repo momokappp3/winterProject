@@ -8,7 +8,7 @@
 #define novelCameraTargetStart {0.0f, 10.0f, 0.0f}
 #define novelCameraTargetEnd {0.006048f, 11.331523f, 12.522373f}
 
-#define ScaleStage {2.230,2.230,2.230}
+#define ScaleStage {2.30,2.30,2.30}
 
 #define ScaleLove {0.150,0.150,0.150}
 #define ScaleLoveMove {0.2,0.2,0.2}
@@ -83,21 +83,29 @@ bool ModeTitle::Initialize() {
 	_pVectorTweenTarget.reset(new VectorTween);
 	_pLoveTweenScale.reset(new VectorTween);
 
-	_pCamera->SetPosition(-29.132515f, 31.393948f, -53.699860f);
-	_pCamera->SetTarget(-31.634794f, 16.672798f, 2.017584f);
+	/*
+	SetCameraPositionAndTarget_UpVecY( VGet( -18.026157f, 14.650770f, -34.953270f ), VGet( -18.026155f, 16.672798f, 1.052301f ) );
+SetCameraNearFar( 1.442092f, 360.523010f );
+	
+	*/
+
+
+
+	_pCamera->SetPosition(-18.026157f, 14.650770f, -34.953270f);
+	_pCamera->SetTarget(-18.026155f, 16.672798f, 1.052301f);
 	_pCamera->SetNearFar(1.442092f, 360.523010f);
 
 	_pStageModel->Load("model/iceStage/stage.pmx");  //ステージ
 	//_pStageModel->Load("model/actionStage/Stage.mv1");  //ステージ
 	_pAnimationBase->Load("model/onna/onna.pmx");  //キャラ
 	_pLove->Load("model/title/title_love.mv1",true);  //文字
-	_pLove2->Load("model/title/love.mv1",true);
-	_pSweet->Load("model/title/title_sweetLoom.mv1");
-	_pHeart->Load("model/title/titleHeart.mv1",true);
-	_pHeart2->Load("model/title/titleHeart.mv1",true);
-	_p2Heart->Load("model/title/titleHeart2.mv1",true);
-	_p2Heart2->Load("model/title/titleHeart2.mv1",true);
-	_pEx->Load("model/title/titleEx.mv1");
+	_pLove2->Load("model/title/title_love.mv1",true);
+	_pSweet->Load("model/title/title_sweet.mv1");
+	_pHeart->Load("model/title/title_hart.mv1",true);
+	_pHeart2->Load("model/title/title_hart.mv1",true);
+	_p2Heart->Load("model/title/title_hart2.mv1",true);
+	_p2Heart2->Load("model/title/title_hart2.mv1",true);
+	_pEx->Load("model/title/title_Ex.mv1");
 
 	/*
 	//塗りつぶしハート未実装
@@ -257,18 +265,25 @@ bool ModeTitle::SetModelInitInfo() {
 
 	_pStageModel->GetTransform().SetScale(ScaleStage);
 
-	_pLove->GetTransform().SetScale(ScaleLove); _pLove->GetTransform().SetPosition(PositionLove);
-	_pLove2->GetTransform().SetScale(ScaleLove); _pLove2->GetTransform().SetPosition(PositionLove2);
+	//_pLove->GetTransform().SetScale(ScaleLove); 
+	_pLove->GetTransform().SetPosition(PositionLove);
+	//_pLove2->GetTransform().SetScale(ScaleLove);
+	_pLove2->GetTransform().SetPosition(PositionLove2);
 
-	_pSweet->GetTransform().SetScale(ScaleSweet);  _pSweet->GetTransform().SetPosition(PositionSweet);
+	//_pSweet->GetTransform().SetScale(ScaleSweet); 
+	_pSweet->GetTransform().SetPosition(PositionSweet);
 
-	_p2Heart->GetTransform().SetScale(Scale2Heart); _p2Heart->GetTransform().SetPosition(Position2Heart);
-	_p2Heart2->GetTransform().SetScale(Scale2Heart); _p2Heart2->GetTransform().SetPosition(Position2Heart2);
+	//_p2Heart->GetTransform().SetScale(Scale2Heart);
+	_p2Heart->GetTransform().SetPosition(Position2Heart);
+	//_p2Heart2->GetTransform().SetScale(Scale2Heart);
+	_p2Heart2->GetTransform().SetPosition(Position2Heart2);
 
-	_pEx->GetTransform().SetScale(ScaleEx), _pEx->GetTransform().SetPosition(PositionEx);
+	_pEx->GetTransform().SetPosition(PositionEx);
 
-	_pHeart->GetTransform().SetScale(ScaleHeart); _pHeart->GetTransform().SetPosition(PositionHeart);
-	_pHeart2->GetTransform().SetScale(ScaleHeart); _pHeart2->GetTransform().SetPosition(PositionHeart2);
+	//_pHeart->GetTransform().SetScale(ScaleHeart); 
+	_pHeart->GetTransform().SetPosition(PositionHeart);
+	//_pHeart2->GetTransform().SetScale(ScaleHeart); 
+	_pHeart2->GetTransform().SetPosition(PositionHeart2);
 	_pHeart->GetTransform().SetDirection(RotationHeart);
 	_pHeart2->GetTransform().SetDirection(RotationHeart2);
 
