@@ -31,6 +31,8 @@ Tween::~Tween() {
 
 bool Tween::SetTween(Point start, Point end, int flame, Type type) {
 
+	_isStart = false;
+
 	if (_isStart) {
 		return false;
 	}

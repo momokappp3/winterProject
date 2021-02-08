@@ -1,7 +1,6 @@
 #include "VectorTween.h"
 #include <cmath>
 
-
 namespace {
 
 	const float pi = std::acosf(-1);
@@ -31,11 +30,12 @@ VectorTween::~VectorTween() {
 }
 
 bool VectorTween::SetVectorTween(VECTOR start, VECTOR end, int flame, Type type) {
+	
+	_isStart = false; //バグったので追加
 
-	if (_isStart) {
+	if (_isStart) {  //ここで2回目がバグる
 		return false;
 	}
-
 	_isStart = true;
 	_isEnd = false;
 	_start = start;

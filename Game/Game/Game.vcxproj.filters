@@ -102,6 +102,9 @@
     <ClCompile Include="source\Novel\scripts\command_novel.cpp">
       <Filter>ソース ファイル\Novel</Filter>
     </ClCompile>
+    <ClCompile Include="source\SoundManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="source\Novel\scripts\command_novel.h">
       <Filter>ソース ファイル\Novel</Filter>
+    </ClInclude>
+    <ClInclude Include="source\SoundManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

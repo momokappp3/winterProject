@@ -176,6 +176,7 @@
     <ClCompile Include="source\Novel\scripts\input_manager.cpp" />
     <ClCompile Include="source\Novel\scripts\scripts_data.cpp" />
     <ClCompile Include="source\Novel\scripts\script_engine.cpp" />
+    <ClCompile Include="source\SoundManager.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +207,7 @@
     <ClInclude Include="source\Novel\scripts\input_manager.h" />
     <ClInclude Include="source\Novel\scripts\scripts_data.h" />
     <ClInclude Include="source\Novel\scripts\script_engine.h" />
+    <ClInclude Include="source\SoundManager.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

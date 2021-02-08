@@ -1,4 +1,5 @@
 #pragma once
+#include "Dxlib.h"
 
 class MouseInput {
 public:
@@ -16,7 +17,19 @@ public:
 		return _isLeft;
 	}
 
+	//スクリーン座標をワールド座標に
+	VECTOR GetStart3D() {
+		return _startPosition;
+	}
+
+	VECTOR GetEnd3D() {
+		return _endPosition;
+	}
+
 private:
+
+	VECTOR _startPosition;
+	VECTOR _endPosition;
 
 	bool _isRight;
 	bool _isLeft;

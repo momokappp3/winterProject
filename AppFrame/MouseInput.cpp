@@ -19,6 +19,13 @@ void MouseInput::Process(){
 	//マウスポインタの座標を取得
 	GetMousePoint(&_posX, &_posY);
 
+	// マウスポインタがある画面上の座標に該当する３Ｄ空間上の Near 面の座標を取得
+	_startPosition = ConvScreenPosToWorldPos(VGet(_posX, _posY, 0.0f));
+
+	// マウスポインタがある画面上の座標に該当する３Ｄ空間上の Far 面の座標を取得
+	_endPosition = ConvScreenPosToWorldPos(VGet(_posX, _posY, 1.0f));
+
+
 	if ((GetMouseInput() & MOUSE_INPUT_RIGHT) != 0) {
 		_isRight = true;
 	}

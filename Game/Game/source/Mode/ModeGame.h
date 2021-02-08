@@ -1,10 +1,27 @@
+#pragma once
 
 #include "appframe.h"
-#include "../../Camera.h"
-#include "../../../../AppFrame/Effect3D.h"
-#include <memory>
 
-class ModeGame : public ModeBase{
+#include <string>
+#include "ModeMenu.h"
+
+// 計算用マクロ
+#define	PI	(3.1415926535897932386f)
+#define	DEG2RAD(x)			( ((x) / 180.0f ) * PI )
+#define	RAD2DEG(x)			( ((x) * 180.0f ) / PI )
+
+// カメラ
+class Camera1 {
+public:
+	VECTOR	_vPos;					// 位置
+	VECTOR	_vTarget;				// 距離
+	float	_clipNear, _clipFar;	// クリップ
+};
+
+// モード
+class ModeGame : public ModeBase
+{
+	typedef ModeBase base;
 public:
 	virtual bool Initialize();
 	virtual bool Terminate();
@@ -13,24 +30,35 @@ public:
 
 protected:
 
-	std::unique_ptr<Camera> _pCamera;
-	std::unique_ptr<Effect3D> _pEffect3D;
+	// カメラ
+	Camera1	_cam;
 
-	int _cg;
-	int _cg2;
-	int _back;
-	int _x, _y;
+	// 3Dモデル描画用
+	int _handle;
+	int _attach_index;
+	float _total_time;
+	float _play_time;
+	VECTOR _vPos;	// 位置
+	VECTOR _vDir;	// 向き
+	float _colSubY;	// コリジョン判定時のY補正(腰位置）
 
-	float _near;
-	float _far;
+	enum class STATUS {
+		NONE,
+		WAIT,
+		WALK,
+		_EOT_
+	};
+	STATUS _status;
 
-	int _attachIndex;
-	int _attachIndex2;
-	float _totalTime;
-	float _totalTime2;
-	float _playTime;
-	float _playTime2;
-
-}; 
+	// マップ用
+	int _handleMap;
+	int _handleCoMap;
+	int _handleSkySphere;
+	int _frameMapCollision;
 
 
+	// デバッグ用
+	bool	_bViewCollision;
+
+
+};

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+/*
 class ModeMenu : public ModeBase {
 public:
 	virtual bool Initialize();
@@ -12,7 +13,7 @@ public:
 	virtual bool Process();
 	virtual bool Render();
 
-	void	Add(MenuItemBase* itemBase);
+	//void	Add(MenuItemBase* itemBase);
 	void	Clear();
 
 protected:
@@ -22,6 +23,7 @@ protected:
 	int		_curAnimCnt;
 
 };
+*/
 
 // メニュー項目用ベースクラス
 class MenuItemBase {

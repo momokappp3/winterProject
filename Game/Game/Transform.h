@@ -29,6 +29,7 @@ public:
 
 	void SetDirection(VECTOR direction) {
 		_vDirection = VNorm(VGet(direction.x, direction.y, direction.z));
+		//_vDirection = VGet(direction.x, direction.y, direction.z);
 	}
 
 	void AddDirection(float x, float y, float z) {
