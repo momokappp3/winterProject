@@ -29,9 +29,7 @@ bool GalGame::Initialize() {
 		return false;
 	}
 
-	//メモリの所有権を委ねるには.reset
 	_pCamera.reset(new Camera);
-	//_pCharaModel.reset(new Model);
 	_pRoomModel.reset(new Model);
 	_pMouseInput.reset(new MouseInput);
 	_pAnimationBase.reset(new AnimationBase);
@@ -66,17 +64,6 @@ bool GalGame::Process() {
 
 	_pAnimationBase->Play(true, 0, 0.3f);
 
-	if (CheckHitKey(KEY_INPUT_A)) {
-
-		//モデルに対して角度をつけ足せる
-		_pAnimationBase->GetTransform().AddRotateY(5.0f);
-	}
-
-	if (CheckHitKey(KEY_INPUT_S)) {
-
-		//モデルに対して角度をつけ足せる
-		_pAnimationBase->GetTransform().AddRotateY(-5.0f);
-	}
 
 	if (CheckHitKey(KEY_INPUT_D)) {
 		_pAnimationBase->Play(true, 1, 5.0f);
@@ -96,8 +83,8 @@ bool GalGame::Process() {
 		//_pCamera->SetPosition(0.0f, 10.0f, -20.0f);
 		//_pCamera->SetTarget(0.0f, 10.0f, 0.0f);
 
-		_pVectorTweenPotion->SetVectorTween(novelCameraPositionEnd, novelCameraPositionStart, 30);
-		_pVectorTweenTarget->SetVectorTween(novelCameraTargetEnd, novelCameraTargetStart, 30);
+		_pVectorTweenPotion->SetVectorTween(novelCameraPositionEnd, novelCameraPositionStart, 45,VectorTween::Type::SineStart);
+		_pVectorTweenTarget->SetVectorTween(novelCameraTargetEnd, novelCameraTargetStart, 45, VectorTween::Type::SineStart);
 	}
 
 	if (_pInput->_key[(KEY_INPUT_W)] == 1) {
@@ -105,10 +92,9 @@ bool GalGame::Process() {
 		_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
 
 		//カメラ移動
-		_pVectorTweenPotion->SetVectorTween(novelCameraPositionStart, novelCameraPositionEnd, 30);
-		_pVectorTweenTarget->SetVectorTween(novelCameraTargetStart, novelCameraTargetEnd, 30);
+		_pVectorTweenPotion->SetVectorTween(novelCameraPositionStart, novelCameraPositionEnd, 45, VectorTween::Type::SineStart);
+		_pVectorTweenTarget->SetVectorTween(novelCameraTargetStart, novelCameraTargetEnd, 45, VectorTween::Type::SineStart);
 	}
-
 
 	if (_pVectorTweenPotion->IsStart() && !_pVectorTweenPotion->IsEnd()) {
 
@@ -160,3 +146,20 @@ bool GalGame::Terminate() {
 	_pScriptEngin->Destroy();
 	return true;
 }
+
+/*
+
+
+	if (CheckHitKey(KEY_INPUT_A)) {
+
+		//モデルに対して角度をつけ足せる
+		_pAnimationBase->GetTransform().AddRotateY(5.0f);
+	}
+
+	if (CheckHitKey(KEY_INPUT_S)) {
+
+		//モデルに対して角度をつけ足せる
+		_pAnimationBase->GetTransform().AddRotateY(-5.0f);
+	}
+
+*/

@@ -9,11 +9,28 @@
 #include "../.././../../AppFrame/Input.h"
 #include "../../../../AppFrame/VectorTween.h"
 #include "../SoundManager.h"
+#include "../../../../AppFrame/Effect3D.h"
 
 class ModeTitle : public ModeBase {
 public:
 	ModeTitle();
 	virtual ~ModeTitle();
+
+	enum class Kind {
+		Max = 0,
+		NewGame,
+		LoadGame,
+		Option,
+		Help,
+		End
+	};
+
+	enum class CameraKind {
+		Title = 0,
+		Menu,
+		TitleUp
+
+	};
 
 	virtual bool Initialize();
 	virtual bool Terminate();
@@ -24,9 +41,13 @@ private:
 
 	bool SetModelInitInfo();
 	void MoveUpDown();
+	bool TouchTitleMenu();
+	//void TouchTitle();
 
 	std::unique_ptr<Camera> _pCamera;
 	std::unique_ptr<Model> _pStageModel;
+	std::unique_ptr<Effect3D> _pEffect3D;
+
 	std::unique_ptr<Model> _pLove;
 	std::unique_ptr<Model> _pLove2;
 	std::unique_ptr<Model> _pSweet;
@@ -66,7 +87,14 @@ private:
 	std::unique_ptr<VectorTween> _pTweenTitleMove7;
 	std::unique_ptr<VectorTween> _pTweenTitleMove8;
 
-	MV1_COLL_RESULT_POLY HitPoly;
+	MV1_COLL_RESULT_POLY _hitNewGame;
+	MV1_COLL_RESULT_POLY _hitLoadGame;
+	MV1_COLL_RESULT_POLY _hitOption;
+	MV1_COLL_RESULT_POLY _hitHelp;
+	MV1_COLL_RESULT_POLY _hitExit;
+
+	Kind _menuKind;
+	CameraKind _cameraKind;
 
 	bool _isBgm;
 

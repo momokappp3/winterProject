@@ -26,6 +26,14 @@ public:
 		return _endPosition;
 	}
 
+	void SetEndPosition(VECTOR end) {
+		_endPosition = end;
+	}
+
+	void SetStartPosition(VECTOR start) {
+		_startPosition = start;
+	}
+
 private:
 
 	VECTOR _startPosition;

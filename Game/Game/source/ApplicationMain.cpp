@@ -16,8 +16,8 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	if (!ApplicationBase::Initialize(hInstance)) { return false; }
 
 	// ƒ‚[ƒh‚Ì“o˜^
-	//ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
-	ModeServer::GetInstance()->Add(new ModeTitleMenu(), 1, "titleMenu");
+	ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
+	//ModeServer::GetInstance()->Add(new ModeTitleMenu(), 1, "titleMenu");
 	//ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action");
 
 	return true;

@@ -89,14 +89,14 @@ namespace {
     constexpr auto CURSOR_IMAGE_LABEL = "カーソル";
     constexpr auto CLICK_WAIT_IMAGE_LABEL = "クリック待ち";
 
-    constexpr auto FONT_SIZE = 40;
+    constexpr auto FONT_SIZE = 40;  //ここ変えると全部横に行く
 
     constexpr auto MSG_WORD_MAX = 20;
     constexpr auto MSG_STRING_MAX = MSG_WORD_MAX * 2; // 2 : MultiByte String
 
     constexpr auto MSG_LINE_MAX = 3;
     constexpr auto MSG_LINE_WIDTH = MSG_WORD_MAX * FONT_SIZE;
-    constexpr auto MSG_LINE_HEIGHT = 50;  //文字の高さ
+    constexpr auto MSG_LINE_HEIGHT = 50;  //文字の高さgが変わる
     constexpr auto MSG_LINE_GAP_HEIGHT = 40;  //メッセージの縦の間隔
     constexpr auto MSG_LINE_GRID_HEIGHT = MSG_LINE_HEIGHT + MSG_LINE_GAP_HEIGHT;
 
@@ -106,7 +106,7 @@ namespace {
     constexpr auto MSG_WINDOW_TOP = MSG_WINDOW_CENTER_Y - MSG_WINDOW_HEIGHT / 2;
     constexpr auto MSG_WINDOW_BOTTOM = MSG_WINDOW_TOP + MSG_WINDOW_HEIGHT;
 
-    constexpr auto CLICK_WAIT_IMAGE_OFFSET_Y = 28;
+    constexpr auto CLICK_WAIT_IMAGE_OFFSET_Y = 40;
 
     constexpr auto CHOICE_WORD_MAX = 24;
 
@@ -259,8 +259,8 @@ namespace amg
     //! @brief スクリプトエンジン用クリック待ち画像の初期化
     //! @return 処理の成否
     //!
-    bool ScriptEngine::InitializeClickWait()
-    {
+    bool ScriptEngine::InitializeClickWait(){
+
         auto handle = 0;
 
         if (!GetImageHandle(CLICK_WAIT_IMAGE_LABEL, handle)) {

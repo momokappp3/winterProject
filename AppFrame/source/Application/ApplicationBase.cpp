@@ -23,6 +23,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 	if(AppWindowed()){
 		ChangeWindowMode(true);							// ウィンドウモードに指定する
 	}
+
 	SetGraphMode(DispSizeW(), DispSizeH(), 32);
 
 	if (DxLib_Init() == -1){	

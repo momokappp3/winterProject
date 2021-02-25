@@ -1,7 +1,6 @@
 #include "Effect3D.h"
 #include "EffekseerForDXLib.h"
 
-
 Effect3D::Effect3D() {
 
 	_point = { 0,-150 };
@@ -15,7 +14,6 @@ Effect3D::Effect3D() {
 
 Effect3D::~Effect3D() {
 }
-
 
 //ハンドルと拡大率をセット
 bool Effect3D::Init(const TCHAR* fileName, float magnification, bool isLoop) {

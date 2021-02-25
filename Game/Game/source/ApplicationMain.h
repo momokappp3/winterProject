@@ -17,8 +17,9 @@ public:
 		return false;
 #endif
 	}
+	/*
 	int DispSizeW() override { return 1920; }
 	int DispSizeH() override { return 1080; }
-
+	*/
 protected:
 }; 

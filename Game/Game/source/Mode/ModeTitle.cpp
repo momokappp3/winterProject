@@ -2,6 +2,9 @@
 #include <string>
 #include <Dxlib.h>
 #include "../../ResourceServer.h"
+#include "Action3DGame.h"
+#include "GalGame.h"
+#include "ModeGame.h"
 
 #define CAMERA_TITLE_POSITION { -18.026157f, 14.650770f, -34.953270f }
 #define CAMERA_TITLE_TARGET {-18.026155f, 16.672798f, 1.052301f}
@@ -49,21 +52,28 @@
 #define PositionHelp {43.263, 8.653, 0.00}
 #define PositionExit {45.426, 2.163, 0.00}
 
-#define PositionInitNewGame {11.5, -5.047, -7.00}
-#define PositionInitLoadGame {11.5, -5.047, -7.00}
-#define PositionInitOption {11.5, -5.047, -7.00}
-#define PositionInitHelp {11.5, -5.047, -7.00}
-#define PositionInitExit {11.5, -5.047, -7.00}
+#define PositionInitNewGame {11.5, -5.047, 0.00}
+#define PositionInitLoadGame {11.5, -5.047, 0.00}
+#define PositionInitOption {11.5, -5.047, 0.00}
+#define PositionInitHelp {11.5, -5.047, 0.00}
+#define PositionInitExit {11.5, -5.047, 0.00}
 
-#define PositionSelectNewGame {11.5, -5.047, 7.00}
-#define PositionSelectLoadGame {11.5, -5.047, 7.00}
-#define PositionSelectOption {11.5, -5.047, 7.00}
-#define PositionSelectHelp {11.5, -5.047, 7.00}
-#define PositionSelectExit {11.5, -5.047, 7.00}
+#define PositionSelectNewGame {11.5, -5.047, -200.00}
+#define PositionSelectLoadGame {11.5, -5.047, -200.00}
+#define PositionSelectOption {11.5, -5.047, -200.00}
+#define PositionSelectHelp {11.5, -5.047, -200.00}
+#define PositionSelectExit {11.5, -5.047, -200.00}
 
 ModeTitle::ModeTitle() {
 
 	_pStageModel = nullptr;
+	_pEffect3D = nullptr;
+	_pCamera = nullptr;
+	_pMouseInput = nullptr;
+	_pAnimationBase = nullptr;
+	_pInput = nullptr;
+	_pSoundManager = nullptr;
+
 	_pLove = nullptr;
 	_pLove2 = nullptr;
 	_pSweet = nullptr;
@@ -78,12 +88,6 @@ ModeTitle::ModeTitle() {
 	_pOption = nullptr;
 	_pHelp = nullptr;
 	_pExit = nullptr;
-
-	_pCamera = nullptr;
-	_pMouseInput = nullptr;
-	_pAnimationBase = nullptr;
-	_pInput = nullptr;
-	_pSoundManager = nullptr;
 
 	//tween
 	_pVectorTweenPotion = nullptr;
@@ -105,6 +109,9 @@ ModeTitle::ModeTitle() {
 	_pTweenTitleMove7 = nullptr;
 	_pTweenTitleMove8 = nullptr;
 
+	_menuKind = Kind::Max;
+	_cameraKind = CameraKind::Title;
+
 	_isBgm = false;
 }
 
@@ -124,11 +131,7 @@ ModeTitle::~ModeTitle() {
 	_pCamera->SetPosition(8.390586f, 22.943768f, -36.676380f);
 	_pCamera->SetTarget(15.942330f, 13.788612f, 4.937160f);
 
-
-	音楽つける
 	当たり判定
-
-
 */
 
 bool ModeTitle::Initialize() {
@@ -181,7 +184,8 @@ bool ModeTitle::Initialize() {
 
 	_pCamera->SetPosition(-3.857570f, 19.892756f, -25.599190f);
 	_pCamera->SetTarget(-10.132383f, 13.788612f, 1.892545f);
-	_pCamera->SetNearFar(1.442092f, 360.523010f);
+	//_pCamera->SetNearFar(1.442092f, 360.523010f);
+	_pCamera->SetNearFar(0.1f, 1000.0f);
 
 	_pStageModel->Load("model/iceStage/stage.pmx");  //ステージ
 	_pAnimationBase->Load("model/onna/onna.pmx");  //キャラ
@@ -200,14 +204,20 @@ bool ModeTitle::Initialize() {
 	_pOption->Load("model/title/titleMenu/title_option.mv1");
 	_pHelp->Load("model/title/titleMenu/title_help.mv1");
 	_pExit->Load("model/title/titleMenu/title_exit.mv1");
+	/*
+	if (MV1SetupCollInfo(_pNewGame->GetHandle(), 4, 8, 8, 8) == -1) {
+		return false;  //falseに来てしまう
+	}//通った
+	*/
+	if (MV1SetupCollInfo(_pHeart->GetHandle(), 4, 8, 8, 8) == -1) {
+		return false;  //falseに来てしまう
+	}  //通った
 
 	SetModelInitInfo();
 
-	//_pSoundManager->Init();
+	_pSoundManager->Init();
 
 	//_coNum = MV1SearchFrame(_pNewGame->GetHandle(), "collisionNewGame");
-
-
 
 	return true;
 }
@@ -226,50 +236,10 @@ bool ModeTitle::Process() {
 		}
 	}
 	
-
 	_pAnimationBase->Play(true, 0, 0.3f);
 
-	//毎フレーム
-	// モデル全体のコリジョン情報を構築
-	//セットポジションスケールしてからする
-	if (MV1SetupCollInfo(_pNewGame->GetHandle(), 4, 8, 8, 8) == -1) {
-		return false;  //falseに来てしまう
-	}
-
-
-	// モデルと線分との当たり判定
-	HitPoly = MV1CollCheck_Line(_pNewGame->GetHandle(), -1, _pMouseInput->GetStart3D(), _pMouseInput->GetEnd3D());
-
-
-	if (HitPoly.HitFlag == 1) {
-
-		_pNewGame->GetTransform().AddRotateY(5.0f);
-
-	}
-
-
-	//カメラに対して角度をつけ足せる バグ
-	if (CheckHitKey(KEY_INPUT_LEFT)) {	
-		_pCamera->GetTransform().AddRotateY(5.0f);
-	}
-	if (CheckHitKey(KEY_INPUT_RIGHT)) {
-		_pCamera->GetTransform().AddRotateY(5.0f);
-	}
-
-	if (CheckHitKey(KEY_INPUT_A)) {
-
-		//モデルに対して角度をつけ足せる
-		_pAnimationBase->GetTransform().AddRotateY(5.0f);
-	}
-
-	if (CheckHitKey(KEY_INPUT_S)) {
-
-		//モデルに対して角度をつけ足せる
-		_pAnimationBase->GetTransform().AddRotateY(-5.0f);
-	}
-
 	if (CheckHitKey(KEY_INPUT_D)) {
-		_pAnimationBase->Play(true, 1, 5.0f);
+		_pAnimationBase->Play(true, 1, 5.0f);  //アニメーション1
 	}
 
 	if (_pInput->_key[(KEY_INPUT_Q)] == 1) {
@@ -333,9 +303,13 @@ bool ModeTitle::Process() {
 
 		_pTweenTitleMove8->SetVectorTween(_pHeart2->GetTransform().GetPosition(), PositionInitHeart2,
 										  60, VectorTween::Type::SineEnd);
+		_cameraKind = CameraKind::Menu;
+
+		//ここでenumclass
 	}
 
 	if (_pMouseInput->GetLeft() && _pCamera->GetPosition().x > 7.0f) {
+
 		_pVectorTweenPotion->SetVectorTween(_pCamera->GetPosition(), CAMERA_INIT_POSITION,
 											90, VectorTween::Type::SineStart);
 		_pVectorTweenTarget->SetVectorTween(_pCamera->GetTarget(), CAMERA_INIT_TARGET, 90,
@@ -382,10 +356,16 @@ bool ModeTitle::Process() {
 		_pTweenTitleMove8->SetVectorTween(_pHeart2->GetTransform().GetPosition(), PositionHeart2,
 									 110, VectorTween::Type::SineStart);
 
+		_cameraKind = CameraKind::Title;
 	}
 	
-	MoveUpDown();
+	
+	if (_cameraKind == CameraKind::Menu) {
+		TouchTitleMenu();
+	}
 
+	MoveUpDown();
+	
 	//カメラ
 	if (_pVectorTweenPotion->IsStart() && !_pVectorTweenPotion->IsEnd()) {
 
@@ -402,9 +382,34 @@ bool ModeTitle::Process() {
 		_pCamera->SetTarget(tX, tY, tZ);
 	}
 
-	if (CheckHitKey(KEY_INPUT_B)) {
-		_pLove2->GetTransform().AddRotateY(2.0f);
-		
+	
+	if (_pMouseInput->GetLeft()){
+
+		switch (_menuKind) {
+		case Kind::NewGame:
+			ModeServer::GetInstance()->Del(this);  // このモードを削除予約
+			ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action3DGame");  // 次のモードを登録
+			break;
+
+		case Kind::LoadGame:
+			ModeServer::GetInstance()->Del(this);  // このモードを削除予約
+			ModeServer::GetInstance()->Add(new GalGame(), 3, "GalGame");  // 次のモードを登録
+			break;
+
+		case Kind::Option:
+			ModeServer::GetInstance()->Del(this);  // このモードを削除予約
+			ModeServer::GetInstance()->Add(new ModeGame(), 4, "ModeGame");  // 次のモードを登録
+			break;
+
+		case Kind::Help:
+			break;
+		case Kind::End:
+
+			//終了処理
+			break;
+		default:
+			break;
+		}
 	}
 
 	
@@ -450,6 +455,90 @@ bool ModeTitle::Process() {
 	return true;
 }
 
+bool ModeTitle::TouchTitleMenu() {
+
+	VECTOR startI = _pMouseInput->GetStart3D();
+	VECTOR endI = _pMouseInput->GetEnd3D();
+
+	if (MV1SetupCollInfo(_pNewGame->GetHandle(), 4, 8, 8, 8) == -1) {
+		return false;
+	}
+	if (MV1SetupCollInfo(_pLoadGame->GetHandle(), 2, 8, 8, 8) == -1) {
+		return false;
+	}
+	if (MV1SetupCollInfo(_pOption->GetHandle(), 2, 4, 4, 4) == -1) {
+		return false;
+	}
+	if (MV1SetupCollInfo(_pHelp->GetHandle(), 2, 8, 8, 8) == -1) {
+		return false;
+	}
+	if (MV1SetupCollInfo(_pExit->GetHandle(), 2, 8, 8, 8) == -1) {
+		return false;
+	}
+
+	// モデルと線分との当たり判定
+	_hitNewGame = MV1CollCheck_Line(_pNewGame->GetHandle(), 4, startI, endI);
+	_hitLoadGame = MV1CollCheck_Line(_pLoadGame->GetHandle(), 2, startI, endI);
+	_hitOption = MV1CollCheck_Line(_pOption->GetHandle(), 2, startI, endI);
+	_hitHelp = MV1CollCheck_Line(_pHelp->GetHandle(), 2, startI, endI);
+	_hitExit = MV1CollCheck_Line(_pExit->GetHandle(), 2, startI, endI);
+
+	if (_hitNewGame.HitFlag == 1) {
+
+		_pNewGame->GetTransform().AddRotateY(10.0f);
+		_menuKind = Kind::NewGame;
+	}
+	else {
+		_pNewGame->GetTransform().SetRotateY(0.0f);
+	}
+	
+	if (_hitLoadGame.HitFlag == 1) {
+
+		_pLoadGame->GetTransform().AddRotateY(5.0f);
+		_menuKind = Kind::LoadGame;
+	}
+	else {
+		_pLoadGame->GetTransform().SetRotateY(0.0f);
+	}
+	
+
+	//反応しない
+
+	if (_hitOption.HitFlag == 1) {
+
+		_pOption->GetTransform().AddRotateY(10.0f);
+		_menuKind = Kind::Option;
+	}
+	else {
+		_pOption->GetTransform().SetRotateY(0.0f);
+	}
+
+	if (_hitHelp.HitFlag == 1) {
+
+		_pHelp->GetTransform().AddRotateY(10.0f);
+		_menuKind = Kind::Help;
+	}
+	else {
+		_pHelp->GetTransform().SetRotateY(0.0f);
+	}
+
+	if (_hitExit.HitFlag == 1) {
+
+		_pExit->GetTransform().AddRotateY(10.0f);
+		_menuKind = Kind::End;
+	}
+	else {
+		_pExit->GetTransform().SetRotateY(0.0f);
+	}
+
+	if (_hitNewGame.HitFlag != 1 && _hitLoadGame.HitFlag != 1 && _hitOption.HitFlag != 1 &&
+		_hitHelp.HitFlag != 1 && _hitExit.HitFlag != 1) {
+
+		_menuKind = Kind::Max;
+	}
+}
+
+
 bool ModeTitle::Render() {
 
 	_pCamera->Render();
@@ -469,6 +558,9 @@ bool ModeTitle::Render() {
 	_pExit->Render();
 	_pMouseInput->Draw();
 	_pAnimationBase->Render();
+
+	DrawFormatString(100, 400, GetColor(255, 0, 0), "menu:%d",_menuKind );
+	DrawFormatString(100, 500, GetColor(255, 0, 0), "camera:%d", _cameraKind);
 
 	return true;
 }
