@@ -40,7 +40,7 @@ public:
 		return _transform;
 	}
 
-
+	int _font;
 
 	//Dxlib‚Ì\‘¢‘Ì float float float
 	VECTOR	_vPos;					// ˆÊ’u

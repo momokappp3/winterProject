@@ -96,9 +96,6 @@
     <ClCompile Include="source\Novel\scripts\command_draw.cpp">
       <Filter>ソース ファイル\Novel</Filter>
     </ClCompile>
-    <ClCompile Include="Favor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\Novel\scripts\command_novel.cpp">
       <Filter>ソース ファイル\Novel</Filter>
     </ClCompile>
@@ -184,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="source\Novel\scripts\command_draw.h">
       <Filter>ソース ファイル\Novel</Filter>
-    </ClInclude>
-    <ClInclude Include="Favor.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\Novel\scripts\command_novel.h">
       <Filter>ソース ファイル\Novel</Filter>

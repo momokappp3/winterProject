@@ -17,6 +17,10 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,i
 		return -1;
 	}
 
+	SetUseZBuffer3D(TRUE);
+	SetWriteZBuffer3D(TRUE);
+	SetUseBackCulling(TRUE);
+
 	while (ProcessMessage() == 0){
 	
 		appBase->Input();

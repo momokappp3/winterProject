@@ -155,7 +155,6 @@
     <ClCompile Include="AnimationBase.cpp" />
     <ClCompile Include="AnimationOtoko.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Favor.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ResourceServer.cpp" />
     <ClCompile Include="source\ApplicationMain.cpp" />
@@ -184,7 +183,6 @@
     <ClInclude Include="AnimationBase.h" />
     <ClInclude Include="AnimationOtoko.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Favor.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ResourceServer.h" />
     <ClInclude Include="source\ApplicationMain.h" />

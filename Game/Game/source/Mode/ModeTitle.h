@@ -41,8 +41,8 @@ private:
 
 	bool SetModelInitInfo();
 	void MoveUpDown();
-	bool TouchTitleMenu();
-	//void TouchTitle();
+	void TouchTitleMenu();
+	//bool TouchTitle();
 
 	std::unique_ptr<Camera> _pCamera;
 	std::unique_ptr<Model> _pStageModel;
@@ -92,6 +92,14 @@ private:
 	MV1_COLL_RESULT_POLY _hitOption;
 	MV1_COLL_RESULT_POLY _hitHelp;
 	MV1_COLL_RESULT_POLY _hitExit;
+
+	MV1_COLL_RESULT_POLY _hitHeart;
+	MV1_COLL_RESULT_POLY _hitHeart2;
+
+
+	//box
+
+	std::unique_ptr<Model> _pBoxExit;
 
 	Kind _menuKind;
 	CameraKind _cameraKind;

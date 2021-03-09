@@ -59,6 +59,8 @@ namespace amg{
             state = _state;
         }
 
+        void ReInitialize();
+
     private:
 
         bool InitializeCursor();
@@ -109,6 +111,8 @@ namespace amg{
         unsigned int wait_count;
 
         int _favor;
+
+        int _font;
 
         //画像ハンドル
         

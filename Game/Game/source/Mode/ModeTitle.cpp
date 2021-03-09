@@ -109,6 +109,8 @@ ModeTitle::ModeTitle() {
 	_pTweenTitleMove7 = nullptr;
 	_pTweenTitleMove8 = nullptr;
 
+	_pBoxExit = nullptr;
+
 	_menuKind = Kind::Max;
 	_cameraKind = CameraKind::Title;
 
@@ -182,10 +184,16 @@ bool ModeTitle::Initialize() {
 	_pTweenTitleMove7.reset(new VectorTween);
 	_pTweenTitleMove8.reset(new VectorTween);
 
+	_pBoxExit.reset(new Model);
+
+	_pEffect3D.reset(new Effect3D);
+	_pEffect3D->Init("effect/kirakira.efk", 10.0f);
+
 	_pCamera->SetPosition(-3.857570f, 19.892756f, -25.599190f);
 	_pCamera->SetTarget(-10.132383f, 13.788612f, 1.892545f);
 	//_pCamera->SetNearFar(1.442092f, 360.523010f);
-	_pCamera->SetNearFar(0.1f, 1000.0f);
+	//_pCamera->SetNearFar(0.1f, 1000.0f);
+	_pCamera->SetNearFar(0.1f, 3000.0f);
 
 	_pStageModel->Load("model/iceStage/stage.pmx");  //ステージ
 	_pAnimationBase->Load("model/onna/onna.pmx");  //キャラ
@@ -203,15 +211,9 @@ bool ModeTitle::Initialize() {
 	_pLoadGame->Load("model/title/titleMenu/title_loadGame.mv1");
 	_pOption->Load("model/title/titleMenu/title_option.mv1");
 	_pHelp->Load("model/title/titleMenu/title_help.mv1");
-	_pExit->Load("model/title/titleMenu/title_exit.mv1");
-	/*
-	if (MV1SetupCollInfo(_pNewGame->GetHandle(), 4, 8, 8, 8) == -1) {
-		return false;  //falseに来てしまう
-	}//通った
-	*/
-	if (MV1SetupCollInfo(_pHeart->GetHandle(), 4, 8, 8, 8) == -1) {
-		return false;  //falseに来てしまう
-	}  //通った
+	_pExit->Load("model/title/titleMenu/title_exit.mv1");;
+
+	_pBoxExit->Load("model/title/titleMenu/box/box_exit.mv1");
 
 	SetModelInitInfo();
 
@@ -239,7 +241,7 @@ bool ModeTitle::Process() {
 	_pAnimationBase->Play(true, 0, 0.3f);
 
 	if (CheckHitKey(KEY_INPUT_D)) {
-		_pAnimationBase->Play(true, 1, 5.0f);  //アニメーション1
+		_pAnimationBase->Play(true, 2, 5.0f);  //アニメーション1
 	}
 
 	if (_pInput->_key[(KEY_INPUT_Q)] == 1) {
@@ -358,11 +360,8 @@ bool ModeTitle::Process() {
 
 		_cameraKind = CameraKind::Title;
 	}
-	
-	
-	if (_cameraKind == CameraKind::Menu) {
-		TouchTitleMenu();
-	}
+
+
 
 	MoveUpDown();
 	
@@ -388,12 +387,12 @@ bool ModeTitle::Process() {
 		switch (_menuKind) {
 		case Kind::NewGame:
 			ModeServer::GetInstance()->Del(this);  // このモードを削除予約
-			ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action3DGame");  // 次のモードを登録
+			ModeServer::GetInstance()->Add(new GalGame(), 3, "GalGame");  // 次のモードを登録
 			break;
 
 		case Kind::LoadGame:
 			ModeServer::GetInstance()->Del(this);  // このモードを削除予約
-			ModeServer::GetInstance()->Add(new GalGame(), 3, "GalGame");  // 次のモードを登録
+			ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action3DGame");  // 次のモードを登録
 			break;
 
 		case Kind::Option:
@@ -413,7 +412,7 @@ bool ModeTitle::Process() {
 	}
 
 	
-
+	_pEffect3D->Process();
 	_pAnimationBase->Process();
 	_pCamera->Process();
 	_pStageModel->Process();
@@ -452,83 +451,98 @@ bool ModeTitle::Process() {
 	_pTweenTitleMove7->Process();
 	_pTweenTitleMove8->Process();
 
+	_pBoxExit->Process();
+
 	return true;
 }
 
-bool ModeTitle::TouchTitleMenu() {
+void ModeTitle::TouchTitleMenu() {
 
 	VECTOR startI = _pMouseInput->GetStart3D();
 	VECTOR endI = _pMouseInput->GetEnd3D();
-
-	if (MV1SetupCollInfo(_pNewGame->GetHandle(), 4, 8, 8, 8) == -1) {
-		return false;
+	
+	if (MV1SetupCollInfo(_pNewGame->GetHandle(), 1, 1, 1, 1) == 0) {
+		DrawString(100, 320, " 当たり判定とれた　NewGame", GetColor(255, 0, 0));
 	}
-	if (MV1SetupCollInfo(_pLoadGame->GetHandle(), 2, 8, 8, 8) == -1) {
-		return false;
+	if (MV1SetupCollInfo(_pLoadGame->GetHandle(), 5, 1, 1, 1) == 0) {
+		DrawString(100, 330, " 当たり判定とれた LoadGame", GetColor(255, 0, 0));
 	}
-	if (MV1SetupCollInfo(_pOption->GetHandle(), 2, 4, 4, 4) == -1) {
-		return false;
+	if (MV1SetupCollInfo(_pOption->GetHandle(), 5, 1, 1, 1) == 0) {
+		DrawString(100, 340, " 当たり判定とれた option", GetColor(255, 0, 0));
 	}
-	if (MV1SetupCollInfo(_pHelp->GetHandle(), 2, 8, 8, 8) == -1) {
-		return false;
+	if (MV1SetupCollInfo(_pHelp->GetHandle(), 5, 1, 1, 1) == 0) {
+		DrawString(100, 350, " 当たり判定とれた　help", GetColor(255, 0, 0));
 	}
-	if (MV1SetupCollInfo(_pExit->GetHandle(), 2, 8, 8, 8) == -1) {
-		return false;
+	
+	if (MV1SetupCollInfo(_pExit->GetHandle(), 1, 1, 1, 1) == 0) {
+		DrawString(100, 460, " コリジョンできた exit", GetColor(255, 0, 0));
 	}
-
+	
 	// モデルと線分との当たり判定
-	_hitNewGame = MV1CollCheck_Line(_pNewGame->GetHandle(), 4, startI, endI);
-	_hitLoadGame = MV1CollCheck_Line(_pLoadGame->GetHandle(), 2, startI, endI);
-	_hitOption = MV1CollCheck_Line(_pOption->GetHandle(), 2, startI, endI);
-	_hitHelp = MV1CollCheck_Line(_pHelp->GetHandle(), 2, startI, endI);
-	_hitExit = MV1CollCheck_Line(_pExit->GetHandle(), 2, startI, endI);
+	_hitNewGame = MV1CollCheck_Line(_pNewGame->GetHandle(), 1, startI, endI);
+	_hitLoadGame = MV1CollCheck_Line(_pLoadGame->GetHandle(), 5, startI, endI);
+	_hitOption = MV1CollCheck_Line(_pOption->GetHandle(), 5, startI, endI);
+	_hitHelp = MV1CollCheck_Line(_pHelp->GetHandle(), 5, startI, endI);
+	_hitExit = MV1CollCheck_Line(_pExit->GetHandle(), 1, startI, endI);
 
+
+	
 	if (_hitNewGame.HitFlag == 1) {
 
-		_pNewGame->GetTransform().AddRotateY(10.0f);
+		//_pNewGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::NewGame;
+		//DrawString(100, 420, " newGameHIT", GetColor(255, 0, 0));
 	}
 	else {
 		_pNewGame->GetTransform().SetRotateY(0.0f);
+		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 	
 	if (_hitLoadGame.HitFlag == 1) {
 
-		_pLoadGame->GetTransform().AddRotateY(5.0f);
+		//_pLoadGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::LoadGame;
+		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
-		_pLoadGame->GetTransform().SetRotateY(0.0f);
+		//_pLoadGame->GetTransform().SetRotateY(0.0f);
+		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
-	
-
-	//反応しない
 
 	if (_hitOption.HitFlag == 1) {
 
-		_pOption->GetTransform().AddRotateY(10.0f);
+		_pOption->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Option;
+		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
+
 	}
 	else {
 		_pOption->GetTransform().SetRotateY(0.0f);
+
+		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 
 	if (_hitHelp.HitFlag == 1) {
 
-		_pHelp->GetTransform().AddRotateY(10.0f);
+		//_pHelp->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Help;
+		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
-		_pHelp->GetTransform().SetRotateY(0.0f);
+		//_pHelp->GetTransform().SetRotateY(0.0f);
+		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
-
+	
 	if (_hitExit.HitFlag == 1) {
 
-		_pExit->GetTransform().AddRotateY(10.0f);
+		//_pExit->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::End;
+		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
-		_pExit->GetTransform().SetRotateY(0.0f);
+		//_pExit->GetTransform().SetRotateY(0.0f);
+		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
+
 	}
 
 	if (_hitNewGame.HitFlag != 1 && _hitLoadGame.HitFlag != 1 && _hitOption.HitFlag != 1 &&
@@ -537,6 +551,38 @@ bool ModeTitle::TouchTitleMenu() {
 		_menuKind = Kind::Max;
 	}
 }
+
+/*
+bool ModeTitle::TouchTitle() {
+
+	VECTOR startI = _pMouseInput->GetStart3D();
+	VECTOR endI = _pMouseInput->GetEnd3D();
+
+	if (MV1SetupCollInfo(_pHeart->GetHandle(), 1, 8, 8, 8) == -1) {
+		return false;
+	}
+	if (MV1SetupCollInfo(_pHeart2->GetHandle(), 1, 8, 8, 8) == -1) {
+		return false;
+	}
+
+	_hitHeart = MV1CollCheck_Line(_pHeart->GetHandle(), 1, startI, endI);
+	_hitHeart2 = MV1CollCheck_Line(_pHeart2->GetHandle(), 5, startI, endI);
+
+	if (_hitHeart.HitFlag == 1) {
+		_pHeart->GetTransform().AddRotateY(3.0f);
+	}
+	else {
+		
+	}
+
+	if (_hitHeart2.HitFlag == 1) {
+		_pHeart2->GetTransform().AddRotateY(3.0f);
+	}
+	else {
+		_pHeart2->GetTransform().SetRotateY(0.0f);
+	}
+}
+*/
 
 
 bool ModeTitle::Render() {
@@ -558,6 +604,11 @@ bool ModeTitle::Render() {
 	_pExit->Render();
 	_pMouseInput->Draw();
 	_pAnimationBase->Render();
+	_pEffect3D->Draw();
+
+	if (_cameraKind == CameraKind::Menu) {
+		TouchTitleMenu();
+	}
 
 	DrawFormatString(100, 400, GetColor(255, 0, 0), "menu:%d",_menuKind );
 	DrawFormatString(100, 500, GetColor(255, 0, 0), "camera:%d", _cameraKind);
@@ -590,6 +641,9 @@ bool ModeTitle::SetModelInitInfo() {
 	_pOption->GetTransform().SetScale(ScaleTitleMenu);
 	_pHelp->GetTransform().SetScale(ScaleTitleMenu);
 	_pExit->GetTransform().SetScale(ScaleTitleMenu);
+
+	_pBoxExit->GetTransform().SetScale(ScaleTitleMenu);
+	_pBoxExit->GetTransform().SetPosition(PositionExit);
 
 	_pNewGame->GetTransform().SetPosition(PositionInitNewGame);
 	_pLoadGame->GetTransform().SetPosition(PositionInitLoadGame);

@@ -10,6 +10,12 @@ Camera::Camera() {  //0を入れる
 	_vTarget = VGet(-12.230986f, 59.101776f, -15.002045f);
 	_clipNear = 0.0f;
 	_clipFar = 0.0f;
+
+	_font = CreateFontToHandle("UD デジタル 教科書体 N-B", 50, 1);
+
+	if (_font == -1) {
+		return;
+	}
 }
 
 Camera::~Camera() {
@@ -22,10 +28,12 @@ void Camera::Process() {
 
 	//カメラの角度はModeで変更しないとバグる
 
+	
 	// 3D基本設定
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
+	
 
 	// カメラ設定更新
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarget);
@@ -52,4 +60,7 @@ void Camera::Render() {
 	float deg = RAD2DEG(rad);
 
 	DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", length, rad, deg); y += size;
+
+
+	DrawStringToHandle(100, 700, "Hello ワールド！", GetColor(255, 255, 255), _font);
 }

@@ -5,13 +5,10 @@
 //!
 #pragma once
 
-namespace amg
-{
-    class InputManager
-    {
+namespace amg{
+    class InputManager{
     public:
-        enum class KeyConfig
-        {
+        enum class KeyConfig{
             DECIDE,
             CANCEL,
             EXIT
@@ -31,13 +28,11 @@ namespace amg
         bool IsExit() const;
 
     private:
-        struct InputState
-        {
+        struct InputState{
             int fresh;
             int last;
 
-            InputState()
-            {
+            InputState(){
                 fresh = 0;
                 last = 0;
             }
@@ -49,4 +44,5 @@ namespace amg
         InputState input_key;
         InputState input_mouse;
     };
+
 }

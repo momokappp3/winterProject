@@ -89,15 +89,15 @@ namespace {
     constexpr auto CURSOR_IMAGE_LABEL = "カーソル";
     constexpr auto CLICK_WAIT_IMAGE_LABEL = "クリック待ち";
 
-    constexpr auto FONT_SIZE = 40;  //ここ変えると全部横に行く
+    constexpr auto FONT_SIZE = 40;  
 
-    constexpr auto MSG_WORD_MAX = 20;
+    constexpr auto MSG_WORD_MAX = 26  ;//ここ変えると全部横に行く
     constexpr auto MSG_STRING_MAX = MSG_WORD_MAX * 2; // 2 : MultiByte String
 
-    constexpr auto MSG_LINE_MAX = 3;
+    constexpr auto MSG_LINE_MAX = 4;
     constexpr auto MSG_LINE_WIDTH = MSG_WORD_MAX * FONT_SIZE;
-    constexpr auto MSG_LINE_HEIGHT = 50;  //文字の高さgが変わる
-    constexpr auto MSG_LINE_GAP_HEIGHT = 40;  //メッセージの縦の間隔
+    constexpr auto MSG_LINE_HEIGHT = 35;  //文字の高さgが変わる
+    constexpr auto MSG_LINE_GAP_HEIGHT = 25;  //メッセージの縦の間隔
     constexpr auto MSG_LINE_GRID_HEIGHT = MSG_LINE_HEIGHT + MSG_LINE_GAP_HEIGHT;
 
     constexpr auto MSG_WINDOW_WIDTH = MSG_LINE_WIDTH;
@@ -110,9 +110,9 @@ namespace {
 
     constexpr auto CHOICE_WORD_MAX = 24;
 
-    constexpr auto CHOICE_LINE_MAX = 3;
+    constexpr auto CHOICE_LINE_MAX = 4;
     constexpr auto CHOICE_LINE_WIDTH = CHOICE_WORD_MAX * FONT_SIZE;
-    constexpr auto CHOICE_LINE_HEIGHT = 100;   //選択肢の間隔
+    constexpr auto CHOICE_LINE_HEIGHT = 80;   //選択肢の間隔
     constexpr auto CHOICE_LINE_GAP_HEIGHT = 16;
     constexpr auto CHOICE_LINE_GRID_HEIGHT = CHOICE_LINE_HEIGHT + CHOICE_LINE_GAP_HEIGHT;
 
@@ -277,9 +277,11 @@ namespace amg
     //! @brief スクリプトエンジン用文字列描画の初期化
     //! @return 処理の成否
     //!
-    bool ScriptEngine::InitializeStrings()
-    {
+    bool ScriptEngine::InitializeStrings(){
+
         DxWrapper::SetFontSize(FONT_SIZE);
+
+        _font = DxWrapper::CreateFontToHandle("UD デジタル 教科書体 N-B", FONT_SIZE);
 
         auto screen_depth = 0;
 
@@ -298,10 +300,10 @@ namespace amg
         choice_window_left = screen_center_x - CHOICE_WINDOW_WIDTH / 2;
         choice_window_right = choice_window_left + CHOICE_WINDOW_WIDTH;
 
-        message_window_color = DxWrapper::GetColor(128, 128, 255);
-        message_string_color = DxWrapper::GetColor(218, 112, 214);  //LightGrey 211 211 211	ピンク 218 112 214	
+        message_window_color = DxWrapper::GetColor(128, 128, 255);   //文字色
+        message_string_color = DxWrapper::GetColor(0, 0, 0);  //LightGrey 211 211 211	ピンク 218 112 214	
 
-        choice_normal_color = DxWrapper::GetColor(64, 64, 255);
+        choice_normal_color = DxWrapper::GetColor(255, 255, 255);
         choice_select_color = DxWrapper::GetColor(128, 128, 255);
 
 #ifdef _DEBUG
@@ -309,6 +311,12 @@ namespace amg
 #endif
 
         return true;
+    }
+
+
+    void ScriptEngine::ReInitialize() {
+        choice_list.clear();
+        message_list.clear();
     }
 
     //!
@@ -947,8 +955,8 @@ namespace amg
 
             // 表示エリアを制御して 1文字づつ描画する
             DxWrapper::SetDrawArea(area.left, area.top, area.right, area.bottom);
-            DxWrapper::DrawString(area.left, area.top,  //456,548
-                message->GetMessage().c_str(), message_string_color);
+            DxWrapper::DrawStringToHandle(area.left, area.top, message_string_color,
+                message->GetMessage().c_str(),_font );
         }
 
         // 表示エリアを全画面に戻す
@@ -983,8 +991,8 @@ namespace amg
         for (auto&& choice : choice_list) {
             const auto area = choice->GetArea();
 
-            DxWrapper::DrawString(area.left + 50, area.top + 10,
-                choice->GetMessage().c_str(), message_string_color);
+            DxWrapper::DrawStringToHandle(area.left + 50, area.top + 10, message_string_color,
+                choice->GetMessage().c_str(),_font);
         }
     }
 }

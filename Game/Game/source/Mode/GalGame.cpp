@@ -59,6 +59,7 @@ bool GalGame::Process() {
 	if (_pMouseInput == nullptr) {
 		return false;
 	}
+	_pMouseInput->Process();
 
 	_favor = _pScriptEngin->GetFavor();
 
@@ -88,6 +89,8 @@ bool GalGame::Process() {
 	}
 
 	if (_pInput->_key[(KEY_INPUT_W)] == 1) {
+
+		_pScriptEngin->ReInitialize();
 		//スクリプト開始
 		_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
 
@@ -114,7 +117,7 @@ bool GalGame::Process() {
 	_pAnimationBase->Process();
 	_pCamera->Process();
 	_pRoomModel->Process();
-	_pMouseInput->Process();
+
 	_pInput->Process();
 	_pVectorTweenPotion->Process();
 	_pVectorTweenTarget->Process();
@@ -146,20 +149,3 @@ bool GalGame::Terminate() {
 	_pScriptEngin->Destroy();
 	return true;
 }
-
-/*
-
-
-	if (CheckHitKey(KEY_INPUT_A)) {
-
-		//モデルに対して角度をつけ足せる
-		_pAnimationBase->GetTransform().AddRotateY(5.0f);
-	}
-
-	if (CheckHitKey(KEY_INPUT_S)) {
-
-		//モデルに対して角度をつけ足せる
-		_pAnimationBase->GetTransform().AddRotateY(-5.0f);
-	}
-
-*/

@@ -68,6 +68,10 @@ namespace amg
         return DxLib::SetFontSize(font_size);
     }
 
+    int DxWrapper::CreateFontToHandle(const TCHAR* font_name, int size, int thick) {
+        return DxLib::CreateFontToHandle(font_name,size,thick);
+    }
+
     int DxWrapper::GetScreenState(int* size_x, int* size_y, int* color_bit_depth)
     {
         return DxLib::GetScreenState(size_x, size_y, color_bit_depth);
@@ -101,6 +105,11 @@ namespace amg
     int DxWrapper::DrawString(int x, int y, const TCHAR* string, unsigned int color, unsigned int edge_color)
     {
         return DxLib::DrawString(x, y, string, color, edge_color);
+    }
+
+    int DxWrapper::DrawStringToHandle(int x, int y,  unsigned int color, const TCHAR* string, int handle){
+
+        return DxLib::DrawStringToHandle(x, y, string, color, handle);
     }
 
     int DxWrapper::DrawGraph(int x, int y, int gr_handle, int trans_flag)

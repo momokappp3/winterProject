@@ -2,7 +2,11 @@
 #include "DxLib.h"
 
 MouseInput::MouseInput() {
+
 	SetMouseDispFlag(TRUE);
+
+	_startPosition = { 0,0,0 };
+	_endPosition = { 0,0,0 };
 
 	_isRight = false;
 	_isLeft = false;

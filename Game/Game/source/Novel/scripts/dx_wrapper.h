@@ -18,10 +18,8 @@
 
 struct tagRECT;
 
-namespace amg
-{
-    class DxWrapper
-    {
+namespace amg{
+    class DxWrapper{
     private:
         DxWrapper() = default;
         DxWrapper(const DxWrapper&) = default;
@@ -62,6 +60,7 @@ namespace amg
         static int GetColor(int red, int green, int blue);
 
         static int SetFontSize(int font_size);
+        static int CreateFontToHandle(const TCHAR* font_name, int size, int thick = 1);
 
         static int GetScreenState(int* size_x, int* size_y, int* color_bit_depth);
 
@@ -78,6 +77,7 @@ namespace amg
 
         static int DrawBox(int x1, int y1, int x2, int y2, unsigned int color, int fill_flag);
         static int DrawString(int x, int y, const TCHAR* string, unsigned int color, unsigned int edge_color = 0U);
+        static int DrawStringToHandle(int x, int y, unsigned int color, const TCHAR* string,int handle);
         static int DrawGraph(int x, int y, int gr_handle, int trans_flag);
     };
 }
