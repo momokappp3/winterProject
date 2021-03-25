@@ -22,6 +22,18 @@
     <Filter Include="ソース ファイル\Novel">
       <UniqueIdentifier>{032aee8e-d41a-4ed6-b417-f02b9a8ee4ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\UI">
+      <UniqueIdentifier>{d67e3aba-1f6f-4f21-80be-75c94ab9e57f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\UIBase">
+      <UniqueIdentifier>{1a04eba6-1808-417c-9d30-7f71b01df541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\unique">
+      <UniqueIdentifier>{12044fb6-4010-4857-80e1-0f325324124c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\use">
+      <UniqueIdentifier>{aa8c6639-66d9-4e0e-b681-f937181d0f08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp">
@@ -49,9 +61,6 @@
       <Filter>ソース ファイル\Animation</Filter>
     </ClCompile>
     <ClCompile Include="source\Mode\ModeTitle.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Mode\ModeTitleMenu.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
     <ClCompile Include="source\Mode\Action3DGame.cpp">
@@ -102,6 +111,48 @@
     <ClCompile Include="source\SoundManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="source\UI\UIGalMenuInit.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\GalGameUI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UI2DBase.cpp">
+      <Filter>ソース ファイル\UI\UIBase</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UI2DSelectBase.cpp">
+      <Filter>ソース ファイル\UI\UIBase</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIGalMenu.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIGauge.cpp">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UINumber.cpp">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIInAndOut.cpp">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIGalSetting.cpp">
+      <Filter>ソース ファイル\UI\use</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIUseBase.cpp">
+      <Filter>ソース ファイル\UI\UIBase</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIGalItem.cpp">
+      <Filter>ソース ファイル\UI\use</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIGalStory.cpp">
+      <Filter>ソース ファイル\UI\use</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UIPopUp.cpp">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -132,9 +183,6 @@
       <Filter>ソース ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\Mode\ModeTitle.h">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Mode\ModeTitleMenu.h">
       <Filter>ソース ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\Mode\Action3DGame.h">
@@ -187,6 +235,48 @@
     </ClInclude>
     <ClInclude Include="source\SoundManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\GalGameUI.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UI2DBase.h">
+      <Filter>ソース ファイル\UI\UIBase</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UI2DSelectBase.h">
+      <Filter>ソース ファイル\UI\UIBase</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIGalMenu.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIGauge.h">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIGalMenuInit.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UINumber.h">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIInAndOut.h">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIGalSetting.h">
+      <Filter>ソース ファイル\UI\use</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIUseBase.h">
+      <Filter>ソース ファイル\UI\UIBase</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIGalItem.h">
+      <Filter>ソース ファイル\UI\use</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIGalStory.h">
+      <Filter>ソース ファイル\UI\use</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UIPopUp.h">
+      <Filter>ソース ファイル\UI\unique</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

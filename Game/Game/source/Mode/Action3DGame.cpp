@@ -18,7 +18,6 @@ bool Action3DGame::Initialize() {
 		return false;
 	}
 
-	//ƒƒ‚ƒŠ‚ÌŠ—LŒ ‚ğˆÏ‚Ë‚é‚É‚Í.reset
 	_pCamera.reset(new Camera);
 	//_pModel.reset(new Model);
 	_pAnimationBase.reset(new AnimationBase);

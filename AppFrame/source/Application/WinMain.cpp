@@ -3,7 +3,7 @@
 
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow) {
 
-	ApplicationBase *appBase = ApplicationBase::GetInstance();  //ê∂É|ÉCÉìÉ^
+	ApplicationBase *appBase = ApplicationBase::GetInstance();
 
 	if (!appBase) {
 		return 0;

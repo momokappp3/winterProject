@@ -1,5 +1,6 @@
 #include "MouseInput.h"
 #include "DxLib.h"
+#include "../Game/Game/ResourceServer.h"
 
 MouseInput::MouseInput() {
 
@@ -10,6 +11,8 @@ MouseInput::MouseInput() {
 
 	_isRight = false;
 	_isLeft = false;
+
+	_handle = ResourceServer::LoadGraph("png/arrow_cursor.png");
 
 	_posX = 0;
 	_posY = 0;
@@ -40,14 +43,34 @@ void MouseInput::Process(){
 }
 
 void MouseInput::Draw() {
-	DrawFormatString(20, 20, GetColor(255,255,255), "マウスの座標( %d, %d )", _posX, _posY);
+
+	DrawGraph(_posX, _posY,_handle, TRUE);
+
+	DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
 
 	if (_isRight) {
-		DrawString(20, 80, "マウス右ボタンが押されています", GetColor(255, 165, 0));
+		DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	if (_isLeft) {
-		DrawString(20, 50, "マウス左ボタンが押されています", GetColor(255, 165, 0));
+		DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
+	}
+
+	_isRight = false;
+	_isLeft = false;
+
+}
+
+void MouseInput::TitleDraw() {
+
+	DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
+
+	if (_isRight) {
+		DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
+	}
+
+	if (_isLeft) {
+		DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	_isRight = false;

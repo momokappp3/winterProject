@@ -187,8 +187,8 @@ namespace amg
             return false;
         }
 
-        _commandHandle1 = ResourceServer::LoadGraph("res/myComment.png");
-        _commandHandle2 = ResourceServer::LoadGraph("res/selectMyComment.png");
+        _commandHandle1 = ResourceServer::LoadGraph("png/novel/myComment.png");
+        _commandHandle2 = ResourceServer::LoadGraph("png/novel/selectMyComment.png");
 
         input_manager.reset(new InputManager());
         scripts_data.reset(new ScriptsData());

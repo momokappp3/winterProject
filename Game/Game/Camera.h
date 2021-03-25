@@ -40,16 +40,11 @@ public:
 		return _transform;
 	}
 
-	int _font;
-
-	//Dxlibの構造体 float float float
 	VECTOR	_vPos;					// 位置
 	VECTOR	_vTarget;				// 距離
 
-	//クリップ
-	float	_clipNear;
+	float _clipNear;
 	float _clipFar;
-
 
 	Transform _transform;
 };

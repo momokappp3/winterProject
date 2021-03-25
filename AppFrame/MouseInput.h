@@ -1,6 +1,11 @@
 #pragma once
 #include "Dxlib.h"
 
+/*
+Processを先に呼んでGetLeft()などの関数を呼び
+Drawを呼ばないとバグる
+*/
+
 class MouseInput {
 public:
 	MouseInput();
@@ -8,6 +13,7 @@ public:
 
 	void Process();
 	void Draw();
+	void TitleDraw();
 
 	bool GetRight() {
 		return _isRight;
@@ -15,6 +21,14 @@ public:
 
 	bool GetLeft() {
 		return _isLeft;
+	}
+
+	int GetXNum() {
+		return _posX;
+	}
+
+	int GetYNum() {
+		return _posY;
 	}
 
 	//スクリーン座標をワールド座標に
@@ -41,6 +55,8 @@ private:
 
 	bool _isRight;
 	bool _isLeft;
+
+	int _handle;
 
 	int _posX;
 	int _posY;

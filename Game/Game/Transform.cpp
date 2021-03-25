@@ -8,6 +8,7 @@ float Transform::ToAngle(float radian) {
 }
 
 Transform::Transform() {
+
 	_vScale = { 1.0f, 1.0f, 1.0f };
 
 	_vBaseDirection = { 0.0f, 0.0f, 1.0f };
@@ -22,6 +23,7 @@ Transform::~Transform() {
 }
 
 void Transform::Forward(float speed) {
+
 	VECTOR forward = VScale(_vDirection, speed);
 
 	_vPosition = VAdd(_vPosition, forward);
@@ -36,6 +38,7 @@ void Transform::AddRotateY(float angle) {
 }
 
 void Transform::Update() {
+
 	MATRIX scale = MGetScale(_vScale);
 	MATRIX posture = MGetRotVec2(_vBaseDirection, _vDirection);
 	MATRIX translate = MGetTranslate(_vPosition);

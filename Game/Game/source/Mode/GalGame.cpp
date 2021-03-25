@@ -16,8 +16,11 @@ GalGame::GalGame() {
 	_pInput = nullptr;
 	_pVectorTweenPotion = nullptr;
 	_pVectorTweenTarget = nullptr;
+	_pGalGameUI = nullptr;
 
 	_favor = 0;
+	_molecule = 0;
+	_coin = 0;
 }
 
 GalGame::~GalGame() {
@@ -31,25 +34,38 @@ bool GalGame::Initialize() {
 
 	_pCamera.reset(new Camera);
 	_pRoomModel.reset(new Model);
-	_pMouseInput.reset(new MouseInput);
-	_pAnimationBase.reset(new AnimationBase);
-	_pScriptEngin.reset(new amg::ScriptEngine);
 	_pInput.reset(new Input);
+	_pAnimationBase.reset(new AnimationBase);
 	_pVectorTweenPotion.reset(new VectorTween);
 	_pVectorTweenTarget.reset(new VectorTween);
+	_pScriptEngin.reset(new amg::ScriptEngine);
+	_pGalGameUI.reset(new GalGameUI);
+	_pMouseInput.reset(new MouseInput);
 
+	if (!_pGalGameUI->Init()){
+		return false;	
+	}
+
+	
 	if (!_pScriptEngin->Initialize("source/excel/escape_from_amg1.json")) {
 		return false;
 	}
+	
 
 	_pCamera->SetPosition(0.0f, 10.0f, -20.0f);
 	_pCamera->SetTarget(0.0f, 10.0f, 0.0f);
 	_pCamera->SetNearFar(0.1f, 800.0f);
 
 	_pAnimationBase->Load("model/onna/onna.pmx");
+	//_pAnimationBase->Load("model/onna_red/onna_red.pmx");
 	_pRoomModel->Load("model/room/roomkagu.pmx");
 
 	_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::END);
+
+
+	_favor = 0;
+	_molecule = 0;
+	_coin = 5000;
 
 	return true;
 }
@@ -61,7 +77,26 @@ bool GalGame::Process() {
 	}
 	_pMouseInput->Process();
 
-	_favor = _pScriptEngin->GetFavor();
+	int tmp;
+	int lastFavor = _favor;
+
+	tmp = _pScriptEngin->GetFavor();  //分子9900まで
+
+	if (tmp > 9900) {
+		tmp = 9900;
+	}
+	_favor = tmp / 100;
+	_molecule = tmp % 100;
+
+	if (lastFavor != _favor) {
+		_pGalGameUI->SetMolecule(100);
+		//_pGalGameUI->SetMolecule(0);
+	}
+	
+	//SetUI
+	_pGalGameUI->SetCoin(_coin);
+	_pGalGameUI->SetFavor(_favor);
+	_pGalGameUI->SetMolecule(_molecule);
 
 	_pAnimationBase->Play(true, 0, 0.3f);
 
@@ -81,9 +116,6 @@ bool GalGame::Process() {
 		//終わらせる
 		_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::END);
 
-		//_pCamera->SetPosition(0.0f, 10.0f, -20.0f);
-		//_pCamera->SetTarget(0.0f, 10.0f, 0.0f);
-
 		_pVectorTweenPotion->SetVectorTween(novelCameraPositionEnd, novelCameraPositionStart, 45,VectorTween::Type::SineStart);
 		_pVectorTweenTarget->SetVectorTween(novelCameraTargetEnd, novelCameraTargetStart, 45, VectorTween::Type::SineStart);
 	}
@@ -91,8 +123,7 @@ bool GalGame::Process() {
 	if (_pInput->_key[(KEY_INPUT_W)] == 1) {
 
 		_pScriptEngin->ReInitialize();
-		//スクリプト開始
-		_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
+		_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);  //スクリプト開始
 
 		//カメラ移動
 		_pVectorTweenPotion->SetVectorTween(novelCameraPositionStart, novelCameraPositionEnd, 45, VectorTween::Type::SineStart);
@@ -108,11 +139,15 @@ bool GalGame::Process() {
 	}
 
 	if (_pVectorTweenTarget->IsStart() && !_pVectorTweenTarget->IsEnd()) {
+
 		VECTOR CameraTargetNow = _pVectorTweenTarget->GetPosition();
 		float tX = CameraTargetNow.x, tY = CameraTargetNow.y, tZ = CameraTargetNow.z;
 
 		_pCamera->SetTarget(tX, tY, tZ);
 	}
+
+
+
 
 	_pAnimationBase->Process();
 	_pCamera->Process();
@@ -121,6 +156,7 @@ bool GalGame::Process() {
 	_pInput->Process();
 	_pVectorTweenPotion->Process();
 	_pVectorTweenTarget->Process();
+	_pGalGameUI->Process();
 	_pScriptEngin->Update();
 
 	return true;
@@ -128,18 +164,20 @@ bool GalGame::Process() {
 
 bool GalGame::Render() {
 
-	_pCamera->Render();
 	_pRoomModel->Render();
-	_pMouseInput->Draw();
 	_pAnimationBase->Render();
+	_pGalGameUI->Draw();
+	_pMouseInput->Draw();  //最後に必ず置く
 
+	
 	if (_pScriptEngin->GetState()!= amg::ScriptEngine::ScriptState::END) {
 		_pScriptEngin->Render();
 	}
 
 	//debug情報
-
+	_pCamera->Render();
 	DrawFormatString(100, 900, GetColor(255, 0, 0), "好感度%d",_favor);
+	DrawFormatString(100, 930, GetColor(255, 0, 0), "分子%d", _molecule);
 
 	return true;
 }

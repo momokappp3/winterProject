@@ -109,8 +109,6 @@ ModeTitle::ModeTitle() {
 	_pTweenTitleMove7 = nullptr;
 	_pTweenTitleMove8 = nullptr;
 
-	_pBoxExit = nullptr;
-
 	_menuKind = Kind::Max;
 	_cameraKind = CameraKind::Title;
 
@@ -142,7 +140,6 @@ bool ModeTitle::Initialize() {
 		return false;
 	}
 
-	//メモリの所有権を委ねるには.reset
 	_pCamera.reset(new Camera);
 	_pStageModel.reset(new Model);
 	_pLove.reset(new Model);
@@ -184,15 +181,11 @@ bool ModeTitle::Initialize() {
 	_pTweenTitleMove7.reset(new VectorTween);
 	_pTweenTitleMove8.reset(new VectorTween);
 
-	_pBoxExit.reset(new Model);
-
 	_pEffect3D.reset(new Effect3D);
 	_pEffect3D->Init("effect/kirakira.efk", 10.0f);
 
 	_pCamera->SetPosition(-3.857570f, 19.892756f, -25.599190f);
 	_pCamera->SetTarget(-10.132383f, 13.788612f, 1.892545f);
-	//_pCamera->SetNearFar(1.442092f, 360.523010f);
-	//_pCamera->SetNearFar(0.1f, 1000.0f);
 	_pCamera->SetNearFar(0.1f, 3000.0f);
 
 	_pStageModel->Load("model/iceStage/stage.pmx");  //ステージ
@@ -213,13 +206,9 @@ bool ModeTitle::Initialize() {
 	_pHelp->Load("model/title/titleMenu/title_help.mv1");
 	_pExit->Load("model/title/titleMenu/title_exit.mv1");;
 
-	_pBoxExit->Load("model/title/titleMenu/box/box_exit.mv1");
-
 	SetModelInitInfo();
 
 	_pSoundManager->Init();
-
-	//_coNum = MV1SearchFrame(_pNewGame->GetHandle(), "collisionNewGame");
 
 	return true;
 }
@@ -451,8 +440,6 @@ bool ModeTitle::Process() {
 	_pTweenTitleMove7->Process();
 	_pTweenTitleMove8->Process();
 
-	_pBoxExit->Process();
-
 	return true;
 }
 
@@ -500,12 +487,12 @@ void ModeTitle::TouchTitleMenu() {
 	
 	if (_hitLoadGame.HitFlag == 1) {
 
-		//_pLoadGame->GetTransform().AddRotateY(5.0f);
+		_pLoadGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::LoadGame;
 		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
-		//_pLoadGame->GetTransform().SetRotateY(0.0f);
+		_pLoadGame->GetTransform().SetRotateY(0.0f);
 		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 
@@ -524,7 +511,7 @@ void ModeTitle::TouchTitleMenu() {
 
 	if (_hitHelp.HitFlag == 1) {
 
-		//_pHelp->GetTransform().AddRotateY(5.0f);
+		_pHelp->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Help;
 		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
@@ -552,41 +539,9 @@ void ModeTitle::TouchTitleMenu() {
 	}
 }
 
-/*
-bool ModeTitle::TouchTitle() {
-
-	VECTOR startI = _pMouseInput->GetStart3D();
-	VECTOR endI = _pMouseInput->GetEnd3D();
-
-	if (MV1SetupCollInfo(_pHeart->GetHandle(), 1, 8, 8, 8) == -1) {
-		return false;
-	}
-	if (MV1SetupCollInfo(_pHeart2->GetHandle(), 1, 8, 8, 8) == -1) {
-		return false;
-	}
-
-	_hitHeart = MV1CollCheck_Line(_pHeart->GetHandle(), 1, startI, endI);
-	_hitHeart2 = MV1CollCheck_Line(_pHeart2->GetHandle(), 5, startI, endI);
-
-	if (_hitHeart.HitFlag == 1) {
-		_pHeart->GetTransform().AddRotateY(3.0f);
-	}
-	else {
-		
-	}
-
-	if (_hitHeart2.HitFlag == 1) {
-		_pHeart2->GetTransform().AddRotateY(3.0f);
-	}
-	else {
-		_pHeart2->GetTransform().SetRotateY(0.0f);
-	}
-}
-*/
-
-
 bool ModeTitle::Render() {
 
+	_pMouseInput->TitleDraw();
 	_pCamera->Render();
 	_pStageModel->Render();
 	_pLove->Render();
@@ -602,7 +557,6 @@ bool ModeTitle::Render() {
 	_pOption->Render();
 	_pHelp->Render();
 	_pExit->Render();
-	_pMouseInput->Draw();
 	_pAnimationBase->Render();
 	_pEffect3D->Draw();
 
@@ -641,9 +595,6 @@ bool ModeTitle::SetModelInitInfo() {
 	_pOption->GetTransform().SetScale(ScaleTitleMenu);
 	_pHelp->GetTransform().SetScale(ScaleTitleMenu);
 	_pExit->GetTransform().SetScale(ScaleTitleMenu);
-
-	_pBoxExit->GetTransform().SetScale(ScaleTitleMenu);
-	_pBoxExit->GetTransform().SetPosition(PositionExit);
 
 	_pNewGame->GetTransform().SetPosition(PositionInitNewGame);
 	_pLoadGame->GetTransform().SetPosition(PositionInitLoadGame);

@@ -38,9 +38,10 @@ private:
 
 	Point _start;
 	Point _end;
-	Point _position;
+	Point _position;  //ˆÚ“®’†(now)
 
 	Type _type;
+
 	int _frame;
 	int _timer;
 

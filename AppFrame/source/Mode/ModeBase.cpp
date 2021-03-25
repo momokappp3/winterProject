@@ -21,7 +21,7 @@ ModeBase::~ModeBase() {
 }
 
 // ModeServer‚ÉÚ‘±AProcess()‚Ì‘O‚Éˆê“x‚¾‚¯ŒÄ‚Î‚ê‚é
-bool	ModeBase::Initialize() {
+bool ModeBase::Initialize() {
 
 	return true;
 }

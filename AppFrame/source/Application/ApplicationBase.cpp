@@ -16,8 +16,7 @@ ApplicationBase::~ApplicationBase() {
 
 bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 
-
-	//WinMainじゃないの？？
+	//Initの処理が無い
 
 	// DXライブラリの初期化
 	if(AppWindowed()){

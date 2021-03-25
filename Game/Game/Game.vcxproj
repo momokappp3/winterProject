@@ -163,7 +163,6 @@
     <ClCompile Include="source\Mode\ModeGame.cpp" />
     <ClCompile Include="source\Mode\ModeMenu.cpp" />
     <ClCompile Include="source\Mode\ModeTitle.cpp" />
-    <ClCompile Include="source\Mode\ModeTitleMenu.cpp" />
     <ClCompile Include="source\Novel\scripts\amg_string.cpp" />
     <ClCompile Include="source\Novel\scripts\command_choice.cpp" />
     <ClCompile Include="source\Novel\scripts\command_draw.cpp" />
@@ -176,7 +175,21 @@
     <ClCompile Include="source\Novel\scripts\scripts_data.cpp" />
     <ClCompile Include="source\Novel\scripts\script_engine.cpp" />
     <ClCompile Include="source\SoundManager.cpp" />
+    <ClCompile Include="source\UI\GalGameUI.cpp" />
+    <ClCompile Include="source\UI\UIGalSetting.cpp" />
+    <ClCompile Include="source\UI\UIGauge.cpp" />
+    <ClCompile Include="source\UI\UI2DBase.cpp" />
+    <ClCompile Include="source\UI\UI2DSelectBase.cpp" />
+    <ClCompile Include="source\UI\UIGalMenu.cpp" />
+    <ClCompile Include="source\UI\UIGalMenuInit.cpp" />
+    <ClCompile Include="source\UI\UIInAndOut.cpp" />
+    <ClCompile Include="source\UI\UINumber.cpp" />
+    <ClCompile Include="source\UI\UIPopUp.cpp" />
+    <ClCompile Include="source\UI\UIUseBase.cpp" />
+    <ClCompile Include="source\UI\UIGalItem.cpp" />
+    <ClCompile Include="source\UI\UIGalStory.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -191,7 +204,6 @@
     <ClInclude Include="source\Mode\ModeGame.h" />
     <ClInclude Include="source\Mode\ModeMenu.h" />
     <ClInclude Include="source\Mode\ModeTitle.h" />
-    <ClInclude Include="source\Mode\ModeTitleMenu.h" />
     <ClInclude Include="source\Novel\scripts\amg_rect.h" />
     <ClInclude Include="source\Novel\scripts\amg_string.h" />
     <ClInclude Include="source\Novel\scripts\command_base.h" />
@@ -206,7 +218,21 @@
     <ClInclude Include="source\Novel\scripts\scripts_data.h" />
     <ClInclude Include="source\Novel\scripts\script_engine.h" />
     <ClInclude Include="source\SoundManager.h" />
+    <ClInclude Include="source\UI\GalGameUI.h" />
+    <ClInclude Include="source\UI\UIGalMenuInit.h" />
+    <ClInclude Include="source\UI\UIGalSetting.h" />
+    <ClInclude Include="source\UI\UIGauge.h" />
+    <ClInclude Include="source\UI\UI2DBase.h" />
+    <ClInclude Include="source\UI\UI2DSelectBase.h" />
+    <ClInclude Include="source\UI\UIGalMenu.h" />
+    <ClInclude Include="source\UI\UIInAndOut.h" />
+    <ClInclude Include="source\UI\UINumber.h" />
+    <ClInclude Include="source\UI\UIPopUp.h" />
+    <ClInclude Include="source\UI\UIUseBase.h" />
+    <ClInclude Include="source\UI\UIGalItem.h" />
+    <ClInclude Include="source\UI\UIGalStory.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
