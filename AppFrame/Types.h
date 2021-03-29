@@ -1,4 +1,6 @@
 #pragma once
+#include <String>
+#include < tchar.h>
 
 enum class GalGameUIType {
 
@@ -28,5 +30,13 @@ struct DrawInfo {
 	Point xy;
 	bool isDraw;
 	Point startXY;  //èâä˙à íuó·{2000,50}
+
+};
+
+struct PopString {
+
+	const TCHAR* string;
+	Point xy;
+	bool isDraw;
 
 };

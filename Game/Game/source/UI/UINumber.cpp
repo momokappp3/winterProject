@@ -17,7 +17,7 @@ UINumber::~UINumber() {
 }
 
 bool UINumber::Init(int digitMax) {
-
+	//•K‚¸reutrn true‚·‚é‘O‚É‚æ‚Ô
 	_digitMax = digitMax;
 
 	SetNumHandle(0);

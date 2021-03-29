@@ -2,6 +2,7 @@
 #include "UI2DBase.h"
 #include "UI2DSelectBase.h"
 #include <memory>
+#include "../../../../AppFrame/Types.h"
 
 class UIPopUp {
 public:
@@ -33,8 +34,16 @@ public:
         _mouse.y = y;
     }
 
-    void SetLeft(bool left) {
-        _mouseLeft = left;
+    void SetLeft(int left) {
+        _left = left;
+    }
+
+    bool GetLeft() {
+        return _left;
+    }
+
+    void SetPopString(PopString string) {
+        _popString = string;
     }
 
 private:
@@ -46,8 +55,10 @@ private:
     int _close;
 
     Point _mouse;
-    bool _mouseLeft;
+    bool _left;
 
     bool _nowMode;
+
+    PopString _popString;
 
 };

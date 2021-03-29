@@ -16,6 +16,14 @@ UIGalStory::UIGalStory() {
 	_imageSize = -1;
 	_lastImageSize = -1;
 
+	_story0String = { _T("メインストーリー1"),1270,430,false };
+	_story1String = { _T("未定"),1390,440,false };
+	_story2String = { _T("未定"),1390,440,false };
+	_story3String = { _T("未定"),1390,440,false };
+	_story4String = { _T("未定"),1390,440,false };
+
+	_typeString = -1;
+
 }
 
 UIGalStory::~UIGalStory() {
@@ -134,5 +142,11 @@ void UIGalStory::Draw() {
 		_pStringImageBase2->Draw();
 		_pStringImageBase3->Draw();
 		_pStringImageBase4->Draw();
+
+		DrawFormatString(1135,145, GetColor(0, 0, 0),"メインストーリ―１");
+		DrawFormatString(1135, 234, GetColor(0, 0, 0), "未定");
+		DrawFormatString(1135, 325, GetColor(0, 0, 0), "未定");
+		DrawFormatString(1135, 416, GetColor(0, 0, 0), "未定");
+		DrawFormatString(1135, 504, GetColor(0, 0, 0), "未定");
 	}
 }

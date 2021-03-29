@@ -8,6 +8,8 @@
 #include "UIGalSetting.h"
 #include "UIGalItem.h"
 #include "UIGalStory.h"
+#include "UITime.h"
+#include "../Novel/scripts/script_engine.h"
 
 /*
 UI‚Ì‚â‚èŽæ‚è
@@ -21,6 +23,7 @@ public:
     bool Init();
     void Process();
     void Draw();
+    void Terminate();
 
     void SetMolecule(int molecule) {
         _molecule = molecule;
@@ -33,6 +36,19 @@ public:
     void SetFavor(int favor) {
         _favor = favor;
     }
+
+    bool GetSakeItem() {
+        return _sakeItem;
+    }
+
+    bool GetGoTitle() {
+        return _title;
+    }
+
+    void SetGoTitle(bool title) {
+        _title = title;
+    }
+
 private:
 
     void SettingProcess();
@@ -47,10 +63,21 @@ private:
     std::unique_ptr<UIGalItem> _pUIGalItem;
     std::unique_ptr<UIGalStory> _pUIGalStory;
 
+    std::unique_ptr<UIPopUp> _pUIPopUp;
+    std::unique_ptr<UITime> _pDrunkTime;
+    std::unique_ptr<UI2DSelectBase> _pCloselBScript;
+    std::unique_ptr<amg::ScriptEngine> _pScriptEngin;
+
+
     std::unique_ptr<MouseInput> _pMouseInput;
 
     int _molecule;
     int _coin;
     int _favor;
+
+    bool _sakeItem;
+    bool _scriptClose;
+
+    bool _title;
 
 };

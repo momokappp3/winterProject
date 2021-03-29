@@ -16,6 +16,7 @@ UIUseBase::UIUseBase() {
 
     _start = false;
     _end = false;
+    _myClose = false;
 
     _closeB = -1;
 

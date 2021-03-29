@@ -19,6 +19,7 @@ public:
     }
 
 private:
+    //Drawでクリアしてるのでプロセスで絶対値を入れないといけない
 
     std::vector<int> _vNumHandle;  //Setした数字のハンドルが入ったベクター
 

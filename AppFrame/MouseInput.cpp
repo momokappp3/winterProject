@@ -46,14 +46,14 @@ void MouseInput::Draw() {
 
 	DrawGraph(_posX, _posY,_handle, TRUE);
 
-	DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
+	//DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
 
 	if (_isRight) {
-		DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
+		//DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	if (_isLeft) {
-		DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
+		//DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	_isRight = false;
@@ -63,14 +63,14 @@ void MouseInput::Draw() {
 
 void MouseInput::TitleDraw() {
 
-	DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
+	//DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
 
 	if (_isRight) {
-		DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
+		//DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	if (_isLeft) {
-		DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
+		//DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	_isRight = false;

@@ -95,6 +95,9 @@ private:
     std::unique_ptr<UIInAndOut> _pCoinNumInAndOut;
     std::unique_ptr<UIInAndOut> _pTrustNumInAndOut;
 
+    //çDä¥ìxTween
+    //std::unique_ptr<Tween> _pMoleculeTween;
+
     bool _start;
     bool _end;
 
@@ -109,5 +112,7 @@ private:
     int _molecule;
     int _coin;
     int _favor;
+
+    int _lastMolecule;
 
 };

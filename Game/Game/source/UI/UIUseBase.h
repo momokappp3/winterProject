@@ -62,6 +62,7 @@ private:
 
     bool _start;  //このモードが開始した
     bool _end;   //このモードが閉じた
+    bool _myClose;
 
     int _closeB;
 

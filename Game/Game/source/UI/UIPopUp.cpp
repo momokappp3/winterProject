@@ -12,9 +12,10 @@ UIPopUp::UIPopUp() {
 	_close = -1;
 
 	_mouse = { 0,0 };
-	_mouseLeft = false;
 
 	_nowMode = false;
+
+	_popString = { "‰Šú‰»",{0,0},false };
 }
 
 UIPopUp::~UIPopUp() {
@@ -91,4 +92,9 @@ void UIPopUp::Draw() {
 	_pPopUpBase->Draw();
 	_pOkBSelectBase->Draw();
 	_pCloselBBase->Draw();
+
+	if (_popString.isDraw) {
+		DrawFormatString(_popString.xy.x, _popString.xy.y, GetColor(255, 255, 255),
+						 _popString.string);
+	}
 }

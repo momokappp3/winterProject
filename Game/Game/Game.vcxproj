@@ -185,6 +185,7 @@
     <ClCompile Include="source\UI\UIInAndOut.cpp" />
     <ClCompile Include="source\UI\UINumber.cpp" />
     <ClCompile Include="source\UI\UIPopUp.cpp" />
+    <ClCompile Include="source\UI\UITime.cpp" />
     <ClCompile Include="source\UI\UIUseBase.cpp" />
     <ClCompile Include="source\UI\UIGalItem.cpp" />
     <ClCompile Include="source\UI\UIGalStory.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="source\UI\UIInAndOut.h" />
     <ClInclude Include="source\UI\UINumber.h" />
     <ClInclude Include="source\UI\UIPopUp.h" />
+    <ClInclude Include="source\UI\UITime.h" />
     <ClInclude Include="source\UI\UIUseBase.h" />
     <ClInclude Include="source\UI\UIGalItem.h" />
     <ClInclude Include="source\UI\UIGalStory.h" />

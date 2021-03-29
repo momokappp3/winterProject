@@ -3,8 +3,8 @@
 #include "UI2DBase.h"
 #include "UI2DSelectBase.h"
 #include "../../../../AppFrame/Tween.h"
-#include <String>
 #include "UIPopUp.h"
+#include "../../../../AppFrame/Types.h"
 
 class UIGalItem:public UIUseBase {
 public:
@@ -15,6 +15,35 @@ public:
     void Process() override;
     void Draw() override;
 
+    void SetMoneyStringDraw(bool isDraw) {
+        _moneyString.isDraw = isDraw;
+    }
+
+    void SetTequilaStringDraw(bool isDraw) {
+        _tequilaString.isDraw = isDraw;
+    }
+
+    bool GetMoneyStringDraw() {
+        return _moneyString.isDraw;
+    }
+
+    bool GetTequilaStringDraw() {
+        return _tequilaString.isDraw;
+    }
+
+    PopString GetMoneyString() {
+        return _moneyString;
+    }
+
+    PopString GetTequilaString() {
+        return _tequilaString;
+    }
+
+    void StringAllFalse() {
+        _moneyString.isDraw = false;
+        _tequilaString.isDraw = false;
+    }
+
 private:
 
     //std::unique_ptr<Tween> _pTween;
@@ -23,12 +52,7 @@ private:
     std::unique_ptr<UI2DSelectBase> _pMoneyBSelectBase;
     std::unique_ptr<UI2DSelectBase> _pTequilaBSelectBase;
 
-    std::unique_ptr<UIPopUp> _pUIPopUp;
-
-    /*
-    基底クラスのコマンドベクターに二つ入れる上からボタンが選択されたか
-    */
-
-    std::vector<std::string> _vString;
+    PopString _moneyString;
+    PopString _tequilaString;
 
 };

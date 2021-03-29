@@ -22,7 +22,7 @@ public:
 
 private:
 
-	void GaugeTween();
+	void GetGaugeArea(int rate,int& rightDownX);
 
 	std::unique_ptr<Tween> _pTween;
 
@@ -35,7 +35,8 @@ private:
 
 	int _tweenFrame;
 
-	Point _rate;  //y‚ÍŽg‚í‚È‚¢
-	Point _lastRate;  //y‚ÍŽg‚í‚È‚¢
+	int _rate;
+	int _nowRate;
+	int _nextRate;
 
 };

@@ -449,20 +449,20 @@ void ModeTitle::TouchTitleMenu() {
 	VECTOR endI = _pMouseInput->GetEnd3D();
 	
 	if (MV1SetupCollInfo(_pNewGame->GetHandle(), 1, 1, 1, 1) == 0) {
-		DrawString(100, 320, " 当たり判定とれた　NewGame", GetColor(255, 0, 0));
+		//DrawString(100, 320, " 当たり判定とれた　NewGame", GetColor(255, 0, 0));
 	}
 	if (MV1SetupCollInfo(_pLoadGame->GetHandle(), 5, 1, 1, 1) == 0) {
-		DrawString(100, 330, " 当たり判定とれた LoadGame", GetColor(255, 0, 0));
+		//DrawString(100, 330, " 当たり判定とれた LoadGame", GetColor(255, 0, 0));
 	}
 	if (MV1SetupCollInfo(_pOption->GetHandle(), 5, 1, 1, 1) == 0) {
-		DrawString(100, 340, " 当たり判定とれた option", GetColor(255, 0, 0));
+		//DrawString(100, 340, " 当たり判定とれた option", GetColor(255, 0, 0));
 	}
 	if (MV1SetupCollInfo(_pHelp->GetHandle(), 5, 1, 1, 1) == 0) {
-		DrawString(100, 350, " 当たり判定とれた　help", GetColor(255, 0, 0));
+		//DrawString(100, 350, " 当たり判定とれた　help", GetColor(255, 0, 0));
 	}
 	
 	if (MV1SetupCollInfo(_pExit->GetHandle(), 1, 1, 1, 1) == 0) {
-		DrawString(100, 460, " コリジョンできた exit", GetColor(255, 0, 0));
+		//DrawString(100, 460, " コリジョンできた exit", GetColor(255, 0, 0));
 	}
 	
 	// モデルと線分との当たり判定
@@ -476,59 +476,59 @@ void ModeTitle::TouchTitleMenu() {
 	
 	if (_hitNewGame.HitFlag == 1) {
 
-		//_pNewGame->GetTransform().AddRotateY(5.0f);
+		_pNewGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::NewGame;
 		//DrawString(100, 420, " newGameHIT", GetColor(255, 0, 0));
 	}
 	else {
 		_pNewGame->GetTransform().SetRotateY(0.0f);
-		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
+		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 	
 	if (_hitLoadGame.HitFlag == 1) {
 
 		_pLoadGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::LoadGame;
-		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
+		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
 		_pLoadGame->GetTransform().SetRotateY(0.0f);
-		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
+		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 
 	if (_hitOption.HitFlag == 1) {
 
 		_pOption->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Option;
-		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
+		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 
 	}
 	else {
 		_pOption->GetTransform().SetRotateY(0.0f);
 
-		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
+		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 
 	if (_hitHelp.HitFlag == 1) {
 
 		_pHelp->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Help;
-		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
+		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
 		//_pHelp->GetTransform().SetRotateY(0.0f);
-		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
+		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 	
 	if (_hitExit.HitFlag == 1) {
 
 		//_pExit->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::End;
-		DrawString(100, 420, " HIT", GetColor(255, 0, 0));
+		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
 		//_pExit->GetTransform().SetRotateY(0.0f);
-		DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
+		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 
 	}
 
@@ -564,8 +564,8 @@ bool ModeTitle::Render() {
 		TouchTitleMenu();
 	}
 
-	DrawFormatString(100, 400, GetColor(255, 0, 0), "menu:%d",_menuKind );
-	DrawFormatString(100, 500, GetColor(255, 0, 0), "camera:%d", _cameraKind);
+	//DrawFormatString(100, 400, GetColor(255, 0, 0), "menu:%d",_menuKind );
+	//DrawFormatString(100, 500, GetColor(255, 0, 0), "camera:%d", _cameraKind);
 
 	return true;
 }

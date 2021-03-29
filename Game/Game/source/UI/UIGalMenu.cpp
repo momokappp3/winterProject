@@ -3,7 +3,7 @@
 #include "../../Utility.h"
 #include <array>
 
-#define PI 3.1415926535897932384626433832795f
+//#define PI 3.1415926535897932384626433832795f
 
 UIGalMenu::UIGalMenu() {
 
@@ -34,6 +34,8 @@ UIGalMenu::UIGalMenu() {
 	_pCoinBaseInAndOut = nullptr;
 	_pCoinNumInAndOut = nullptr;
 	_pTrustNumInAndOut = nullptr;
+	
+	//_pMoleculeTween = nullptr;
 
 	_start = false;
 	_end = false;
@@ -45,6 +47,12 @@ UIGalMenu::UIGalMenu() {
 
 	_mouseX = -1;
 	_mouseY = -1;
+
+	_molecule = 0;
+	_coin = -1;
+	_favor = -1;
+
+	_lastMolecule = 0;
 
 }
 
@@ -81,6 +89,8 @@ bool UIGalMenu::Init() {
 	_pCoinNumInAndOut.reset(new UIInAndOut);
 	_pTrustNumInAndOut.reset(new UIInAndOut);
 
+	//_pMoleculeTween.reset(new Tween);
+
 	if (!DrawInit()) {  //‰æ‘œ‚ÌDrawInfo‰Šú‰»ˆ—
 		return false;
 	}
@@ -112,7 +122,25 @@ void UIGalMenu::Process() {
 	_end = false;
 	_start = false;
 
+	
 	_pBarPinkBase->SetRate(_molecule);
+
+
+	/*
+	if (_molecule != _lastMolecule) {
+		_pMoleculeTween->SetTween({ _molecule,0 }, { _lastMolecule,0 }, 100, Tween::Type::SineStart);
+		//_isStart = false;
+	}
+
+
+	if (_pMoleculeTween->IsStart()) {
+		_molecule = _pMoleculeTween->GetPosition().x;
+		_pBarPinkBase->SetRate(_molecule);
+	}
+	else {
+		_pBarPinkBase->SetRate(_molecule);
+	}
+	*/
 	_pBarRedBase->SetRate(100);
 
 	_pCoinNum->SetNum(_coin);
@@ -145,6 +173,9 @@ void UIGalMenu::Process() {
 	_pCoinBaseInAndOut->Process();
 	_pCoinNumInAndOut->Process();
 	_pTrustNumInAndOut->Process();
+
+	//_pMoleculeTween->Process();
+
 }
 
 void UIGalMenu::Draw() {

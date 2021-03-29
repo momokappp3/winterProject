@@ -114,9 +114,6 @@
     <ClCompile Include="source\UI\UIGalMenuInit.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="source\UI\GalGameUI.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
     <ClCompile Include="source\UI\UI2DBase.cpp">
       <Filter>ソース ファイル\UI\UIBase</Filter>
     </ClCompile>
@@ -152,6 +149,12 @@
     </ClCompile>
     <ClCompile Include="source\UI\UIPopUp.cpp">
       <Filter>ソース ファイル\UI\unique</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\UITime.cpp">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\GalGameUI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +279,9 @@
       <Filter>ソース ファイル\UI\use</Filter>
     </ClInclude>
     <ClInclude Include="source\UI\UIPopUp.h">
+      <Filter>ソース ファイル\UI\unique</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\UITime.h">
       <Filter>ソース ファイル\UI\unique</Filter>
     </ClInclude>
   </ItemGroup>

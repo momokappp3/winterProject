@@ -10,10 +10,8 @@ UIGalItem::UIGalItem() {
 	_pMoneyBSelectBase = nullptr;
 	_pTequilaBSelectBase = nullptr;
 
-	_pUIPopUp = nullptr;
-
-	_vString.clear();
-
+	_moneyString = { _T("‚¨‹à‚ðZZ‰~“n‚·"),1270,430,false };
+	_tequilaString = { _T("ƒeƒL[ƒ‰‚ð“n‚·\nDŠ´“x‚Ìã¸‚É•Ï‰»‚ª!?"),1270,432,false };
 }
 
 UIGalItem::~UIGalItem() {
@@ -24,12 +22,6 @@ bool UIGalItem::Init() {
 	_pBackImageBase.reset(new UI2DBase);
 	_pMoneyBSelectBase.reset(new UI2DSelectBase);
 	_pTequilaBSelectBase.reset(new UI2DSelectBase);
-
-	_pUIPopUp.reset(new UIPopUp);
-
-	if (!_pUIPopUp->Init()) {
-		return false;
-	}
 
 	//_pTween.reset(new Tween);
 
@@ -90,35 +82,15 @@ void UIGalItem::Process() {
 
 	UIUseBase::Process();
 
+	_vComandSelect[0] = _pMoneyBSelectBase->GetSelect();
+	_pMoneyBSelectBase->SetSelect(Utility::ImageHitDetection(_mouseX, _mouseY, _pMoneyBSelectBase.get()));
 
-	if (!_pUIPopUp->GetNowMode()) {
-		_vComandSelect[0] = _pMoneyBSelectBase->GetSelect();
-		_pMoneyBSelectBase->SetSelect(Utility::ImageHitDetection(_mouseX, _mouseY, _pMoneyBSelectBase.get()));
-
-		_vComandSelect[1] = _pTequilaBSelectBase->GetSelect();
-		_pTequilaBSelectBase->SetSelect(Utility::ImageHitDetection(_mouseX, _mouseY, _pTequilaBSelectBase.get()));
-	}
-
-	for (int i = 0; i < _vComandSelect.size(); i++) {
-		if (_vComandSelect[i] && _mouseLeft) {
-			_pUIPopUp->SetNowMode(true);
-			break;
-		}
-	}
-
-	if (_pUIPopUp->GetNowMode()) {
-		_closeUse = false;
-	}
-	if (!_pUIPopUp->GetNowMode()) {
-		_closeUse = true;
-	}
+	_vComandSelect[1] = _pTequilaBSelectBase->GetSelect();
+	_pTequilaBSelectBase->SetSelect(Utility::ImageHitDetection(_mouseX, _mouseY, _pTequilaBSelectBase.get()));
 
 	_pBackImageBase->Process();
 	_pMoneyBSelectBase->Process();
 	_pTequilaBSelectBase->Process();
-	_pUIPopUp->Process();
-	_pUIPopUp->SetMouse(_mouseX, _mouseY);
-	_pUIPopUp->SetLeft(_mouseLeft);
 
 	UIUseBase::Process();
 }
@@ -131,11 +103,5 @@ void UIGalItem::Draw() {
 		_pTequilaBSelectBase->Draw();
 		UIUseBase::Draw();
 
-		if (_pUIPopUp->GetNowMode()) {
-			_pUIPopUp->Draw();
-			if (_pUIPopUp->GetClose()&& _mouseLeft || _pUIPopUp->GetOk() && _mouseLeft) {
-				_pUIPopUp->SetNowMode(false);
-			}
-		}
 	}
 }
