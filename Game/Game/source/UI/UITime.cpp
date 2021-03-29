@@ -61,7 +61,7 @@ bool UITime::Init(int maxNum ,int digit) {
 	
 	_pUINumber->SetNumberPoint({ 1715,695 });
 
-	_pUINumber->Init(digit);
+	_pUINumber->Init(2);
 
 	return true;
 }
@@ -108,7 +108,15 @@ void UITime::SetStart(int startNum) {
 	_startNum = startNum;
 	_nowNum = startNum;
 
-	_startTime = GetNowCount();
-	_pUINumber->SetNum(startNum);
+	_startTime = GetNowCount();  //‹N“®‚µ‚Ä‚©‚ç‚Ç‚ê‚­‚ç‚¢‚½‚Á‚½‚©
 
+	_pUINumber->SetNum(startNum);
 }
+
+
+/*
+bool UITime::SetNumber(int num) {
+	_pUINumber->SetNum(num);
+}
+
+*/

@@ -81,9 +81,9 @@ bool GalGameUI::Init() {
 }
 
 void GalGameUI::Process() {
+    _pDrunkTime->Process();
 
-
-    _pDrunkTime->SetStart(99);
+   
 
     _pMouseInput->Process();
 
@@ -209,7 +209,7 @@ void GalGameUI::Process() {
     _pUIGalMenuInit->Process();
     _pUIGalMenu->Process();
     _pUIPopUp->Process();
-    _pDrunkTime->Process();
+
     _pScriptEngin->Update();
     _pCloselBScript->Process();
     _title = false;
@@ -240,8 +240,8 @@ void GalGameUI::ItemProcess() {
     if (_pUIGalItem->GetComandSelect(0) && _pMouseInput->GetLeft()) {
         _pUIPopUp->SetNowMode(true);
         _pUIGalItem->SetMoneyStringDraw(true);
-        _pDrunkTime->SetStart(50);
-
+       // _pDrunkTime->SetStart(50);
+        //_pDrunkTime->SetStart(99);
         _pUIPopUp->SetPopString(_pUIGalItem->GetMoneyString());
     }
 

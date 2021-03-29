@@ -32,7 +32,6 @@ private:
 	std::unique_ptr<Model> _pRoomModel;
 	std::unique_ptr<AnimationBase> _pOnnaModel;
 	std::unique_ptr<AnimationBase> _pOnnaRedModel;
-	//std::unique_ptr<amg::ScriptEngine> _pScriptEngin;
 	std::unique_ptr<Input> _pInput;
 	std::unique_ptr<VectorTween> _pVectorTweenPotion;
 	std::unique_ptr<VectorTween> _pVectorTweenTarget;

@@ -19,6 +19,8 @@ public:
 
 private:
 
+   // bool SetNumber(int num);
+
     std::unique_ptr<UI2DBase> _pTimeBase;
     std::unique_ptr<UINumber> _pUINumber;
 
