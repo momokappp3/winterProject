@@ -28,13 +28,13 @@ bool UITime::Init(int maxNum ,int digit) {
     _pUINumber.reset(new UINumber);
 	_pTimeBase.reset(new UI2DBase);
 
-	int handle = ResourceServer::LoadGraph("png/galUI/number/coinBase.png");
+	int handle = ResourceServer::LoadGraph("png/galUI/numBase.png");
 
 	if (handle == -1) {
 		return false;
 	}
 
-	DrawInfo info = { handle,10,10,true,-430,-430 };
+	DrawInfo info = { handle,1590,620,true};
 
 	_pTimeBase->SetDrawInfo(info);
 
@@ -52,13 +52,14 @@ bool UITime::Init(int maxNum ,int digit) {
 	};
 
 	//”š‚ÌˆÊ’u‚ÍSet‚Å‚·‚é
-
+	
 	for (int i = 0; i < 10; i++) {
-		info = { trustHandle[i] ,110,85,true,-430,-430 };
+		info = { trustHandle[i] ,1715,695,true,};
 
 		_pUINumber->SetDrawInfo(info);
 	}
-	_pUINumber->SetNumberPoint({ 110,85 });
+	
+	_pUINumber->SetNumberPoint({ 1715,695 });
 
 	_pUINumber->Init(digit);
 
