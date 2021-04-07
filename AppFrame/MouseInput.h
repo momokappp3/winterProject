@@ -12,6 +12,7 @@ public:
 	virtual ~MouseInput();
 
 	void Process();
+	void LastProcess();
 	void Draw();
 	void TitleDraw();
 
@@ -21,6 +22,10 @@ public:
 
 	bool GetLeft() {
 		return _isLeft;
+	}
+
+	bool GetTrgLeft() {
+		return _isTrgLeft;
 	}
 
 	int GetXNum() {
@@ -56,8 +61,12 @@ private:
 	bool _isRight;
 	bool _isLeft;
 
+	bool _isTrgLeft;
+
 	int _handle;
 
 	int _posX;
 	int _posY;
+
+	bool _oldLeft;
 };

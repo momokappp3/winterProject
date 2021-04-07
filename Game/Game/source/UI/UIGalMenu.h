@@ -57,6 +57,8 @@ public:
         _favor = favor;
     }
 
+
+
 private:
 
     bool DrawInit();
@@ -79,7 +81,6 @@ private:
 
     std::unique_ptr<UINumber> _pTrustNum;
 
-
     //アニメーション出し入れ
     std::unique_ptr<UIInAndOut> _pSettingInAndOut;
     std::unique_ptr<UIInAndOut> _pCancelInAndOut;
@@ -94,9 +95,6 @@ private:
     std::unique_ptr<UIInAndOut> _pCoinBaseInAndOut;
     std::unique_ptr<UIInAndOut> _pCoinNumInAndOut;
     std::unique_ptr<UIInAndOut> _pTrustNumInAndOut;
-
-    //好感度Tween
-    //std::unique_ptr<Tween> _pMoleculeTween;
 
     bool _start;
     bool _end;

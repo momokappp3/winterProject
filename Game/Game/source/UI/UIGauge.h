@@ -20,9 +20,22 @@ public:
 
 	bool SetRate(int rate);  //‚±‚ê‚ðŒÄ‚Î‚È‚¢‚ÆƒoƒO‚Ì‰Â”\«‚ ‚è
 
+	bool IsStart() {
+		if (_pTween == nullptr){
+			return false;
+		}
+
+		return _pTween->IsStart();
+	}
+	
+	int GetNowRate(){
+		return _rate;
+	}
+	
+
 private:
 
-	void GetGaugeArea(int rate,int& rightDownX);
+	void GetGaugeArea();
 
 	std::unique_ptr<Tween> _pTween;
 
@@ -35,8 +48,8 @@ private:
 
 	int _tweenFrame;
 
+	int _lastRate;
 	int _rate;
 	int _nowRate;
-	int _nextRate;
 
 };

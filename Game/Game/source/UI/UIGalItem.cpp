@@ -1,6 +1,12 @@
 #include "UIGalItem.h"
 #include "../../ResourceServer.h"
 #include "../../Utility.h"
+#include <String>
+
+namespace {
+	std::string fast = _T("‚¨‹à‚ğ");
+	std::string last = _T("‰~“n‚·");
+}
 
 UIGalItem::UIGalItem() {
 
@@ -10,8 +16,12 @@ UIGalItem::UIGalItem() {
 	_pMoneyBSelectBase = nullptr;
 	_pTequilaBSelectBase = nullptr;
 
+	_giveCoin = 0;
+
 	_moneyString = { _T("‚¨‹à‚ğZZ‰~“n‚·"),1270,430,false };
 	_tequilaString = { _T("ƒeƒL[ƒ‰‚ğ“n‚·\nDŠ´“x‚Ìã¸‚É•Ï‰»‚ª!?"),1270,432,false };
+
+	_itemType = -1;
 }
 
 UIGalItem::~UIGalItem() {
@@ -22,8 +32,6 @@ bool UIGalItem::Init() {
 	_pBackImageBase.reset(new UI2DBase);
 	_pMoneyBSelectBase.reset(new UI2DSelectBase);
 	_pTequilaBSelectBase.reset(new UI2DSelectBase);
-
-	//_pTween.reset(new Tween);
 
 	//ƒRƒ}ƒ“ƒhvector‚Ég‚¤•ª‚¾‚¯false‚ğpushBack
 	_vComandSelect.push_back(false);
@@ -104,4 +112,11 @@ void UIGalItem::Draw() {
 		UIUseBase::Draw();
 
 	}
+}
+
+void UIGalItem::SetGiveCoin(int coin) {
+
+	_giveCoin = coin;
+	_coinString = fast + std::to_string(_giveCoin) + last;
+	_moneyString.string = _coinString;
 }

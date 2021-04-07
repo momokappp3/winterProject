@@ -15,7 +15,7 @@ UIPopUp::UIPopUp() {
 
 	_nowMode = false;
 
-	_popString = { "èâä˙âª",{0,0},false };
+	_popString = { _T("èâä˙âª"),{0,0},false };
 }
 
 UIPopUp::~UIPopUp() {
@@ -95,6 +95,6 @@ void UIPopUp::Draw() {
 
 	if (_popString.isDraw) {
 		DrawFormatString(_popString.xy.x, _popString.xy.y, GetColor(255, 255, 255),
-						 _popString.string);
+						 _popString.string.c_str());
 	}
 }

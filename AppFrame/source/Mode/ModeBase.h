@@ -1,5 +1,7 @@
 #pragma once
 #include	<string>
+#include "../../../Game/Game/source/SoundManager.h"
+#include <memory>
 
 class ModeServer;  //前方宣言(型しか必要ない場合はこの記述)
 
@@ -21,6 +23,8 @@ public:
 	void SetCallOfCount(int count) { _callOfCount = count; }		// 1回の呼び出しに何回Process()を呼ぶか(def:1)
 	int GetCallPerFrame() { return _callPerFrame; }
 	int GetCallOfCount() { return _callOfCount; }
+
+	std::shared_ptr<SoundManager> _pSoundManager;
 
 private:
 	friend	ModeServer;

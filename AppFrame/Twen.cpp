@@ -29,26 +29,6 @@ Tween::Tween() {
 Tween::~Tween() {
 }
 
-bool Tween::SetTween(Point start, Point end, int flame, Type type) {
-
-	_isStart = false;
-
-	if (_isStart) {
-		return false;
-	}
-
-	_isStart = true;
-	_isEnd = false;
-	_start = start;
-	_end = end;
-	_timer = 0;
-	_frame = flame;
-	_type = type;
-	_position = start;
-
-	return true;
-}
-
 void Tween::Process() {
 
 	if (!_isStart || _isEnd) {   //スタートしていてエンドになっていない
@@ -97,4 +77,24 @@ void Tween::Process() {
 
 	_position = { static_cast<int>(_start.x + x),static_cast<int>(_start.y + y) };
 	_timer++;
+}
+
+bool Tween::SetTween(Point start, Point end, int flame, Type type) {
+
+	_isStart = false;
+
+	if (_isStart) {
+		return false;
+	}
+
+	_isStart = true;
+	_isEnd = false;
+	_start = start;
+	_end = end;
+	_timer = 0;
+	_frame = flame;
+	_type = type;
+	_position = start;
+
+	return true;
 }

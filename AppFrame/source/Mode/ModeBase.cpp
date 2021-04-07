@@ -15,6 +15,8 @@ ModeBase::ModeBase() {
 
 	SetCallPerFrame(1);
 	SetCallOfCount(1);
+
+	_pSoundManager = nullptr;
 }
 
 ModeBase::~ModeBase() {
@@ -23,11 +25,8 @@ ModeBase::~ModeBase() {
 // ModeServerに接続時、Process()の前に一度だけ呼ばれる
 bool ModeBase::Initialize() {
 
-	return true;
-}
-
-// ModeServerから削除される際、一度だけ呼ばれる
-bool	ModeBase::Terminate() {
+	_pSoundManager.reset(new SoundManager);
+	_pSoundManager->Init();
 
 	return true;
 }
@@ -35,9 +34,16 @@ bool	ModeBase::Terminate() {
 // --------------------------------------------------------------------------
 /// @brief 毎フレーム呼ばれる。処理部を記述
 // --------------------------------------------------------------------------
-bool	ModeBase::Process()
-{
+bool ModeBase::Process() {
+	_pSoundManager->Process();
+
 	return	true;
+}
+
+// ModeServerから削除される際、一度だけ呼ばれる
+bool	ModeBase::Terminate() {
+
+	return true;
 }
 
 // --------------------------------------------------------------------------

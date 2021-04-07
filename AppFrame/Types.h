@@ -35,7 +35,7 @@ struct DrawInfo {
 
 struct PopString {
 
-	const TCHAR* string;
+	std::string string;
 	Point xy;
 	bool isDraw;
 

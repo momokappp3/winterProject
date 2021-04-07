@@ -13,7 +13,11 @@ public:
     //一桁目の座標が基準で二桁目から一桁目の画像サイズを足していく
     bool SetNumHandle(int num);
 
-    void SetNumberPoint(Point point);
+    //基底クラスにあるが紛らわしいのでオーバーロード
+    void SetPoint(Point point) {
+        _point = point;
+    }
+
     void SetNum(int num){
         _num = num;
     }

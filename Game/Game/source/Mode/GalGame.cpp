@@ -17,6 +17,8 @@ GalGame::GalGame() {
 	_pVectorTweenPotion = nullptr;
 	_pVectorTweenTarget = nullptr;
 	_pGalGameUI = nullptr;
+	_pFace = nullptr;
+	_pSoundManager = nullptr;
 
 	_favor = 0;
 	_molecule = 0;
@@ -41,10 +43,14 @@ bool GalGame::Initialize() {
 	_pVectorTweenTarget.reset(new VectorTween);
 	_pGalGameUI.reset(new GalGameUI);
 	_pMouseInput.reset(new MouseInput);
+	_pFace.reset(new Face);
+	_pSoundManager.reset(new SoundManager);
 
-	if (!_pGalGameUI->Init()){
+	if (!_pGalGameUI->Init(_pSoundManager)||!_pSoundManager->Init()){
 		return false;	
 	}
+
+	_pSoundManager->LoadSEInGame();
 
 	//_pCamera->SetPosition(0.0f, 10.0f, -20.0f);
 	//_pCamera->SetTarget(0.0f, 10.0f, 0.0f);
@@ -58,6 +64,8 @@ bool GalGame::Initialize() {
 	_pOnnaRedModel->Load("model/onna_red/onna_red.pmx");
 	_pRoomModel->Load("model/room/roomkagu.pmx");
 
+	_pFace->Init(_pOnnaModel->GetHandle());
+	
 	_favor = 0;
 	_molecule = 0;
 	_coin = 5000;
@@ -72,38 +80,37 @@ bool GalGame::Process() {
 	}
 	_pMouseInput->Process();
 
-	//SetUI
-	_pGalGameUI->SetCoin(_coin);
-	
-
-
 	_pOnnaModel->Play(true, 0, 0.3f);
 	_pOnnaRedModel->Play(true, 0, 0.3f);
 
 
 	if (CheckHitKey(KEY_INPUT_D)) {
-		_pOnnaModel->Play(true, 1, 5.0f);
+		//_pOnnaModel->Play(true, 1, 5.0f);
 	}
 
+
+	//第一引数:表情番号　2:表情の最小変化　3:表情の最大変化 4:変化速度  
 	if (CheckHitKey(KEY_INPUT_G)) {
+		_pFace->SetInfo(4, 0.0, 0.4, 90);
+	}
 
-		//途中から開始
-		//_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
-
+	if (CheckHitKey(KEY_INPUT_H)) {
+		_pFace->SetInfo(2, 0.0, 0.6, 120);
+	}
+	if (CheckHitKey(KEY_INPUT_J)) {
+		_pFace->SetInfo(15, 0.0, 1.0, 50);
+	}
+	if (CheckHitKey(KEY_INPUT_K)) {  //眠たげ
+		_pFace->SetInfo(18, 0.0, 1.0, 120,800);
 	}
 
 	if (_pInput->_key[(KEY_INPUT_Q)] == 1) {
-		//終わらせる
-		//_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::END);
 
 		_pVectorTweenPotion->SetVectorTween(novelCameraPositionEnd, novelCameraPositionStart, 45,VectorTween::Type::SineStart);
 		_pVectorTweenTarget->SetVectorTween(novelCameraTargetEnd, novelCameraTargetStart, 45, VectorTween::Type::SineStart);
 	}
 
 	if (_pInput->_key[(KEY_INPUT_W)] == 1) {
-
-		//_pScriptEngin->ReInitialize();
-		//_pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);  //スクリプト開始
 
 		//カメラ移動
 		_pVectorTweenPotion->SetVectorTween(novelCameraPositionStart, novelCameraPositionEnd, 45, VectorTween::Type::SineStart);
@@ -140,7 +147,7 @@ bool GalGame::Process() {
 		ModeServer::GetInstance()->Add(new GalGame(), 5, "Title");  // 次の
 	}
 
-
+	//ModeBase:Process();
 	_pCamera->Process();
 	_pRoomModel->Process();
 
@@ -148,7 +155,8 @@ bool GalGame::Process() {
 	_pVectorTweenPotion->Process();
 	_pVectorTweenTarget->Process();
 	_pGalGameUI->Process();
-	//_pScriptEngin->Update();
+	_pFace->Process();
+	_pSoundManager->Process();
 
 	return true;
 }
@@ -166,12 +174,6 @@ bool GalGame::Render() {
 
 	_pGalGameUI->Draw();
 	_pMouseInput->Draw();  //最後に必ず置く
-
-	/*
-	if (_pScriptEngin->GetState()!= amg::ScriptEngine::ScriptState::END) {
-		_pScriptEngin->Render();
-	}
-	*/
 
 	//debug情報
 	_pCamera->Render();

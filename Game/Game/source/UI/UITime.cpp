@@ -15,6 +15,9 @@ UITime::UITime() {
 
 	_pTimeBase = nullptr;
     _pUINumber = nullptr;
+	_pBaseInAndOut = nullptr;
+	_pNumInAndOut = nullptr;
+
     _maxNum = 0;
 }
 
@@ -27,6 +30,12 @@ bool UITime::Init(int maxNum ,int digit) {
 
     _pUINumber.reset(new UINumber);
 	_pTimeBase.reset(new UI2DBase);
+	_pBaseInAndOut.reset(new UIInAndOut);
+	_pNumInAndOut.reset(new UIInAndOut);
+
+	if (!_pBaseInAndOut->Init() || !_pNumInAndOut->Init()) {
+		return false;
+	}
 
 	int handle = ResourceServer::LoadGraph("png/galUI/numBase.png");
 
@@ -34,7 +43,7 @@ bool UITime::Init(int maxNum ,int digit) {
 		return false;
 	}
 
-	DrawInfo info = { handle,1590,620,true};
+	DrawInfo info = { handle,180,195,true,{-350,470} };
 
 	_pTimeBase->SetDrawInfo(info);
 
@@ -50,23 +59,41 @@ bool UITime::Init(int maxNum ,int digit) {
 	ResourceServer::LoadGraph("png/galUI/number/trust8.png"),
 	ResourceServer::LoadGraph("png/galUI/number/trust9.png"),
 	};
-
-	//”š‚ÌˆÊ’u‚ÍSet‚Å‚·‚é
 	
 	for (int i = 0; i < 10; i++) {
-		info = { trustHandle[i] ,1715,695,true,};
+		info = { trustHandle[i] ,300,270,true,-350,620};
 
 		_pUINumber->SetDrawInfo(info);
 	}
 	
-	_pUINumber->SetNumberPoint({ 1715,695 });
+	_pUINumber->SetPoint({ 300,270 });
 
-	_pUINumber->Init(2);
+	_pUINumber->Init(digit);
+
+	DrawInfo infoInit;
+	_pTimeBase->GetDrawInfo(0, infoInit);
+	_pBaseInAndOut->SetStartPosition(infoInit.startXY);
+	_pBaseInAndOut->SetEndPosition(infoInit.xy);
+	_pBaseInAndOut->SetNowPosition(infoInit.startXY);
+
+	_pUINumber->GetDrawInfo(0, infoInit);
+	_pNumInAndOut->SetStartPosition(infoInit.startXY);
+	_pNumInAndOut->SetEndPosition(infoInit.xy);
+	_pNumInAndOut->SetNowPosition(infoInit.startXY);
 
 	return true;
 }
 
 void UITime::Process() {
+
+
+	_pTimeBase->SetPoint(0, _pBaseInAndOut->GetNowPosition());
+	_pUINumber->SetPoint(_pNumInAndOut->GetNowPosition());
+
+	_pTimeBase->Process();
+	_pUINumber->Process();
+	_pBaseInAndOut->Process();
+	_pNumInAndOut->Process();
 
 	if (!_isStart || _isEnd || _isStop) {
 		return;
@@ -85,13 +112,14 @@ void UITime::Process() {
 
 		if (_nowNum == 0) {
 			_isEnd = true;
+
+			//êŠ‚ğ“®‚©‚·‚µ‚Ü‚¤ˆ—
+			_pBaseInAndOut->SetIsEnd(true);
+			_pNumInAndOut->SetIsEnd(true);
 		}
 
 		_pUINumber->SetNum(_nowNum);
 	}
-
-	_pTimeBase->Process();
-    _pUINumber->Process();
 }
 
 void UITime::Draw() {
@@ -111,12 +139,8 @@ void UITime::SetStart(int startNum) {
 	_startTime = GetNowCount();  //‹N“®‚µ‚Ä‚©‚ç‚Ç‚ê‚­‚ç‚¢‚½‚Á‚½‚©
 
 	_pUINumber->SetNum(startNum);
+
+	//êŠ‚ğ“®‚©‚·ˆ—
+	_pBaseInAndOut->SetIsStart(true);
+	_pNumInAndOut->SetIsStart(true);
 }
-
-
-/*
-bool UITime::SetNumber(int num) {
-	_pUINumber->SetNum(num);
-}
-
-*/

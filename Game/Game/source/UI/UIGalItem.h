@@ -39,14 +39,25 @@ public:
         return _tequilaString;
     }
 
+    int GetNowItemType() {
+        return _itemType;
+    }
+    void SetNowItemType(int type) {
+        _itemType = type;
+    }
+
     void StringAllFalse() {
         _moneyString.isDraw = false;
         _tequilaString.isDraw = false;
     }
 
-private:
+    void SetGiveCoin(int coin);
 
-    //std::unique_ptr<Tween> _pTween;
+    int GetGiveCoin() {
+        return _giveCoin;
+    }
+
+private:
 
     std::unique_ptr<UI2DBase> _pBackImageBase;
     std::unique_ptr<UI2DSelectBase> _pMoneyBSelectBase;
@@ -54,5 +65,13 @@ private:
 
     PopString _moneyString;
     PopString _tequilaString;
+
+    std::string _coinString;
+
+
+    //0 =‹à 1= Žð
+    int _itemType;
+
+    int _giveCoin;
 
 };

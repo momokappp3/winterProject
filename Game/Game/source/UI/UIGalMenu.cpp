@@ -102,15 +102,15 @@ bool UIGalMenu::Init() {
 		return false;
 	}
 
-	if (!_pBarPinkBase->Init(200) || !_pBarRedBase->Init(80)) {
+	MoveInit();
+
+	if (!_pBarPinkBase->Init(40) || !_pBarRedBase->Init(80)) {
 		return false;
 	}
 
 	if (!_pCoinNum->Init(6) || !_pTrustNum->Init(2)) {
 		return false;
 	}
-
-	MoveInit();
 
     return true;
 }
@@ -122,25 +122,16 @@ void UIGalMenu::Process() {
 	_end = false;
 	_start = false;
 
-	
-	_pBarPinkBase->SetRate(_molecule);
-
-
-	/*
-	if (_molecule != _lastMolecule) {
-		_pMoleculeTween->SetTween({ _molecule,0 }, { _lastMolecule,0 }, 100, Tween::Type::SineStart);
-		//_isStart = false;
+	if (_molecule == 30) {  //一回目は来る　2回目から来てない
+		int o = 0;
 	}
 
+	if (!_pBarPinkBase->IsStart()) {
+		if (_pBarPinkBase->GetNowRate() != _molecule) {
+			_pBarPinkBase->SetRate(_molecule);
+		}
+	}
 
-	if (_pMoleculeTween->IsStart()) {
-		_molecule = _pMoleculeTween->GetPosition().x;
-		_pBarPinkBase->SetRate(_molecule);
-	}
-	else {
-		_pBarPinkBase->SetRate(_molecule);
-	}
-	*/
 	_pBarRedBase->SetRate(100);
 
 	_pCoinNum->SetNum(_coin);
@@ -173,8 +164,6 @@ void UIGalMenu::Process() {
 	_pCoinBaseInAndOut->Process();
 	_pCoinNumInAndOut->Process();
 	_pTrustNumInAndOut->Process();
-
-	//_pMoleculeTween->Process();
 
 }
 
@@ -341,7 +330,7 @@ bool UIGalMenu::DrawInit() {
 
 		_pCoinNum->SetDrawInfo(info);
 	}
-	_pCoinNum->SetNumberPoint({ 175,18 });
+	_pCoinNum->SetPoint({ 175,18 });
 
 	//===============================================================
 	//trustNum
@@ -366,7 +355,7 @@ bool UIGalMenu::DrawInit() {
 
 		_pTrustNum->SetDrawInfo(info);
 	}
-	_pTrustNum->SetNumberPoint({ 110,85 });
+	_pTrustNum->SetPoint({ 110,85 });
 
 	return true;
 }
@@ -426,7 +415,7 @@ void UIGalMenu::MoveInit() {
 	//体力ゲージ下
 	_pBarRedBase->GetDrawInfo(0, infoInit);
 
-	_pBarRedInAndOut->SetStartPosition(infoInit.startXY);
+	_pBarRedInAndOut->SetStartPosition(infoInit.startXY);  //ここをセットしないといけない
 	_pBarRedInAndOut->SetEndPosition(infoInit.xy);
 	_pBarRedInAndOut->SetNowPosition(infoInit.startXY);
 
@@ -549,14 +538,14 @@ void UIGalMenu::MoveProcess() {
 
 	//================================================================
 	//coinNum
-	_pCoinNum->SetNumberPoint(_pCoinNumInAndOut->GetNowPosition());
+	_pCoinNum->SetPoint(_pCoinNumInAndOut->GetNowPosition());
 
 	_pCoinNumInAndOut->SetIsEnd(_end);
 	_pCoinNumInAndOut->SetIsStart(_start);
 
 	//===============================================================
 	//trustNum
-	_pTrustNum->SetNumberPoint(_pTrustNumInAndOut->GetNowPosition());
+	_pTrustNum->SetPoint(_pTrustNumInAndOut->GetNowPosition());
 
 	_pTrustNumInAndOut->SetIsEnd(_end);
 	_pTrustNumInAndOut->SetIsStart(_start);

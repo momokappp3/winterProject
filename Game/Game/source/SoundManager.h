@@ -16,10 +16,7 @@ public:
 	};
 
 	enum class SECommon{
-		Move = 0,
-		BButton,
-		AButton,
-		Fade,
+		Select = 0,
 		OK,
 		Cancel,
 
@@ -27,7 +24,7 @@ public:
 	};
 
 	enum class SETitle {
-		Effect = 0,
+		Select = 0,
 
 		Max
 	};

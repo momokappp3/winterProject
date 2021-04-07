@@ -136,7 +136,7 @@ namespace {
     int choice_window_right = 0;
 
     unsigned int message_window_color = 0;
-    unsigned int message_string_color = 0;  //???
+    unsigned int message_string_color = 0;
 
     unsigned int choice_normal_color = 0;
     unsigned int choice_select_color = 0;
@@ -165,6 +165,8 @@ namespace amg
 
         _commandHandle1 = -1;
         _commandHandle2 = -1;
+
+        _isFavor = false;
     }
 
     ScriptEngine::~ScriptEngine()
@@ -313,7 +315,7 @@ namespace amg
         return true;
     }
 
-
+    //追加
     void ScriptEngine::ReInitialize() {
         choice_list.clear();
         message_list.clear();
@@ -775,6 +777,7 @@ namespace amg
 
                     _favor += atoi(favor.c_str());
 
+                    _isFavor = true;
 
                     // 全ての文字列表示をなくす
                     message_list.clear();

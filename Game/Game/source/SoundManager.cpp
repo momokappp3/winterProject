@@ -24,8 +24,8 @@ SoundManager::~SoundManager() {
 
 bool SoundManager::Init() {
 
-	_vBgmFileName.push_back(_T("sound/titleBGM.mp3"));
-	_vBgmFileName.push_back(_T("mp3/InGame.mp3"));
+	_vBgmFileName.push_back(_T("mp3/titleBGM.mp3"));
+	_vBgmFileName.push_back(_T("mp3/gameBGM.mp3"));
 
 	return true;
 }
@@ -40,8 +40,7 @@ bool SoundManager::Init() {
 bool SoundManager::LoadSECommon() {
 
 	std::vector<const TCHAR*> SEname = {
-		_T("mp3/SE/move.mp3"), _T("mp3/SE/Abutton.mp3"), _T("mp3/SE/Bbutton.mp3"), _T("mp3/SE/fade.mp3"),
-		 _T("mp3/SE/DeckSelectOK.mp3"), _T("mp3/SE/DeckSelectCancel.mp3")
+		_T("mp3/SE/selectSE.mp3"), _T("mp3/SE/okB.mp3"), _T("mp3/SE/cancelB.mp3")
 	};
 
 	return LoadSE(SEname, _vSECommonHandle);
@@ -76,7 +75,7 @@ bool SoundManager::PlaySECommon(SECommon type ,int delayFrame) {
 bool SoundManager::LoadSETitle() {
 
 	std::vector<const TCHAR*> SEname = {
-		_T("mp3/SE/titleEffect.mp3")
+		_T("mp3/titleSelect.mp3")
 	};
 
 	return LoadSE(SEname, _vSETitleHandle);

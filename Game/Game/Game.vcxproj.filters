@@ -34,6 +34,9 @@
     <Filter Include="ソース ファイル\UI\use">
       <UniqueIdentifier>{aa8c6639-66d9-4e0e-b681-f937181d0f08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Face">
+      <UniqueIdentifier>{9ae26122-c4bf-44db-8819-e108dc581877}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp">
@@ -155,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="source\UI\GalGameUI.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Face.cpp">
+      <Filter>ソース ファイル\Face</Filter>
+    </ClCompile>
+    <ClCompile Include="source\mental.cpp">
+      <Filter>ソース ファイル\Face</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +292,12 @@
     </ClInclude>
     <ClInclude Include="source\UI\UITime.h">
       <Filter>ソース ファイル\UI\unique</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Face.h">
+      <Filter>ソース ファイル\Face</Filter>
+    </ClInclude>
+    <ClInclude Include="source\mental.h">
+      <Filter>ソース ファイル\Face</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

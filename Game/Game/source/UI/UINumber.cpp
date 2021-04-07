@@ -46,13 +46,9 @@ void UINumber::Draw() {
 			point.x -= x; //‘O‚Ì‰æ‘œ‚Ì•‚ğ‘«‚·
 		}
 
-		DrawGraph(point.x, point.y, _vNumHandle[i], TRUE);
+		DrawGraph(point.x, point.y, _vNumHandle[i], TRUE);  //“ñ‰ñ–Ú‚ÅvnumHandle‚ª“ü‚Á‚Ä‚¢‚È‚¢
 	}
 	_vNumHandle.clear();
-}
-
-void UINumber::SetNumberPoint(Point point) {
-	_point = point;
 }
 
 bool UINumber::SetNumHandle(int num) {

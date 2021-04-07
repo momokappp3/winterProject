@@ -2,6 +2,7 @@
 #include "UINumber.h"
 #include <memory>
 #include "UI2DBase.h"
+#include "UIInAndOut.h"
 
 class UITime {
 public:
@@ -17,12 +18,16 @@ public:
         _isStop = stop;
     }
 
-private:
+    int GetNowTime() {
+        return _nowNum;
+    }
 
-   // bool SetNumber(int num);
+private:
 
     std::unique_ptr<UI2DBase> _pTimeBase;
     std::unique_ptr<UINumber> _pUINumber;
+    std::unique_ptr<UIInAndOut> _pBaseInAndOut;
+    std::unique_ptr<UIInAndOut> _pNumInAndOut;
 
     int _maxNum;
 

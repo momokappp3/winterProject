@@ -15,9 +15,8 @@ UIGauge::UIGauge() :UI2DBase(){
 
 	_tweenFrame = 30;
 
+	_lastRate = 0;
 	_rate = 0;
-	_nowRate = 0;
-	_nextRate = 0;
 }
 
 UIGauge::~UIGauge() {
@@ -35,7 +34,7 @@ bool UIGauge::Init(int frame) {
 
 	_point = UI2DBase::GetPoint();
 	_rightDown = _point;
-	//_rightDown.x += _imageWidth;  //Max
+	//_rightDown.x += _imageWidth;  //Maxで初期化
 	_rightDown.y += _imageHeight;
 
 	return true;
@@ -43,45 +42,31 @@ bool UIGauge::Init(int frame) {
 
 void UIGauge::Process() {
 
-	_pTween->Process();
-
-	_point = UI2DBase::GetPoint();
-	
 	if (_pTween->IsStart()) {
-		_rightDown = _pTween->GetPosition();
+		_nowRate = _pTween->GetPosition().x;
+		GetGaugeArea();
 	}
-
 	if (_pTween->IsEnd()) {
-		_nowRate = _nextRate;
+		GetGaugeArea();
+		_lastRate = _rate;
+
+		//リセット
 	}
+
+	_pTween->Process();
 }
 
-void UIGauge::GetGaugeArea(int rate, int& rightDownX) {
+void UIGauge::GetGaugeArea() {
 
-	float _rate = static_cast<float>(rate) / 100.0f;  //既に0.5
-	int width = static_cast<int>(_imageWidth * _rate);
+	float rate = static_cast<float>(_nowRate) / 100.0f;
+	int width = static_cast<int>(_imageWidth * rate);
 
-	rightDownX = _point.x + width;
+	_rightDown.x = _point.x + width;
 }
-
-/*
-void Hp::GetHpArea(int hp, Point& rightDown) {
-
-	int hpPixel = _imageWidth - Parameter::_HpImageMarginLeft - Parameter::_HpImageMarginRight;
-
-	float rate = static_cast<float>(hp) / static_cast<float>(_hp);
-	float hpRate = std::round(static_cast<float>(hpPixel) * rate);
-	int nowHp = static_cast<int>(hpRate);
-
-	rightDown = _leftUp;
-	rightDown.x += nowHp;
-	rightDown.y += _imageHeight;
-
-}
-
-*/
 
 void UIGauge::Draw() {
+
+	_point = UI2DBase::GetPoint();
 
 	DrawGraph(_point.x, _point.y, UI2DBase::_vDrawInfo[0].handle, TRUE);
 	SetDrawArea(_point.x, _point.y, _rightDown.x, _rightDown.y);
@@ -89,24 +74,16 @@ void UIGauge::Draw() {
 	SetDrawArea(0, 0, 1920, 1080);  //描画範囲を戻す
 }
 
-bool UIGauge::SetRate(int rate) {
+bool UIGauge::SetRate(int rate) {  //1回だけずっと呼んでいると一瞬で入る
 
 	if (_pTween == nullptr || rate < 0 || rate > 100) {
 		return false;
 	}
 
-	_nextRate = rate;
+	_lastRate = _rate;  //今のレートを入れる
+	_rate = rate;
 
-	int nextWidth = 0;
-
-	GetGaugeArea(_nextRate, nextWidth);
-
-	int nowWidth = 0;
-
-	GetGaugeArea(_nowRate, nowWidth);
-
-	_pTween->Reset();
-	_pTween->SetTween({ nowWidth,0 }, { nextWidth ,0 }, _tweenFrame, Tween::Type::SineStart);
+	_pTween->SetTween({ _lastRate,0 }, { _rate ,0}, _tweenFrame, Tween::Type::SineStart);
 
 	return true;
 }

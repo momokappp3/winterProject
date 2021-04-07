@@ -12,16 +12,22 @@ MouseInput::MouseInput() {
 	_isRight = false;
 	_isLeft = false;
 
+	_isTrgLeft = false;
+
 	_handle = ResourceServer::LoadGraph("png/arrow_cursor.png");
 
 	_posX = 0;
 	_posY = 0;
+
+	_oldLeft = false;
 }
 
 MouseInput::~MouseInput() {
 }
 
 void MouseInput::Process(){
+
+	_oldLeft = _isLeft;
 
 	//マウスポインタの座標を取得
 	GetMousePoint(&_posX, &_posY);
@@ -40,20 +46,32 @@ void MouseInput::Process(){
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
 		_isLeft = true;
 	}
+
+	if (_isLeft != _oldLeft) {
+		_isTrgLeft = true;
+	}
+	else {
+		_isTrgLeft = false;
+	}
+}
+
+void MouseInput::LastProcess() {
+
+
 }
 
 void MouseInput::Draw() {
 
 	DrawGraph(_posX, _posY,_handle, TRUE);
 
-	DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
+	//DrawFormatString(20, 500, GetColor(255, 255, 255), "マウスの座標( %d, %d )", _posX, _posY);
 
 	if (_isRight) {
-		DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
+		//DrawString(20, 580, "マウス右ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	if (_isLeft) {
-		DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
+		//DrawString(20, 550, "マウス左ボタンが押されています", GetColor(255, 165, 0));
 	}
 
 	_isRight = false;

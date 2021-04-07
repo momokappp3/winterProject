@@ -2,7 +2,7 @@
 #include "../../AppFrame/Types.h"
 #include <vector>
 #include <memory>
-#include <functional>
+//#include <functional>
 
 /*
 HITÇÃä÷êî
@@ -53,6 +53,10 @@ public:
 
 	void SetSelect(int select) {
 		_select = select;
+	}
+
+	void SetDraw(int index,bool draw) {
+		_vDrawInfo[index].isDraw = draw;
 	}
 
 	//Get

@@ -9,7 +9,8 @@
 #include "../.././../../AppFrame/Input.h"
 #include "../../../../AppFrame/VectorTween.h"
 #include "../UI/GalGameUI.h"
-#include <functional>
+#include "../SoundManager.h"
+#include "../Face.h"
 
 class GalGame : public ModeBase {
 public:
@@ -36,6 +37,8 @@ private:
 	std::unique_ptr<VectorTween> _pVectorTweenPotion;
 	std::unique_ptr<VectorTween> _pVectorTweenTarget;
 	std::unique_ptr<GalGameUI> _pGalGameUI;
+	std::unique_ptr<Face> _pFace;
+	//std::unique_ptr<SoundManager> _pSoundManager;
 
 	std::unique_ptr<MouseInput> _pMouseInput;
 

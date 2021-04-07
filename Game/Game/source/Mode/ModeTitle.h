@@ -64,7 +64,6 @@ private:
 	std::unique_ptr<MouseInput> _pMouseInput;
 	std::unique_ptr<AnimationBase> _pAnimationBase;
 	std::unique_ptr<Input> _pInput;
-	std::unique_ptr<SoundManager> _pSoundManager;
 
 	std::unique_ptr<VectorTween> _pVectorTweenPotion;
 	std::unique_ptr<VectorTween> _pVectorTweenTarget;
@@ -99,6 +98,9 @@ private:
 	CameraKind _cameraKind;
 
 	bool _isBgm;
+	bool _isNowSE;
+	int _lastHit;
 
 	int _coNum;
+	int _timeSEcount;
 };

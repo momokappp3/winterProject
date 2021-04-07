@@ -4,6 +4,9 @@
 #include "../Mode/GalGame.h"
 #include "../../Utility.h"
 
+#define PI 3.1415926535897932384626433832795f
+#define DRUNK_TIME 80
+
 GalGameUI::GalGameUI() {
 
     _type = GalGameUIType::Max;
@@ -13,24 +16,46 @@ GalGameUI::GalGameUI() {
     _pUIGalSetting = nullptr;
     _pUIGalItem = nullptr;
     _pUIGalStory = nullptr;
+    _pSoundManager = nullptr;
 
     _pUIPopUp = nullptr;
     _pDrunkTime = nullptr;
-    _pCloselBScript = nullptr;
     _pScriptEngin = nullptr;
-
     _pMouseInput = nullptr;
 
-    _sakeItem = false;
-    _scriptClose = false;
+    _pCloselBScript = nullptr;
+    _pUpButton = nullptr;
+    _pDownButton = nullptr;
 
+    _sakeItem = false;
     _title = false;
+
+    _scriptClose = false;
+    _upB = false;
+    _downB = false;
+
+    _okFlag = false;
+
+    _giveCoin = 0;
 }
 
 GalGameUI::~GalGameUI() {
 }
 
-bool GalGameUI::Init() {
+bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
+
+    if (soundManager != nullptr) {
+        bool seTitle = soundManager->LoadSECommon();
+
+        if (!seTitle) {
+            return false;
+        }
+    }
+    else {
+        return false;
+    }
+
+    _pSoundManager = soundManager;
 
     _type = GalGameUIType::MenuIinit;
 
@@ -42,10 +67,12 @@ bool GalGameUI::Init() {
 
     _pUIPopUp.reset(new UIPopUp);
     _pDrunkTime.reset(new UITime);
-    _pCloselBScript.reset(new UI2DSelectBase);
     _pScriptEngin.reset(new amg::ScriptEngine);
-
     _pMouseInput.reset(new MouseInput);
+
+    _pCloselBScript.reset(new UI2DSelectBase);
+    _pUpButton.reset(new UI2DSelectBase);
+    _pDownButton.reset(new UI2DSelectBase);
 
     if (!_pUIGalMenu->Init() || !_pUIGalMenuInit->Init() || !_pUIGalItem->Init() ||!_pUIGalSetting->Init() || 
         !_pUIGalStory->Init() || !_pUIPopUp->Init()) {
@@ -65,8 +92,38 @@ bool GalGameUI::Init() {
 
     _pCloselBScript->SetDrawInfo(info);
     _pCloselBScript->SetDrawInfo(info2);
-
     _pCloselBScript->SetRadius(20);
+
+    //上矢印
+    handle = ResourceServer::LoadGraph("png/galUI/use/arrowUp.png");
+    handle2 = ResourceServer::LoadGraph("png/galUI/use/arrowUpSelect.png");
+
+    if (handle == -1 && handle2 == -1) {
+        return false;
+    }
+
+    info = { handle,1700,400,false};
+    info2 = { handle2,1700,400,false };
+
+    _pUpButton->SetDrawInfo(info);
+    _pUpButton->SetDrawInfo(info2);
+    _pUpButton->SetRect();
+
+    //下矢印
+    handle = ResourceServer::LoadGraph("png/galUI/use/arrowDown.png");
+    handle2 = ResourceServer::LoadGraph("png/galUI/use/arrowDownSelect.png");
+
+    if (handle == -1 && handle2 == -1) {
+        return false;
+    }
+
+    info = { handle,1700,515,false };
+    info2 = { handle2,1700,515,false };
+
+    _pDownButton->SetDrawInfo(info);
+    _pDownButton->SetDrawInfo(info2);
+    _pDownButton->SetRect();
+
 
     if (!_pScriptEngin->Initialize("source/excel/test.json")) {
         return false;
@@ -77,26 +134,40 @@ bool GalGameUI::Init() {
     }
 
     _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::END);
+
+    _giveCoin = 2500;
+    _coin = 5000;
+
+    auto onSelect = []() {
+        //サウンド鳴らす
+        //_pSoundManager->
+
+    };
+
+    _pDownButton->SetOnSelect(onSelect);
+
     return true;
 }
 
 void GalGameUI::Process() {
-    _pDrunkTime->Process();
-
-   
 
     _pMouseInput->Process();
+    _pUIPopUp->Process();
 
-    _molecule = _pScriptEngin->GetFavor();  //分子9900まで
+    if (_pScriptEngin->IsFavor()) {
+
+        int getNowFavor = 0;
+        
+        getNowFavor = _pScriptEngin->GetFavor();  //分子9900まで
+
+        _favor += getNowFavor / 100;
+        _molecule = getNowFavor % 100;
+    }
     
-    if (_molecule > 9900) {
+    if (_molecule >= 9900) {
         _molecule = 9900;
     }
 
-    _favor = _molecule / 100;
-    _molecule = _molecule % 100;
-
-    _pUIGalMenu->SetCoin(_coin);
     _pUIGalMenu->SetFavor(_favor);
     _pUIGalMenu->SetMolecule(_molecule);
 
@@ -172,6 +243,10 @@ void GalGameUI::Process() {
         _type = GalGameUIType::Item;
     }
 
+    if (_pDrunkTime->GetNowTime() == 0) {
+        _sakeItem = false;
+    }
+
     _pUIGalStory->Process();
     //storyを押したとき処理
     if (_pUIGalMenu->GetSelectStory() == 1 && _pMouseInput->GetLeft()) {
@@ -193,7 +268,39 @@ void GalGameUI::Process() {
         if (_scriptClose) {
             _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::END);
         }
+    }
 
+
+    if (_type == GalGameUIType::Item && _pUIPopUp->GetNowMode() && _pUIGalItem->GetNowItemType() == 0) {
+        //上ボタンの処理
+        _upB = _pUpButton->GetSelect();
+        _pUpButton->SetSelect(Utility::ImageHitDetection(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), _pUpButton.get()));
+
+        if (_pMouseInput->GetTrgLeft() && _pUpButton->GetSelect() == 1) {
+            if (_giveCoin >= 1000 && _giveCoin < 999999 ) {  //渡すお金をあげる
+                _giveCoin += 10;
+            }
+        }
+
+        //下ボタンの処理
+        _downB = _pDownButton->GetSelect();
+        _pDownButton->SetSelect(Utility::ImageHitDetection(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), _pDownButton.get()));
+
+        if (_pDownButton->GetSelect() == 1 && _pMouseInput->GetTrgLeft()) {
+            if (_giveCoin < 999999 && _giveCoin >= 1000) {  //渡すお金を下げる
+                _giveCoin -= 10;
+                if (_giveCoin < 1000) {
+                    _giveCoin = 1000;
+                }
+            }
+        }
+
+        _pUIPopUp->SetPopString(_pUIGalItem->GetMoneyString());
+    }
+
+
+    if (_giveCoin != _pUIGalItem->GetGiveCoin()) {  //1回しかセットしない
+        _pUIGalItem->SetGiveCoin(_giveCoin);
     }
 
     //ストーリーが始まっているなら全て閉じ状態   スクリプトエンジン閉じると立ち上がるので直す
@@ -206,13 +313,23 @@ void GalGameUI::Process() {
         _type = GalGameUIType::Menu;
     }
 
+    
     _pUIGalMenuInit->Process();
     _pUIGalMenu->Process();
-    _pUIPopUp->Process();
+
+    _pDrunkTime->Process();
 
     _pScriptEngin->Update();
     _pCloselBScript->Process();
+    _pUpButton->Process();
+    _pDownButton->Process();
+    _pMouseInput->LastProcess();
+
+    _pUIGalMenu->SetCoin(_coin);
+
     _title = false;
+    _downB = false;
+    _upB = false;
 }
 
 void GalGameUI::SettingProcess() {
@@ -240,21 +357,35 @@ void GalGameUI::ItemProcess() {
     if (_pUIGalItem->GetComandSelect(0) && _pMouseInput->GetLeft()) {
         _pUIPopUp->SetNowMode(true);
         _pUIGalItem->SetMoneyStringDraw(true);
-       // _pDrunkTime->SetStart(50);
-        //_pDrunkTime->SetStart(99);
         _pUIPopUp->SetPopString(_pUIGalItem->GetMoneyString());
+        _pUIGalItem->SetNowItemType(0);
+
+        _pUpButton->SetDraw(0, true);
+        _pUpButton->SetDraw(1, true);
+        _pDownButton->SetDraw(0, true);
+        _pDownButton->SetDraw(1, true);
+    }
+
+    if (_pUIPopUp->GetOk() && _pUIPopUp->GetLeft() && _pUIGalItem->GetNowItemType() == 0 && !_okFlag) {  //二回目に来ている
+        if (_coin >= _giveCoin) {
+            _coin -= _giveCoin;
+            _okFlag = true;
+        }
     }
 
     //酒
     if (_pUIGalItem->GetComandSelect(1) && _pMouseInput->GetLeft()) {
         _pUIPopUp->SetNowMode(true);
         _pUIGalItem->SetTequilaStringDraw(true);
+        _pUIGalItem->SetNowItemType(1);
 
         _pUIPopUp->SetPopString(_pUIGalItem->GetTequilaString());
     }
 
-    if (_pUIPopUp->GetOk() && _pUIPopUp->GetLeft()) {
+    if (_pUIPopUp->GetOk() && _pUIPopUp->GetLeft() && _pDrunkTime->GetNowTime() == 0 &&
+        _pUIGalItem->GetNowItemType() == 1) {
         _sakeItem = true;
+        _pDrunkTime->SetStart(DRUNK_TIME);
     }
 
     if (_pUIGalItem->GetClose() == 1 && _pMouseInput->GetLeft()) {  //GetCloseがエリア外なのに1
@@ -333,13 +464,17 @@ void GalGameUI::Draw() {
     _pUIGalItem->Draw();
 
     if (_pUIPopUp->GetNowMode()) {
-        _pUIPopUp->Draw();
-
         if (_pUIPopUp->GetClose() && _pUIPopUp->GetLeft() || _pUIPopUp->GetOk() && _pUIPopUp->GetLeft()) {
             _pUIPopUp->SetNowMode(false);
             _pUIGalItem->StringAllFalse();
             _pUIGalStory->StringAllFalse();
+            _pUpButton->SetDraw(0,false);
+            _pUpButton->SetDraw(1, false);
+            _pDownButton->SetDraw(0,false);
+            _pDownButton->SetDraw(1, false);
+            _okFlag = false;
         }
+        _pUIPopUp->Draw();
     }
 
     if (_pScriptEngin->GetState() != amg::ScriptEngine::ScriptState::END) {
@@ -348,6 +483,12 @@ void GalGameUI::Draw() {
     }
 
     _pDrunkTime->Draw();
+    _pUpButton->Draw();
+    _pDownButton->Draw();
+
+   // DrawFormatString(20, 780, GetColor(255, 165, 0), "数字:%d",_favor);
+    //DrawFormatString(20, 880, GetColor(255, 165, 0),"ber:%d",_molecule);
+
 }
 
 void GalGameUI::Terminate() {

@@ -40,6 +40,8 @@ namespace amg{
         bool IsExit() const;
 
         int GetFavor() {
+
+            _isFavor = false;
             return _favor;
         }
 
@@ -60,6 +62,10 @@ namespace amg{
         }
 
         void ReInitialize();
+
+        bool IsFavor() {
+            return _isFavor;
+        }
 
     private:
 
@@ -127,5 +133,7 @@ namespace amg{
 
         bool is_click_wait_visible;
         bool is_message_output;
+
+        bool _isFavor;
     };
 }

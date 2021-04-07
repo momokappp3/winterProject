@@ -20,7 +20,7 @@ public:
     GalGameUI();
     virtual ~GalGameUI();
 
-    bool Init();
+    bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process();
     void Draw();
     void Terminate();
@@ -29,9 +29,11 @@ public:
         _molecule = molecule;
     }
 
+    /*
     void SetCoin(int coin) {
         _coin = coin;
     }
+    */
 
     void SetFavor(int favor) {
         _favor = favor;
@@ -62,22 +64,30 @@ private:
     std::unique_ptr<UIGalSetting> _pUIGalSetting;
     std::unique_ptr<UIGalItem> _pUIGalItem;
     std::unique_ptr<UIGalStory> _pUIGalStory;
+    std::shared_ptr<SoundManager> _pSoundManager;
 
     std::unique_ptr<UIPopUp> _pUIPopUp;
     std::unique_ptr<UITime> _pDrunkTime;
-    std::unique_ptr<UI2DSelectBase> _pCloselBScript;
     std::unique_ptr<amg::ScriptEngine> _pScriptEngin;
-
-
     std::unique_ptr<MouseInput> _pMouseInput;
+
+    //‚±‚ÌƒNƒ‰ƒX‚É•\Ž¦‚·‚é‰æ‘œ
+    std::unique_ptr<UI2DSelectBase> _pCloselBScript;
+    std::unique_ptr<UI2DSelectBase> _pUpButton;
+    std::unique_ptr<UI2DSelectBase> _pDownButton;
 
     int _molecule;
     int _coin;
     int _favor;
+    int _giveCoin;
 
     bool _sakeItem;
-    bool _scriptClose;
-
     bool _title;
+
+    bool _scriptClose;
+    bool _upB;
+    bool _downB;
+
+    bool _okFlag;
 
 };
