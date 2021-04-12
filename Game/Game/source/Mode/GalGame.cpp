@@ -1,5 +1,6 @@
 #include "../Mode/GalGame.h"
 #include <string>
+#include "ModeTitle.h"
 
 #define novelCameraPositionEnd { 0.006049f,21.895990f,-10.059654f }
 #define novelCameraPositionStart { 0.1f, 10.0f, -20.0f }
@@ -139,22 +140,23 @@ bool GalGame::Process() {
 	else {
 		_pOnnaModel->Process();
 	}
+						
+	_pGalGameUI->Process();
 
 	if (_pGalGameUI->GetGoTitle()) {
-		//_pGalGameUI->SetGoTitle(false);
+		_pGalGameUI->SetGoTitle(false);
 
 		ModeServer::GetInstance()->Del(this);  // ‚±‚Ìƒ‚[ƒh‚ðíœ—\–ñ
-		ModeServer::GetInstance()->Add(new GalGame(), 5, "Title");  // ŽŸ‚Ì
+		ModeServer::GetInstance()->Add(new ModeTitle(), 5, "Title");  // ŽŸ‚Ì
 	}
 
-	//ModeBase:Process();
+	ModeBase::Process();
 	_pCamera->Process();
 	_pRoomModel->Process();
 
 	_pInput->Process();
 	_pVectorTweenPotion->Process();
 	_pVectorTweenTarget->Process();
-	_pGalGameUI->Process();
 	_pFace->Process();
 	_pSoundManager->Process();
 

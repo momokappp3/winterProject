@@ -20,6 +20,19 @@ namespace amg{
             return result;
         }
 
+        bool ToFloat(const std::string& str, float& realNumber) {
+            auto result = true;
+
+            try {
+                realNumber = std::stof(str);
+            }
+            catch (...) {
+                result = false;
+            }
+
+            return result;
+        }
+
         std::vector<std::string> Split(const std::string& str, const std::string& delimiter){
             size_t first = 0;
             auto last = str.find_first_of(delimiter);

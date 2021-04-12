@@ -14,7 +14,6 @@ public:
     UI2DSelectBase();
     virtual ~UI2DSelectBase();
 
-   // bool Init(std::shared_ptr<SoundManager> soundManager);
     void Process()override;
     void Draw() override;
 
@@ -23,8 +22,6 @@ public:
     }
 
 private:
-    //std::shared_ptr<SoundManager> _pSoundManager;
-
     int _lastSelect;
 
     std::function<void(void)> _onSelect;

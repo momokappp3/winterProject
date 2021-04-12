@@ -46,11 +46,11 @@ void UIGauge::Process() {
 		_nowRate = _pTween->GetPosition().x;
 		GetGaugeArea();
 	}
+
 	if (_pTween->IsEnd()) {
 		GetGaugeArea();
+		_pTween->Reset();
 		_lastRate = _rate;
-
-		//ƒŠƒZƒbƒg
 	}
 
 	_pTween->Process();

@@ -122,10 +122,6 @@ void UIGalMenu::Process() {
 	_end = false;
 	_start = false;
 
-	if (_molecule == 30) {  //ˆê‰ñ–Ú‚Í—ˆ‚é@2‰ñ–Ú‚©‚ç—ˆ‚Ä‚È‚¢
-		int o = 0;
-	}
-
 	if (!_pBarPinkBase->IsStart()) {
 		if (_pBarPinkBase->GetNowRate() != _molecule) {
 			_pBarPinkBase->SetRate(_molecule);

@@ -113,11 +113,9 @@ ModeTitle::ModeTitle() {
 	_cameraKind = CameraKind::Title;
 
 	_isBgm = false;
-	_isNowSE = false;
 
-	_lastHit = 0;
+	_lastNewGameHit = 0;
 
-	_timeSEcount = 0;
 }
 
 ModeTitle::~ModeTitle() {
@@ -176,7 +174,6 @@ bool ModeTitle::Initialize() {
 	_pMouseInput.reset(new MouseInput);
 	_pAnimationBase.reset(new AnimationBase);
 	_pInput.reset(new Input);
-	//_pSoundManager.reset(new SoundManager);
 
 	_pVectorTweenPotion.reset(new VectorTween);
 	_pVectorTweenTarget.reset(new VectorTween);
@@ -235,7 +232,7 @@ bool ModeTitle::Process() {
 	
 	if (!_isBgm) {
 		if (_pSoundManager != nullptr) {  //null
-			_pSoundManager->PlayBgm(SoundManager::BGM::Title);
+			//_pSoundManager->PlayBgm(SoundManager::BGM::Title);
 			_isBgm = true;
 		}
 	}
@@ -385,7 +382,7 @@ bool ModeTitle::Process() {
 			ModeServer::GetInstance()->Del(this);  // ‚±‚Ìƒ‚[ƒh‚ðíœ—\–ñ
 			ModeServer::GetInstance()->Add(new GalGame(), 3, "GalGame");  // ŽŸ‚Ìƒ‚[ƒh‚ð“o˜^
 			_pSoundManager->DeleteSETitle();
-			_pSoundManager->PlayBgm(SoundManager::BGM::InGame);
+			//_pSoundManager->PlayBgm(SoundManager::BGM::InGame);
 			break;
 
 		case Kind::LoadGame:
@@ -486,9 +483,8 @@ void ModeTitle::TouchTitleMenu() {
 
 		_pNewGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::NewGame;
-		if (!_isNowSE ) {
+		if (_hitNewGame.HitFlag == 1 && _lastNewGameHit == 0) {
 			_pSoundManager->PlaySETitle(SoundManager::SETitle::Select);
-			_isNowSE = true;
 		}
 		//DrawString(100, 420, " newGameHIT", GetColor(255, 0, 0));
 	}
@@ -501,10 +497,7 @@ void ModeTitle::TouchTitleMenu() {
 
 		_pLoadGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::LoadGame;
-		if (!_isNowSE) {
-			_pSoundManager->PlaySETitle(SoundManager::SETitle::Select);
-			_isNowSE = true;
-		}
+
 		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
@@ -516,10 +509,7 @@ void ModeTitle::TouchTitleMenu() {
 
 		_pOption->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Option;
-		if (!_isNowSE) {
-			_pSoundManager->PlaySETitle(SoundManager::SETitle::Select);
-			_isNowSE = true;
-		}
+
 		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 
 	}
@@ -533,10 +523,6 @@ void ModeTitle::TouchTitleMenu() {
 
 		_pHelp->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Help;
-		if (!_isNowSE) {
-			_pSoundManager->PlaySETitle(SoundManager::SETitle::Select);
-			_isNowSE = true;
-		}
 		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
@@ -549,10 +535,6 @@ void ModeTitle::TouchTitleMenu() {
 		_pExit->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::End;
 
-		if (!_isNowSE && _lastHit == 0) {
-			_pSoundManager->PlaySETitle(SoundManager::SETitle::Select);
-			_isNowSE = true;
-		}
 		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
@@ -567,14 +549,7 @@ void ModeTitle::TouchTitleMenu() {
 		_menuKind = Kind::Max;
 	}
 
-	if (_timeSEcount == 300) {
-		_isNowSE = false;
-		_timeSEcount = 0;
-	}
-
-	_lastHit = _hitNewGame.HitFlag;
-
-	_timeSEcount++;
+	_lastNewGameHit = _hitNewGame.HitFlag;
 }
 
 bool ModeTitle::Render() {

@@ -165,6 +165,9 @@
     <ClCompile Include="source\mental.cpp">
       <Filter>ソース ファイル\Face</Filter>
     </ClCompile>
+    <ClCompile Include="source\Novel\scripts\command_face.cpp">
+      <Filter>ソース ファイル\Novel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -298,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="source\mental.h">
       <Filter>ソース ファイル\Face</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Novel\scripts\command_face.h">
+      <Filter>ソース ファイル\Novel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

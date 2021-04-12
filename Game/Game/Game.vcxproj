@@ -168,6 +168,7 @@
     <ClCompile Include="source\Novel\scripts\amg_string.cpp" />
     <ClCompile Include="source\Novel\scripts\command_choice.cpp" />
     <ClCompile Include="source\Novel\scripts\command_draw.cpp" />
+    <ClCompile Include="source\Novel\scripts\command_face.cpp" />
     <ClCompile Include="source\Novel\scripts\command_image.cpp" />
     <ClCompile Include="source\Novel\scripts\command_label.cpp" />
     <ClCompile Include="source\Novel\scripts\command_message.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="source\Novel\scripts\command_base.h" />
     <ClInclude Include="source\Novel\scripts\command_choice.h" />
     <ClInclude Include="source\Novel\scripts\command_draw.h" />
+    <ClInclude Include="source\Novel\scripts\command_face.h" />
     <ClInclude Include="source\Novel\scripts\command_image.h" />
     <ClInclude Include="source\Novel\scripts\command_label.h" />
     <ClInclude Include="source\Novel\scripts\command_message.h" />

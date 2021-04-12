@@ -1,7 +1,7 @@
 #include "UI2DSelectBase.h"
 
 UI2DSelectBase::UI2DSelectBase() :UI2DBase() {
-	//_pSoundManager = nullptr;
+
 	_lastSelect = -1;
 
 	_onSelect = nullptr;
@@ -9,32 +9,6 @@ UI2DSelectBase::UI2DSelectBase() :UI2DBase() {
 
 UI2DSelectBase::~UI2DSelectBase() {
 }
-/*
-bool UI2DSelectBase::Init(std::shared_ptr<SoundManager> soundManager) {
-
-	if (soundManager != nullptr) {
-		bool seTitle = soundManager->LoadSECommon();
-
-		if (!seTitle) {
-			return false;
-		}
-	}
-	else {
-		return false;
-	}
-
-	_pSoundManager = soundManager;
-}
-
-void UI2DSelectBase::Process() {
-
-	if (_select && !_lastSelect) {
-		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
-		_lastSelect = false;
-	}
-}
-*/
-
 
 void UI2DSelectBase::Process() {
 

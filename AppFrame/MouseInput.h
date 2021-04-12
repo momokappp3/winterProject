@@ -60,13 +60,12 @@ private:
 
 	bool _isRight;
 	bool _isLeft;
-
 	bool _isTrgLeft;
+
+	int _lastLeft;
 
 	int _handle;
 
 	int _posX;
 	int _posY;
-
-	bool _oldLeft;
 };

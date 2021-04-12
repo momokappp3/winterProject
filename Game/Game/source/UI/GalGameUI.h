@@ -76,6 +76,8 @@ private:
     std::unique_ptr<UI2DSelectBase> _pUpButton;
     std::unique_ptr<UI2DSelectBase> _pDownButton;
 
+    std::function<void(void)> _onOK;
+
     int _molecule;
     int _coin;
     int _favor;

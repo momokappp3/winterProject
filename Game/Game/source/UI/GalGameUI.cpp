@@ -23,6 +23,8 @@ GalGameUI::GalGameUI() {
     _pScriptEngin = nullptr;
     _pMouseInput = nullptr;
 
+    _onOK = nullptr;
+
     _pCloselBScript = nullptr;
     _pUpButton = nullptr;
     _pDownButton = nullptr;
@@ -138,13 +140,18 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
     _giveCoin = 2500;
     _coin = 5000;
 
-    auto onSelect = []() {
+    auto onSelect = [this]() {
         //サウンド鳴らす
-        //_pSoundManager->
-
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
     };
 
+    _pUpButton->SetOnSelect(onSelect);
     _pDownButton->SetOnSelect(onSelect);
+    _pCloselBScript->SetOnSelect(onSelect);
+
+    _onOK = [this]() {
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+    };
 
     return true;
 }
@@ -209,38 +216,44 @@ void GalGameUI::Process() {
     }
 
     _pUIPopUp->SetMouse(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
-    _pUIPopUp->SetLeft(_pMouseInput->GetLeft());
+    _pUIPopUp->SetTrgLeft(_pMouseInput->GetTrgLeft());
 
     //menuを押したとき処理
-    if (_pUIGalMenuInit->GetSelect() == 1 && _pMouseInput->GetLeft()) {
+    if (_pUIGalMenuInit->GetSelect() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalMenuInit->SetEnd(true);  //endの座標まで持っていく
         _pUIGalMenu->SetStart(true);  //startの座標までもっていく
         _type = GalGameUIType::Menu;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //cancelを押したとき処理
-    if (_pUIGalMenu->GetSelectCancel() == 1 && _pMouseInput->GetLeft()) {
+    if (_pUIGalMenu->GetSelectCancel() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalMenu->SetEnd(true);  //外の座標までもっていく
         _pUIGalMenuInit->SetStart(true);  //中の座標まで持っていく
         _type = GalGameUIType::MenuIinit;
 
         _pUIGalStory->SetAddImageSize(1);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 
     _pUIGalSetting->Process();
     //settingを押したとき処理
-    if (_pUIGalMenu->GetSelectSetting() == 1 && _pMouseInput->GetLeft()) {
+    if (_pUIGalMenu->GetSelectSetting() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalSetting->SetStart(true);  //設定を開く
         _pUIGalSetting->SetNowMode(true);
         _type = GalGameUIType::Setting;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     _pUIGalItem->Process();
     //itemを押したとき処理
-    if (_pUIGalMenu->GetSelectItem() == 1 && _pMouseInput->GetLeft()) {
+    if (_pUIGalMenu->GetSelectItem() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalItem->SetStart(true);  //設定を開く
         _pUIGalItem->SetNowMode(true);
         _type = GalGameUIType::Item;
+
+        //ここが毎回true
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     if (_pDrunkTime->GetNowTime() == 0) {
@@ -249,7 +262,7 @@ void GalGameUI::Process() {
 
     _pUIGalStory->Process();
     //storyを押したとき処理
-    if (_pUIGalMenu->GetSelectStory() == 1 && _pMouseInput->GetLeft()) {
+    if (_pUIGalMenu->GetSelectStory() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalStory->SetStart(true);  //設定を開く
         _pUIGalStory->SetNowMode(true);
         _type = GalGameUIType::Story;
@@ -261,12 +274,13 @@ void GalGameUI::Process() {
         _scriptClose = _pCloselBScript->GetSelect();
         _pCloselBScript->SetSelect(Utility::ImageHitDetection(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), _pCloselBScript.get()));
 
-        if (_scriptClose && !_pMouseInput->GetLeft()) {
+        if (_scriptClose && !_pMouseInput->GetTrgLeft()) {
             _scriptClose = false;
         }
 
         if (_scriptClose) {
             _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::END);
+            _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
         }
     }
 
@@ -276,7 +290,7 @@ void GalGameUI::Process() {
         _upB = _pUpButton->GetSelect();
         _pUpButton->SetSelect(Utility::ImageHitDetection(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), _pUpButton.get()));
 
-        if (_pMouseInput->GetTrgLeft() && _pUpButton->GetSelect() == 1) {
+        if (_pMouseInput->GetLeft() && _pUpButton->GetSelect() == 1) {
             if (_giveCoin >= 1000 && _giveCoin < 999999 ) {  //渡すお金をあげる
                 _giveCoin += 10;
             }
@@ -286,7 +300,7 @@ void GalGameUI::Process() {
         _downB = _pDownButton->GetSelect();
         _pDownButton->SetSelect(Utility::ImageHitDetection(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), _pDownButton.get()));
 
-        if (_pDownButton->GetSelect() == 1 && _pMouseInput->GetTrgLeft()) {
+        if (_pDownButton->GetSelect() == 1 && _pMouseInput->GetLeft()) {
             if (_giveCoin < 999999 && _giveCoin >= 1000) {  //渡すお金を下げる
                 _giveCoin -= 10;
                 if (_giveCoin < 1000) {
@@ -324,37 +338,38 @@ void GalGameUI::Process() {
     _pUpButton->Process();
     _pDownButton->Process();
     _pMouseInput->LastProcess();
-
+    _pSoundManager->Process();
     _pUIGalMenu->SetCoin(_coin);
 
-    _title = false;
+    //_title = false;
     _downB = false;
     _upB = false;
 }
 
 void GalGameUI::SettingProcess() {
 
-    if (_pUIGalSetting->GetComandSelect(0) && _pMouseInput->GetLeft()) {   //0=外出
+    if (_pUIGalSetting->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {   //0=外出
         //外出モードに変更の処理
 
     }
 
-    if (_pUIGalSetting->GetComandSelect(1) && _pMouseInput->GetLeft()) {  //1 = title
+    if (_pUIGalSetting->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {  //1 = title
         //タイトルモードに変更の処理
         _title = true;
     }
 
-    if (_pUIGalSetting->GetClose() == 1 && _pMouseInput->GetLeft()) {  //GetCloseがエリア外なのに1
+    if (_pUIGalSetting->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalSetting->SetEnd(true);
         _pUIGalSetting->SetNowMode(false);
         _type = GalGameUIType::Menu;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 }
 
 void GalGameUI::ItemProcess() {
 
     //金
-    if (_pUIGalItem->GetComandSelect(0) && _pMouseInput->GetLeft()) {
+    if (_pUIGalItem->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {
         _pUIPopUp->SetNowMode(true);
         _pUIGalItem->SetMoneyStringDraw(true);
         _pUIPopUp->SetPopString(_pUIGalItem->GetMoneyString());
@@ -366,52 +381,56 @@ void GalGameUI::ItemProcess() {
         _pDownButton->SetDraw(1, true);
     }
 
-    if (_pUIPopUp->GetOk() && _pUIPopUp->GetLeft() && _pUIGalItem->GetNowItemType() == 0 && !_okFlag) {  //二回目に来ている
+    if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pUIGalItem->GetNowItemType() == 0 && !_okFlag) {  //二回目に来ている
         if (_coin >= _giveCoin) {
             _coin -= _giveCoin;
             _okFlag = true;
+            _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
         }
     }
 
     //酒
-    if (_pUIGalItem->GetComandSelect(1) && _pMouseInput->GetLeft()) {
+    if (_pUIGalItem->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {
         _pUIPopUp->SetNowMode(true);
         _pUIGalItem->SetTequilaStringDraw(true);
         _pUIGalItem->SetNowItemType(1);
 
         _pUIPopUp->SetPopString(_pUIGalItem->GetTequilaString());
+        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
-    if (_pUIPopUp->GetOk() && _pUIPopUp->GetLeft() && _pDrunkTime->GetNowTime() == 0 &&
+    if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pDrunkTime->GetNowTime() == 0 &&
         _pUIGalItem->GetNowItemType() == 1) {
         _sakeItem = true;
         _pDrunkTime->SetStart(DRUNK_TIME);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
-    if (_pUIGalItem->GetClose() == 1 && _pMouseInput->GetLeft()) {  //GetCloseがエリア外なのに1
+    if (_pUIGalItem->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalItem->SetEnd(true);
         _pUIGalItem->SetNowMode(false);
         _type = GalGameUIType::Menu;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 }
 
 void GalGameUI::StoryProcess() {
 
     //0Story
-    if (_pUIGalStory->GetComandSelect(0) && _pMouseInput->GetLeft()) { 
+    if (_pUIGalStory->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) { 
         _pUIPopUp->SetNowMode(true);
         _pUIGalStory->SetStory0StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory0String());
     }
 
-    if ( _pUIGalStory->GetStringType() == 0 && _pUIPopUp->GetOk() && _pUIPopUp->GetLeft()) {
+    if ( _pUIGalStory->GetStringType() == 0 && _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
         _pScriptEngin->ReInitialize();
         _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
     }
 
     //1Story
-    if (_pUIGalStory->GetComandSelect(1) && _pMouseInput->GetLeft()) { 
+    if (_pUIGalStory->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) { 
         _pUIPopUp->SetNowMode(true);
 
         _pUIGalStory->SetStory1StringDraw(true);
@@ -420,7 +439,7 @@ void GalGameUI::StoryProcess() {
     }
 
     //2Story
-    if (_pUIGalStory->GetComandSelect(2) && _pMouseInput->GetLeft()) {  //1 = title
+    if (_pUIGalStory->GetComandSelect(2) && _pMouseInput->GetTrgLeft()) {  //1 = title
         _pUIPopUp->SetNowMode(true);
 
         _pUIGalStory->SetStory2StringDraw(true);
@@ -429,7 +448,7 @@ void GalGameUI::StoryProcess() {
     }
 
     //3Story
-    if (_pUIGalStory->GetComandSelect(3) && _pMouseInput->GetLeft()) {  //1 = title
+    if (_pUIGalStory->GetComandSelect(3) && _pMouseInput->GetTrgLeft()) {  //1 = title
         _pUIPopUp->SetNowMode(true);
 
         _pUIGalStory->SetStory3StringDraw(true);
@@ -438,7 +457,7 @@ void GalGameUI::StoryProcess() {
     }
 
     //4Story
-    if (_pUIGalStory->GetComandSelect(4) && _pMouseInput->GetLeft()) {  //1 = title
+    if (_pUIGalStory->GetComandSelect(4) && _pMouseInput->GetTrgLeft()) {  //1 = title
         _pUIPopUp->SetNowMode(true);
 
         _pUIGalStory->SetStory4StringDraw(true);
@@ -446,7 +465,7 @@ void GalGameUI::StoryProcess() {
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory4String());
     }
 
-    if (_pUIGalStory->GetClose() == 1 && _pMouseInput->GetLeft()) {  //GetCloseがエリア外なのに1
+    if (_pUIGalStory->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalStory->SetEnd(true);
         _pUIGalStory->SetNowMode(false);
         _type = GalGameUIType::Menu;
@@ -464,7 +483,7 @@ void GalGameUI::Draw() {
     _pUIGalItem->Draw();
 
     if (_pUIPopUp->GetNowMode()) {
-        if (_pUIPopUp->GetClose() && _pUIPopUp->GetLeft() || _pUIPopUp->GetOk() && _pUIPopUp->GetLeft()) {
+        if (_pUIPopUp->GetClose() && _pUIPopUp->GetTrgLeft() || _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
             _pUIPopUp->SetNowMode(false);
             _pUIGalItem->StringAllFalse();
             _pUIGalStory->StringAllFalse();

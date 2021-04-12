@@ -34,12 +34,12 @@ public:
         _mouse.y = y;
     }
 
-    void SetLeft(int left) {
-        _left = left;
+    void SetTrgLeft(int left) {
+        _trgLeft = left;
     }
 
-    bool GetLeft() {
-        return _left;
+    bool GetTrgLeft() {
+        return _trgLeft;
     }
 
     void SetPopString(PopString string) {
@@ -55,7 +55,7 @@ private:
     int _close;
 
     Point _mouse;
-    bool _left;
+    bool _trgLeft;
 
     bool _nowMode;
 

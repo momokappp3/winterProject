@@ -10,6 +10,8 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "../../../../../AppFrame/Types.h"
+#include "../scripts/command_face.h"
 
 namespace amg{
     class InputManager;
@@ -19,6 +21,7 @@ namespace amg{
     class CommandChoice;
     class CommandMessage;
     class CommandDraw;
+    class CommandFace;
 
     class ScriptEngine {
     public:
@@ -43,6 +46,16 @@ namespace amg{
 
             _isFavor = false;
             return _favor;
+        }
+
+        FaceInfo GetFace() {
+
+            _isFace = false;
+
+            FaceInfo faceInfo = { _pFace->GetFaceNum(),_pFace->GetMin(),_pFace->GetMax(),
+                                  _pFace->GetTweenFrame(),_pFace->GetStopTime(),_pFace->GetStopTime() };
+            
+            return faceInfo;  
         }
 
         enum class ScriptState {
@@ -94,6 +107,7 @@ namespace amg{
         bool OnCommandChoice(unsigned int line, const std::vector<std::string>& scripts);
         bool OnCommandMessage(unsigned int line, const std::vector<std::string>& scripts);
         bool OnCommandDraw(unsigned int line, const std::vector<std::string>& scripts);
+        bool OnCommandFace(unsigned int line, const std::vector<std::string>& scripts);
 
         void RenderCursor() const;
         void RenderImage() const;
@@ -109,6 +123,7 @@ namespace amg{
         std::vector<std::unique_ptr<CommandChoice>> choice_list;
         std::vector<std::unique_ptr<CommandMessage>> message_list;
         std::vector<std::unique_ptr<CommandDraw>> draw_list;
+        std::unique_ptr<CommandFace> _pFace;
 
         ScriptState state;
 
@@ -135,5 +150,6 @@ namespace amg{
         bool is_message_output;
 
         bool _isFavor;
+        bool _isFace;
     };
 }

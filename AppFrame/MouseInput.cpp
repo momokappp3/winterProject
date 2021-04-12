@@ -19,7 +19,7 @@ MouseInput::MouseInput() {
 	_posX = 0;
 	_posY = 0;
 
-	_oldLeft = false;
+	_lastLeft = 0;
 }
 
 MouseInput::~MouseInput() {
@@ -27,7 +27,7 @@ MouseInput::~MouseInput() {
 
 void MouseInput::Process(){
 
-	_oldLeft = _isLeft;
+	//_oldLeft = _isLeft;
 
 	//マウスポインタの座標を取得
 	GetMousePoint(&_posX, &_posY);
@@ -47,12 +47,14 @@ void MouseInput::Process(){
 		_isLeft = true;
 	}
 
-	if (_isLeft != _oldLeft) {
+	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0 && _lastLeft == 0) {
 		_isTrgLeft = true;
 	}
 	else {
 		_isTrgLeft = false;
 	}
+
+	_lastLeft = (GetMouseInput() & MOUSE_INPUT_LEFT);
 }
 
 void MouseInput::LastProcess() {

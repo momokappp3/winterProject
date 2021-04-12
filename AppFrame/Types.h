@@ -40,3 +40,14 @@ struct PopString {
 	bool isDraw;
 
 };
+
+struct FaceInfo {
+
+	int faceNum;
+	float min;
+	float max;
+	int tweenFrame;
+	int stopTime;
+	int delay;
+
+};

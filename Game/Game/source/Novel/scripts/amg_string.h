@@ -13,6 +13,7 @@ namespace amg{
     namespace string{
 
         bool ToInt(const std::string& str, int& integer);
+        bool ToFloat(const std::string& str, float& realNumber);
         std::vector<std::string> Split(const std::string& str, const std::string& delimiter);
     }
 }

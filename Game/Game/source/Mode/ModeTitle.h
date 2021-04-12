@@ -98,9 +98,5 @@ private:
 	CameraKind _cameraKind;
 
 	bool _isBgm;
-	bool _isNowSE;
-	int _lastHit;
-
-	int _coNum;
-	int _timeSEcount;
+	int _lastNewGameHit;
 };

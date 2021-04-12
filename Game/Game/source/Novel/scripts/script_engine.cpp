@@ -69,6 +69,7 @@
 #include "command_choice.h"
 #include "command_message.h"
 #include "command_draw.h"
+#include "command_face.h"
 #include "amg_string.h"
 #include <algorithm>
 #include "../../../ResourceServer.h"
@@ -84,6 +85,8 @@ namespace {
     constexpr auto COMMAND_I = 'i';
     constexpr auto COMMAND_D = 'd';
     constexpr auto COMMAND_E = 'e';
+    constexpr auto COMMAND_F = 'f';
+
 
     // マウスカーソル画像とクリック待ち画像を特定するラベル名
     constexpr auto CURSOR_IMAGE_LABEL = "カーソル";
@@ -151,6 +154,7 @@ namespace amg
     ScriptEngine::ScriptEngine(){
         input_manager = nullptr;
         scripts_data = nullptr;
+        _pFace = nullptr;
         state = ScriptState::PARSING;
         max_line = 0;
         now_line = 0;
@@ -167,6 +171,7 @@ namespace amg
         _commandHandle2 = -1;
 
         _isFavor = false;
+        _isFace = false;
     }
 
     ScriptEngine::~ScriptEngine()
@@ -468,6 +473,10 @@ namespace amg
                 OnCommandDraw(now_line, script);
                 break;
 
+            case COMMAND_F:
+                OnCommandFace(now_line, script);
+                break;
+
             case COMMAND_E:
                 state = ScriptState::END;
                 stop_parsing = true;
@@ -727,6 +736,19 @@ namespace amg
 
             std::sort(draw_list.begin(), draw_list.end(), sort);
         }
+
+        return true;
+    }
+
+    bool ScriptEngine::OnCommandFace(unsigned int line, const std::vector<std::string>& scripts){
+
+        _pFace.reset(new CommandFace(line, scripts));
+
+        if (!_pFace->Check()) {
+            return false;
+        }
+
+        _isFace = true;
 
         return true;
     }
