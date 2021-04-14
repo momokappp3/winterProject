@@ -1,5 +1,8 @@
 [
 	{
+		/*
+		void Face::SetInfo(int faceNum, float min, float max, int twwenFrame ,int stopTime)
+	  */
 		"scripts": [
 			"i, novel, png/novel/novel.png",
 			"i, comment, png/novel/comment.png",
@@ -9,6 +12,7 @@
 			"l, Start",
 			"d, 0, 400, 700, comment",
 			"m, このゲームをプレイしてくれてありがとう！！",
+			"f, 6, 0.0, 1.0, 60,90 ",
 			"m, 私の名前はエリィって言うの、開発者が頑張って制作しているん",
 			"m,だけど現実上手くいかなくてゲームぜんぜん出来てないです",
 			"m, (´・ω・`)すみません...",

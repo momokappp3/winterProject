@@ -44,11 +44,23 @@ public:
     }
 
     bool GetGoTitle() {
-        return _title;
+        return _goTitle;
     }
 
     void SetGoTitle(bool title) {
-        _title = title;
+        _goTitle = title;
+    }
+
+    bool GetGoActoin() {
+        return _goAction;
+    }
+
+    void SetGoAction(bool action) {
+        _goAction = action;
+    }
+
+    FaceInfo GetFaceInfo() {
+        return _faceInfo;
     }
 
 private:
@@ -58,6 +70,7 @@ private:
     void StoryProcess();
 
     GalGameUIType _type;  //現在表示しているタイプ
+    FaceInfo _faceInfo;
 
     std::unique_ptr<UIGalMenuInit> _pUIGalMenuInit;
     std::unique_ptr<UIGalMenu> _pUIGalMenu;
@@ -84,7 +97,8 @@ private:
     int _giveCoin;
 
     bool _sakeItem;
-    bool _title;
+    bool _goTitle;
+    bool _goAction;
 
     bool _scriptClose;
     bool _upB;

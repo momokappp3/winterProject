@@ -306,4 +306,9 @@
       <Filter>ソース ファイル\Novel</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="source\excel\test.json">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+  </ItemGroup>
 </Project>

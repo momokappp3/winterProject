@@ -1,6 +1,7 @@
 #include "../Mode/GalGame.h"
 #include <string>
 #include "ModeTitle.h"
+#include "Action3DGame.h"
 
 #define novelCameraPositionEnd { 0.006049f,21.895990f,-10.059654f }
 #define novelCameraPositionStart { 0.1f, 10.0f, -20.0f }
@@ -84,11 +85,15 @@ bool GalGame::Process() {
 	_pOnnaModel->Play(true, 0, 0.3f);
 	_pOnnaRedModel->Play(true, 0, 0.3f);
 
+	//FaceInfo info = _pGalGameUI->GetFaceInfo();
+	//_pFace->SetInfo(info.faceNum, info.min, info.max, info.tweenFrame,info.stopTime);
+
+	_pFace->SetInfo(_pGalGameUI->GetFaceInfo().faceNum, _pGalGameUI->GetFaceInfo().min, _pGalGameUI->GetFaceInfo().max,
+					_pGalGameUI->GetFaceInfo().tweenFrame, _pGalGameUI->GetFaceInfo().stopTime);
 
 	if (CheckHitKey(KEY_INPUT_D)) {
 		//_pOnnaModel->Play(true, 1, 5.0f);
 	}
-
 
 	//第一引数:表情番号　2:表情の最小変化　3:表情の最大変化 4:変化速度  
 	if (CheckHitKey(KEY_INPUT_G)) {
@@ -140,20 +145,26 @@ bool GalGame::Process() {
 	else {
 		_pOnnaModel->Process();
 	}
-						
-	_pGalGameUI->Process();
 
 	if (_pGalGameUI->GetGoTitle()) {
 		_pGalGameUI->SetGoTitle(false);
 
 		ModeServer::GetInstance()->Del(this);  // このモードを削除予約
-		ModeServer::GetInstance()->Add(new ModeTitle(), 5, "Title");  // 次の
+		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "Title");  // 次の
+	}
+
+	if (_pGalGameUI->GetGoActoin()) {
+		_pGalGameUI->SetGoAction(false);
+
+		ModeServer::GetInstance()->Del(this);  // このモードを削除予約
+		ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action3DGame");  // 次の
 	}
 
 	ModeBase::Process();
 	_pCamera->Process();
 	_pRoomModel->Process();
 
+	_pGalGameUI->Process();
 	_pInput->Process();
 	_pVectorTweenPotion->Process();
 	_pVectorTweenTarget->Process();

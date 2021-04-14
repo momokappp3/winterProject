@@ -38,7 +38,6 @@ private:
 	std::unique_ptr<VectorTween> _pVectorTweenTarget;
 	std::unique_ptr<GalGameUI> _pGalGameUI;
 	std::unique_ptr<Face> _pFace;
-	//std::unique_ptr<SoundManager> _pSoundManager;
 
 	std::unique_ptr<MouseInput> _pMouseInput;
 

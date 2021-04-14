@@ -4,7 +4,7 @@
 #include "../Mode/GalGame.h"
 #include "../../Utility.h"
 
-#define PI 3.1415926535897932384626433832795f
+//#define PI 3.1415926535897932384626433832795f
 #define DRUNK_TIME 80
 
 GalGameUI::GalGameUI() {
@@ -24,13 +24,15 @@ GalGameUI::GalGameUI() {
     _pMouseInput = nullptr;
 
     _onOK = nullptr;
+    _faceInfo = {0, 0.0, 0.0, 0, 0,0};
 
     _pCloselBScript = nullptr;
     _pUpButton = nullptr;
     _pDownButton = nullptr;
 
     _sakeItem = false;
-    _title = false;
+    _goTitle = false;
+    _goAction = false;
 
     _scriptClose = false;
     _upB = false;
@@ -177,6 +179,11 @@ void GalGameUI::Process() {
 
     _pUIGalMenu->SetFavor(_favor);
     _pUIGalMenu->SetMolecule(_molecule);
+
+    if (!_pScriptEngin->GetFace().max == 0.0) {
+        _faceInfo = _pScriptEngin->GetFace();
+    }
+
 
     if (_type == GalGameUIType::Setting) {
         SettingProcess();
@@ -341,7 +348,6 @@ void GalGameUI::Process() {
     _pSoundManager->Process();
     _pUIGalMenu->SetCoin(_coin);
 
-    //_title = false;
     _downB = false;
     _upB = false;
 }
@@ -350,12 +356,12 @@ void GalGameUI::SettingProcess() {
 
     if (_pUIGalSetting->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {   //0=外出
         //外出モードに変更の処理
-
+        _goAction = true;
     }
 
     if (_pUIGalSetting->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {  //1 = title
         //タイトルモードに変更の処理
-        _title = true;
+        _goTitle = true;
     }
 
     if (_pUIGalSetting->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {

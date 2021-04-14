@@ -242,6 +242,9 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="source\excel\test.json" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
