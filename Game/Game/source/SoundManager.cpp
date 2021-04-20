@@ -40,7 +40,8 @@ bool SoundManager::Init() {
 bool SoundManager::LoadSECommon() {
 
 	std::vector<const TCHAR*> SEname = {
-		_T("mp3/SE/selectSE.mp3"), _T("mp3/SE/okSE.mp3"), _T("mp3/SE/DeckSelectCancel.mp3")
+		_T("mp3/SE/selectSE.mp3"), _T("mp3/SE/okSE.mp3"), _T("mp3/SE/ok.mp3"), _T("mp3/SE/DeckSelectCancel.mp3"),
+		_T("mp3/SE/mistake.mp3")
 	};
 
 	return LoadSE(SEname, _vSECommonHandle);

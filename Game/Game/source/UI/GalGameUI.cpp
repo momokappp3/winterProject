@@ -39,6 +39,7 @@ GalGameUI::GalGameUI() {
     _downB = false;
 
     _okFlag = false;
+    _isFaceInfo = false;
 
     _giveCoin = 0;
 }
@@ -78,7 +79,7 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
     _pUpButton.reset(new UI2DSelectBase);
     _pDownButton.reset(new UI2DSelectBase);
 
-    if (!_pUIGalMenu->Init() || !_pUIGalMenuInit->Init() || !_pUIGalItem->Init() ||!_pUIGalSetting->Init() || 
+    if (!_pUIGalMenu->Init() || !_pUIGalMenuInit->Init(soundManager) || !_pUIGalItem->Init() ||!_pUIGalSetting->Init() || 
         !_pUIGalStory->Init() || !_pUIPopUp->Init()) {
         return false;
     }
@@ -180,10 +181,13 @@ void GalGameUI::Process() {
     _pUIGalMenu->SetFavor(_favor);
     _pUIGalMenu->SetMolecule(_molecule);
 
-    if (!_pScriptEngin->GetFace().max == 0.0) {
+    
+    //!_pScriptEngin->GetFace() 呼んだ時点で関数が実行されるので
+    //nullptrになる
+    if (_pScriptEngin->IsGetFace()) {
+        _isFaceInfo = true;
         _faceInfo = _pScriptEngin->GetFace();
     }
-
 
     if (_type == GalGameUIType::Setting) {
         SettingProcess();
@@ -249,7 +253,8 @@ void GalGameUI::Process() {
         _pUIGalSetting->SetStart(true);  //設定を開く
         _pUIGalSetting->SetNowMode(true);
         _type = GalGameUIType::Setting;
-        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+        _pUIGalMenu->SetSelectSetting(0);
     }
 
     _pUIGalItem->Process();
@@ -312,6 +317,7 @@ void GalGameUI::Process() {
                 _giveCoin -= 10;
                 if (_giveCoin < 1000) {
                     _giveCoin = 1000;
+                    _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
                 }
             }
         }
@@ -357,11 +363,13 @@ void GalGameUI::SettingProcess() {
     if (_pUIGalSetting->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {   //0=外出
         //外出モードに変更の処理
         _goAction = true;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
     }
 
     if (_pUIGalSetting->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {  //1 = title
         //タイトルモードに変更の処理
         _goTitle = true;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
     }
 
     if (_pUIGalSetting->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
@@ -391,7 +399,10 @@ void GalGameUI::ItemProcess() {
         if (_coin >= _giveCoin) {
             _coin -= _giveCoin;
             _okFlag = true;
-            _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+            _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
+        }
+        else {
+            _pSoundManager->PlaySECommon(SoundManager::SECommon::Mistake);
         }
     }
 
@@ -402,14 +413,14 @@ void GalGameUI::ItemProcess() {
         _pUIGalItem->SetNowItemType(1);
 
         _pUIPopUp->SetPopString(_pUIGalItem->GetTequilaString());
-        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pDrunkTime->GetNowTime() == 0 &&
         _pUIGalItem->GetNowItemType() == 1) {
         _sakeItem = true;
         _pDrunkTime->SetStart(DRUNK_TIME);
-        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
     }
 
     if (_pUIGalItem->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {

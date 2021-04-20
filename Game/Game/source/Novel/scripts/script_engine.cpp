@@ -200,7 +200,7 @@ namespace amg
         input_manager.reset(new InputManager());
         scripts_data.reset(new ScriptsData());
 
-        if (!scripts_data->LoadJson(path)) {
+        if (!scripts_data->LoadJson(path)) {  //ここで落ちている
             return false;
         }
 
@@ -739,7 +739,7 @@ namespace amg
 
         return true;
     }
-
+    
     bool ScriptEngine::OnCommandFace(unsigned int line, const std::vector<std::string>& scripts){
 
         _pFace.reset(new CommandFace(line, scripts));
@@ -752,6 +752,7 @@ namespace amg
 
         return true;
     }
+    
 
     //!
     //! @fn void ScriptEngine::ClickWait()

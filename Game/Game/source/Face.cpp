@@ -34,7 +34,7 @@ void Face::Process() {
     //ƒ‹[ƒv‚³‚¹‚é 
     if (_pFaceTween->IsEnd()) {
         if (_loop && _stopTime == 0) {  //1‰ñ–Ú‚ªI‚í‚Á‚½‚ç‹tÄ¶
-            _pFaceTween->SetVectorTween({ _max,0,0 }, { _min, 0, 0 }, _tweenFrame, VectorTween::Type::SineEnd);
+            _pFaceTween->SetVectorTween({ _max,0.0,0.0 }, { _min, 0.0, 0.0 }, _tweenFrame, VectorTween::Type::SineEnd);
             _loop = false;
         }
         /*
@@ -64,7 +64,7 @@ void Face::SetInfo(int faceNum, float min, float max, int twwenFrame ,int stopTi
     _max = max;
     _tweenFrame = twwenFrame;
 
-    _pFaceTween->SetVectorTween({ min,0,0 }, { max, 0, 0 }, _tweenFrame, VectorTween::Type::SineEnd);
+    _pFaceTween->SetVectorTween({ min,0.0,0.0 }, { max, 0.0, 0.0 }, _tweenFrame, VectorTween::Type::SineEnd);
     _loop = true;
 
     _stopTime = stopTime;

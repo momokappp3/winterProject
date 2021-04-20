@@ -7,7 +7,7 @@ namespace {
 
 	float DegreeToRadian(float degree) {   //“x‚©‚çƒ‰ƒWƒAƒ“‚É•Ï‚¦‚éŠÖ”
 		return degree * pi / 180.0f;
-		}
+	}
 }
 
 VectorTween::VectorTween() {

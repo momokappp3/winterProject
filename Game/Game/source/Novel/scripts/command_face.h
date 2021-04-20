@@ -14,14 +14,27 @@ namespace amg {  //int faceNum, float min, float max, int twwenFrame ,int stopTi
         CommandFace& operator=(CommandFace&& right) = default;
 
         bool Check() override;
+        
+        inline int GetFaceNum() const {  //‚±‚±‚Å—Ž‚¿‚½
 
-        inline int GetFaceNum() const { return _faceNum; }
-        inline float GetMin() const { return _min; }
-        inline float GetMax() const { return _max; }
-        inline int GetTweenFrame() const { return _tweenFrame; }
-        inline int GetStopTime() const { return _stopTime; }
-        inline int GetDelay() const { return _delay; }
-
+            return _faceNum; 
+        }
+        inline float GetMin() const { 
+            return _min; 
+        }
+        inline float GetMax() const { 
+            return _max; 
+        }
+        inline int GetTweenFrame() const { 
+            return _tweenFrame;
+        }
+        inline int GetStopTime() const { 
+            return _stopTime; 
+        }
+        inline int GetDelay() const {
+            return _delay; 
+        }
+        
     private:
         int _faceNum;
         float _min;

@@ -232,7 +232,7 @@ bool ModeTitle::Process() {
 	
 	if (!_isBgm) {
 		if (_pSoundManager != nullptr) {  //null
-			//_pSoundManager->PlayBgm(SoundManager::BGM::Title);
+			_pSoundManager->PlayBgm(SoundManager::BGM::Title);
 			_isBgm = true;
 		}
 	}
@@ -382,7 +382,7 @@ bool ModeTitle::Process() {
 			ModeServer::GetInstance()->Del(this);  // ‚±‚Ìƒ‚[ƒh‚ðíœ—\–ñ
 			ModeServer::GetInstance()->Add(new GalGame(), 3, "GalGame");  // ŽŸ‚Ìƒ‚[ƒh‚ð“o˜^
 			_pSoundManager->DeleteSETitle();
-			//_pSoundManager->PlayBgm(SoundManager::BGM::InGame);
+			_pSoundManager->PlayBgm(SoundManager::BGM::InGame);
 			break;
 
 		case Kind::LoadGame:

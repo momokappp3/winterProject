@@ -57,7 +57,7 @@ namespace amg{
             
             return faceInfo;  
         }
-
+        
         enum class ScriptState {
             PARSING,
             TIME_WAIT,
@@ -78,6 +78,10 @@ namespace amg{
 
         bool IsFavor() {
             return _isFavor;
+        }
+
+        bool IsGetFace() {
+            return _isFace;
         }
 
     private:

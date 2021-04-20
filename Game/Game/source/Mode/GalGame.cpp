@@ -88,9 +88,15 @@ bool GalGame::Process() {
 	//FaceInfo info = _pGalGameUI->GetFaceInfo();
 	//_pFace->SetInfo(info.faceNum, info.min, info.max, info.tweenFrame,info.stopTime);
 
-	_pFace->SetInfo(_pGalGameUI->GetFaceInfo().faceNum, _pGalGameUI->GetFaceInfo().min, _pGalGameUI->GetFaceInfo().max,
-					_pGalGameUI->GetFaceInfo().tweenFrame, _pGalGameUI->GetFaceInfo().stopTime);
 
+	//ここで落ちている boolをUIクラスでGetにしたらtrueにSetの時falseにすることで一回だけSetさせて解決
+	
+	if (_pGalGameUI != nullptr && _pGalGameUI->GetIsFaceInfo()) {
+		FaceInfo info = _pGalGameUI->GetFaceInfo();
+
+		_pFace->SetInfo(info.faceNum, info.min, info.max, info.tweenFrame, info.stopTime);
+	}
+	
 	if (CheckHitKey(KEY_INPUT_D)) {
 		//_pOnnaModel->Play(true, 1, 5.0f);
 	}
@@ -151,6 +157,7 @@ bool GalGame::Process() {
 
 		ModeServer::GetInstance()->Del(this);  // このモードを削除予約
 		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "Title");  // 次の
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 	}
 
 	if (_pGalGameUI->GetGoActoin()) {
@@ -158,6 +165,7 @@ bool GalGame::Process() {
 
 		ModeServer::GetInstance()->Del(this);  // このモードを削除予約
 		ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action3DGame");  // 次の
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 	}
 
 	ModeBase::Process();

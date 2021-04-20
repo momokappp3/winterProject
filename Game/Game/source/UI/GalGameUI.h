@@ -60,9 +60,13 @@ public:
     }
 
     FaceInfo GetFaceInfo() {
+        _isFaceInfo = false;
         return _faceInfo;
     }
 
+    bool GetIsFaceInfo() {
+        return _isFaceInfo;
+    }
 private:
 
     void SettingProcess();
@@ -106,4 +110,5 @@ private:
 
     bool _okFlag;
 
+    bool _isFaceInfo;
 };

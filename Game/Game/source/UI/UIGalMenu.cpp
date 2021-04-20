@@ -112,6 +112,17 @@ bool UIGalMenu::Init() {
 		return false;
 	}
 
+	/*
+	auto onSelect = [this]() {
+		//ƒTƒEƒ“ƒh–Â‚ç‚·
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
+	};
+	*/
+
+	//_pUpButton->SetOnSelect(onSelect);
+	//_pDownButton->SetOnSelect(onSelect);
+	//_pCloselBScript->SetOnSelect(onSelect);
+
     return true;
 }
 

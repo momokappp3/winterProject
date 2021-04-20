@@ -37,6 +37,10 @@ public:
         return _setting;
     }
 
+    void SetSelectSetting(bool num) {
+        _setting = num;
+    }
+
     int GetSelectStory() {
         return _story;
     }

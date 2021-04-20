@@ -8,6 +8,7 @@ UIGalMenuInit::UIGalMenuInit(){
 
 	_pMenuSelectBase = nullptr;
 	_pMenuInAndOut = nullptr;
+	_pSoundManager = nullptr;
 
 	_start = false;
 	_end = false;
@@ -21,7 +22,20 @@ UIGalMenuInit::UIGalMenuInit(){
 UIGalMenuInit::~UIGalMenuInit() {
 }
 
-bool UIGalMenuInit::Init() {
+bool UIGalMenuInit::Init(std::shared_ptr<SoundManager>& soundManager) {
+
+	if (soundManager != nullptr) {
+		bool seTitle = soundManager->LoadSECommon();
+
+		if (!seTitle) {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	_pSoundManager = soundManager;
 
 	_ModeType = GalGameUIType::MenuIinit;
 
@@ -56,6 +70,16 @@ bool UIGalMenuInit::Init() {
 	_pMenuInAndOut->SetEndPosition(infoInit.xy);
 	_pMenuInAndOut->SetNowPosition(infoInit.xy);
 
+	//=====================================================
+	//‰¹‚Ìˆ—
+
+	auto onSelect = [this]() {
+		//ƒTƒEƒ“ƒh–Â‚ç‚·
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
+	};
+
+	_pMenuSelectBase->SetOnSelect(onSelect);
+
 	return true;
 }
 
@@ -77,6 +101,7 @@ void UIGalMenuInit::Process() {
 
 	_pMenuInAndOut->Process();
 	_pMenuSelectBase->Process();
+	_pSoundManager->Process();
 
 }
 

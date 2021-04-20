@@ -17,8 +17,10 @@ public:
 
 	enum class SECommon{
 		Select = 0,
-		OK,
+		OK,   //Ç’Ç°
+		OK2,  //ÉtÉHÅ[Éì
 		Cancel,
+		Mistake,
 
 		Max
 	};

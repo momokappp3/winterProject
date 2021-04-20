@@ -45,4 +45,5 @@ private:
 	int _molecule;  //DŠ´“x•ªq(ber)
 	int _coin;
 
+
 };

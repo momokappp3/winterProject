@@ -6,13 +6,14 @@
 #include "UIInAndOut.h"
 #include "UIGauge.h"
 #include "../../../../AppFrame/Input.h"
+#include "../SoundManager.h"
 
 class UIGalMenuInit {
 public:
     UIGalMenuInit();
     virtual ~UIGalMenuInit();
 
-    bool Init();
+    bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process();
     void Draw();
 
@@ -22,6 +23,9 @@ public:
 
     int GetSelect() {
         return _select;
+    }
+    void SetSelect(int num) {
+        _select = num;
     }
 
     void SetStart(bool start) {
@@ -43,6 +47,7 @@ private:
 
     std::unique_ptr<UI2DSelectBase> _pMenuSelectBase;
     std::unique_ptr<UIInAndOut> _pMenuInAndOut;
+    std::shared_ptr<SoundManager> _pSoundManager;
 
     bool _start;
     bool _end;
