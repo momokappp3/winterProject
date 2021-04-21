@@ -9,13 +9,27 @@ UIGalSetting::UIGalSetting() {
     _pBackImageBase = nullptr;
     _pOutBSelectBase = nullptr;
     _pTitleBSelectBase = nullptr;
+	_pSoundManager = nullptr;
 
 }
 
 UIGalSetting::~UIGalSetting() {
 }
 
-bool UIGalSetting::Init() {
+bool UIGalSetting::Init(std::shared_ptr<SoundManager>& soundManager) {
+
+	if (soundManager != nullptr) {
+		bool seTitle = soundManager->LoadSECommon();
+
+		if (!seTitle) {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	_pSoundManager = soundManager;
 
     _pBackImageBase.reset(new UI2DBase);
     _pOutBSelectBase.reset(new UI2DSelectBase);
@@ -72,6 +86,17 @@ bool UIGalSetting::Init() {
 	
 	_pTitleBSelectBase->SetRect();
 
+	//===================================
+	//sound
+	auto onSelect = [this]() {
+		//ƒTƒEƒ“ƒh–Â‚ç‚·
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
+	};
+
+	_pTitleBSelectBase->SetOnSelect(onSelect);
+	_pOutBSelectBase->SetOnSelect(onSelect);
+	_pCloselBBase->SetOnSelect(onSelect);
+
 	return true;
 }
 
@@ -88,6 +113,7 @@ void UIGalSetting::Process() {
 	_pBackImageBase->Process();
 	_pOutBSelectBase->Process();
 	_pTitleBSelectBase->Process();
+	_pSoundManager->Process();
 	UIUseBase::Process();
 }
 

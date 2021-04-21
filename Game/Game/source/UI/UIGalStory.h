@@ -12,7 +12,8 @@ public:
     UIGalStory();
     virtual ~UIGalStory();
 
-    bool Init() override;
+    //overrideŽæ‚Á‚½
+    bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process() override;
     void Draw() override;
 
@@ -108,6 +109,7 @@ private:
     std::unique_ptr<UI2DSelectBase> _pStringImageBase2;
     std::unique_ptr<UI2DSelectBase> _pStringImageBase3;
     std::unique_ptr<UI2DSelectBase> _pStringImageBase4;
+    std::shared_ptr<SoundManager> _pSoundManager;
 
 
     int _imageSize;

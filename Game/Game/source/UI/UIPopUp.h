@@ -9,7 +9,7 @@ public:
     UIPopUp();
     virtual ~UIPopUp();
 
-    bool Init();
+    bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process();
     void Draw();
 
@@ -50,6 +50,7 @@ private:
     std::unique_ptr<UI2DBase> _pPopUpBase;
     std::unique_ptr<UI2DSelectBase> _pOkBSelectBase;
     std::unique_ptr<UI2DSelectBase> _pCloselBBase;
+    std::shared_ptr<SoundManager> _pSoundManager;
 
     int _ok;
     int _close;

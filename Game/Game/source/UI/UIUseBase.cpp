@@ -23,6 +23,7 @@ UIUseBase::UIUseBase() {
     _nowMode = false;
     _closeUse = true;
 
+    _onSound = false;
 }
 
 UIUseBase::~UIUseBase() {

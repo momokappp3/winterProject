@@ -79,8 +79,8 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
     _pUpButton.reset(new UI2DSelectBase);
     _pDownButton.reset(new UI2DSelectBase);
 
-    if (!_pUIGalMenu->Init() || !_pUIGalMenuInit->Init(soundManager) || !_pUIGalItem->Init() ||!_pUIGalSetting->Init() || 
-        !_pUIGalStory->Init() || !_pUIPopUp->Init()) {
+    if (!_pUIGalMenu->Init(_pSoundManager) || !_pUIGalMenuInit->Init(_pSoundManager) || !_pUIGalItem->Init(_pSoundManager) ||
+        !_pUIGalSetting->Init(_pSoundManager) || !_pUIGalStory->Init(_pSoundManager) || !_pUIPopUp->Init(_pSoundManager)) {
         return false;
     }
 
@@ -201,29 +201,35 @@ void GalGameUI::Process() {
         StoryProcess();
     }
 
-
     if (_type == GalGameUIType::MenuIinit) {
         _pUIGalMenuInit->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
     }
 
     if (_type == GalGameUIType::Menu && _type!=GalGameUIType::Item && _type != GalGameUIType::Story && 
         _type != GalGameUIType::Item && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
+
         _pUIGalMenu->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
     }
 
     if (_type == GalGameUIType::Setting && _type != GalGameUIType::Item && _type != GalGameUIType::Story &&
         _pMouseInput->GetYNum() && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
+
         _pUIGalSetting->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
+        _pUIGalMenu->SetSelectSetting(0);  //音が他のところをクリックしても鳴るため
     }
 
     if (_type == GalGameUIType::Item && _type != GalGameUIType::Story && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
+
         _pUIGalItem->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
         _pUIGalItem->SetMouseLeft(_pMouseInput->GetLeft());
+        _pUIGalMenu->SetSelectItem(0);   //音が他のところをクリックしても鳴るため
     }
 
     if (_type == GalGameUIType::Story && !_pUIPopUp->GetNowMode() &&
         _type != GalGameUIType::Item && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
+
         _pUIGalStory->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
+        _pUIGalMenu->SetSelectSetting(0);  //音が他のところをクリックしても鳴るため
     }
 
     _pUIPopUp->SetMouse(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
@@ -254,7 +260,6 @@ void GalGameUI::Process() {
         _pUIGalSetting->SetNowMode(true);
         _type = GalGameUIType::Setting;
          _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
-        _pUIGalMenu->SetSelectSetting(0);
     }
 
     _pUIGalItem->Process();
@@ -263,8 +268,6 @@ void GalGameUI::Process() {
         _pUIGalItem->SetStart(true);  //設定を開く
         _pUIGalItem->SetNowMode(true);
         _type = GalGameUIType::Item;
-
-        //ここが毎回true
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
@@ -296,7 +299,6 @@ void GalGameUI::Process() {
         }
     }
 
-
     if (_type == GalGameUIType::Item && _pUIPopUp->GetNowMode() && _pUIGalItem->GetNowItemType() == 0) {
         //上ボタンの処理
         _upB = _pUpButton->GetSelect();
@@ -321,10 +323,8 @@ void GalGameUI::Process() {
                 }
             }
         }
-
         _pUIPopUp->SetPopString(_pUIGalItem->GetMoneyString());
     }
-
 
     if (_giveCoin != _pUIGalItem->GetGiveCoin()) {  //1回しかセットしない
         _pUIGalItem->SetGiveCoin(_giveCoin);
@@ -338,20 +338,19 @@ void GalGameUI::Process() {
         _pUIGalStory->SetEnd(true);
         _pUIGalStory->SetNowMode(false);
         _type = GalGameUIType::Menu;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 
-    
     _pUIGalMenuInit->Process();
-    _pUIGalMenu->Process();
-
     _pDrunkTime->Process();
-
+    _pUIGalMenu->Process();
     _pScriptEngin->Update();
     _pCloselBScript->Process();
     _pUpButton->Process();
     _pDownButton->Process();
     _pMouseInput->LastProcess();
     _pSoundManager->Process();
+
     _pUIGalMenu->SetCoin(_coin);
 
     _downB = false;
@@ -393,6 +392,8 @@ void GalGameUI::ItemProcess() {
         _pUpButton->SetDraw(1, true);
         _pDownButton->SetDraw(0, true);
         _pDownButton->SetDraw(1, true);
+
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pUIGalItem->GetNowItemType() == 0 && !_okFlag) {  //二回目に来ている
@@ -441,11 +442,6 @@ void GalGameUI::StoryProcess() {
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory0String());
     }
 
-    if ( _pUIGalStory->GetStringType() == 0 && _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
-        _pScriptEngin->ReInitialize();
-        _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
-    }
-
     //1Story
     if (_pUIGalStory->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) { 
         _pUIPopUp->SetNowMode(true);
@@ -453,6 +449,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory1StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory1String());
+        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //2Story
@@ -462,6 +459,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory2StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory2String());
+        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //3Story
@@ -471,6 +469,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory3StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory3String());
+        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //4Story
@@ -480,12 +479,22 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory4StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory4String());
+        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
+    //PopUpOK
+    if (_pUIGalStory->GetStringType() == 0 && _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
+        _pScriptEngin->ReInitialize();
+        _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
+    }
+
+    //PopUpClose
     if (_pUIGalStory->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
         _pUIGalStory->SetEnd(true);
         _pUIGalStory->SetNowMode(false);
         _type = GalGameUIType::Menu;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 }
 
@@ -509,6 +518,7 @@ void GalGameUI::Draw() {
             _pDownButton->SetDraw(0,false);
             _pDownButton->SetDraw(1, false);
             _okFlag = false;
+            _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
         }
         _pUIPopUp->Draw();
     }

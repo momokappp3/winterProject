@@ -19,7 +19,7 @@ public:
 		Select = 0,
 		OK,   //‚Õ‚¡
 		OK2,  //ƒtƒH[ƒ“
-		Cancel,
+		Cancel,  //•Â‚¶‚é‚Æ‚«‚Ì‰¹
 		Mistake,
 
 		Max

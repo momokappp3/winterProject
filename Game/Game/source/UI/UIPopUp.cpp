@@ -7,6 +7,7 @@ UIPopUp::UIPopUp() {
     _pPopUpBase = nullptr;
     _pOkBSelectBase = nullptr;
     _pCloselBBase = nullptr;
+	_pSoundManager = nullptr;
 
 	_ok = -1;
 	_close = -1;
@@ -21,7 +22,20 @@ UIPopUp::UIPopUp() {
 UIPopUp::~UIPopUp() {
 }
 
-bool UIPopUp::Init() {
+bool UIPopUp::Init(std::shared_ptr<SoundManager>& soundManager) {
+
+	if (soundManager != nullptr) {
+		bool seTitle = soundManager->LoadSECommon();
+
+		if (!seTitle) {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	_pSoundManager = soundManager;
 
 	_pPopUpBase.reset(new UI2DBase);
 	_pOkBSelectBase.reset(new UI2DSelectBase);
@@ -73,6 +87,19 @@ bool UIPopUp::Init() {
 	_pCloselBBase->SetDrawInfo(info2);
 
 	_pCloselBBase->SetRect();
+
+	//=======================================
+	//sound
+
+	auto onSelect = [this]() {
+		//ƒTƒEƒ“ƒh–Â‚ç‚·
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
+	};
+
+	_pCloselBBase->SetOnSelect(onSelect);
+	_pOkBSelectBase->SetOnSelect(onSelect);
+
+	return true;
 }
 
 void UIPopUp::Process() {
@@ -86,6 +113,7 @@ void UIPopUp::Process() {
 	_pPopUpBase->Process();
 	_pOkBSelectBase->Process();
 	_pCloselBBase->Process();
+	_pSoundManager->Process();
 }
 
 void UIPopUp::Draw() {

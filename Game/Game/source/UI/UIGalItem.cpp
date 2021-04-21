@@ -15,6 +15,7 @@ UIGalItem::UIGalItem() {
 	_pBackImageBase = nullptr;
 	_pMoneyBSelectBase = nullptr;
 	_pTequilaBSelectBase = nullptr;
+	_pSoundManager = nullptr;
 
 	_giveCoin = 0;
 
@@ -27,7 +28,20 @@ UIGalItem::UIGalItem() {
 UIGalItem::~UIGalItem() {
 }
 
-bool UIGalItem::Init() {
+bool UIGalItem::Init(std::shared_ptr<SoundManager>& soundManager) {
+
+	if (soundManager != nullptr) {
+		bool seTitle = soundManager->LoadSECommon();
+
+		if (!seTitle) {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	_pSoundManager = soundManager;
 
 	_pBackImageBase.reset(new UI2DBase);
 	_pMoneyBSelectBase.reset(new UI2DSelectBase);
@@ -83,6 +97,15 @@ bool UIGalItem::Init() {
 
 	_pTequilaBSelectBase->SetRect();
 
+	auto onSelect = [this]() {
+		//ƒTƒEƒ“ƒh–Â‚ç‚·
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
+	};
+
+	_pTequilaBSelectBase->SetOnSelect(onSelect);
+	_pMoneyBSelectBase->SetOnSelect(onSelect);
+	_pCloselBBase->SetOnSelect(onSelect);
+
 	return true;
 }
 
@@ -99,6 +122,7 @@ void UIGalItem::Process() {
 	_pBackImageBase->Process();
 	_pMoneyBSelectBase->Process();
 	_pTequilaBSelectBase->Process();
+	_pSoundManager->Process();
 
 	UIUseBase::Process();
 }

@@ -9,7 +9,8 @@ public:
     UIGalSetting();
     virtual ~UIGalSetting();
 
-    bool Init() override;
+    //オーバーライド
+    bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process() override;
     void Draw() override;
 
@@ -20,6 +21,8 @@ private:
     std::unique_ptr<UI2DBase> _pBackImageBase;
     std::unique_ptr<UI2DSelectBase> _pOutBSelectBase;
     std::unique_ptr<UI2DSelectBase> _pTitleBSelectBase;
+
+    std::shared_ptr<SoundManager> _pSoundManager;
 
     //背景の出現処理  基底の_startがtrueだったら
     //ここではDrawAreaを使う

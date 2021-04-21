@@ -5,6 +5,7 @@
 UIGalStory::UIGalStory() {
 
 	_pBackImageBase = nullptr;
+	_pSoundManager = nullptr;
 
 	_pStringImageBase0 = nullptr;
 	_pStringImageBase1 = nullptr;
@@ -29,7 +30,20 @@ UIGalStory::UIGalStory() {
 UIGalStory::~UIGalStory() {
 }
 
-bool UIGalStory::Init() {
+bool UIGalStory::Init(std::shared_ptr<SoundManager>& soundManager) {
+
+	if (soundManager != nullptr) {
+		bool seTitle = soundManager->LoadSECommon();
+
+		if (!seTitle) {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	_pSoundManager = soundManager;
 
 	_pBackImageBase.reset(new UI2DBase);
 
@@ -99,11 +113,26 @@ bool UIGalStory::Init() {
 	_pStringImageBase4->SetDrawInfo(info);
 	_pStringImageBase4->SetDrawInfo(info2);
 	_pStringImageBase4->SetRect();
+
+	//===========================================
+	//sound
+	auto onSelect = [this]() {
+		//ƒTƒEƒ“ƒh–Â‚ç‚·
+		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
+	};
+
+	_pCloselBBase->SetOnSelect(onSelect);
+
+	_pStringImageBase0->SetOnSelect(onSelect);
+	_pStringImageBase1->SetOnSelect(onSelect);
+	_pStringImageBase2->SetOnSelect(onSelect);
+	_pStringImageBase3->SetOnSelect(onSelect);
+	_pStringImageBase4->SetOnSelect(onSelect);
+
 	return true;
 }
 
 void UIGalStory::Process() {
-
 
 	_vComandSelect[0] = _pStringImageBase0->GetSelect();
 	_pStringImageBase0->SetSelect(Utility::ImageHitDetection(_mouseX, _mouseY, _pStringImageBase0.get()));
@@ -128,7 +157,7 @@ void UIGalStory::Process() {
 	_pStringImageBase2->Process();
 	_pStringImageBase3->Process();
 	_pStringImageBase4->Process();
-
+	_pSoundManager->Process();
 }
 
 void UIGalStory::Draw() {

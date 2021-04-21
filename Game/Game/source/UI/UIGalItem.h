@@ -11,7 +11,8 @@ public:
     UIGalItem();
     virtual ~UIGalItem();
 
-    bool Init() override;
+    //オーバーライド取った
+    bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process() override;
     void Draw() override;
 
@@ -62,6 +63,7 @@ private:
     std::unique_ptr<UI2DBase> _pBackImageBase;
     std::unique_ptr<UI2DSelectBase> _pMoneyBSelectBase;
     std::unique_ptr<UI2DSelectBase> _pTequilaBSelectBase;
+    std::shared_ptr<SoundManager> _pSoundManager;
 
     PopString _moneyString;
     PopString _tequilaString;

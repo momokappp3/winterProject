@@ -12,7 +12,7 @@ public:
     UIGalMenu();
     virtual ~UIGalMenu();
 
-    bool Init();
+    bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process();
     void Draw();
 
@@ -49,6 +49,10 @@ public:
         return _item;
     }
 
+    void SetSelectItem(int num) {
+        _item = num;
+    }
+
     void SetMolecule(int molecule) {
         _molecule = molecule;
     }
@@ -60,8 +64,6 @@ public:
     void SetFavor(int favor) {
         _favor = favor;
     }
-
-
 
 private:
 
@@ -99,6 +101,8 @@ private:
     std::unique_ptr<UIInAndOut> _pCoinBaseInAndOut;
     std::unique_ptr<UIInAndOut> _pCoinNumInAndOut;
     std::unique_ptr<UIInAndOut> _pTrustNumInAndOut;
+
+    std::shared_ptr<SoundManager> _pSoundManager;
 
     bool _start;
     bool _end;

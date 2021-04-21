@@ -3,6 +3,10 @@
 #include <memory>
 #include <vector>
 
+/*
+音を鳴らしても良いか
+*/
+
 class UIUseBase {
 public:
     UIUseBase();
@@ -43,6 +47,7 @@ public:
 
 protected:
 
+    std::unique_ptr<UI2DSelectBase> _pCloselBBase;
     std::vector<bool> _vComandSelect;
 
     Point _closePoint;
@@ -58,12 +63,11 @@ private:
 
     //void MoveBackImage(); //3つ使う予定
 
-    std::unique_ptr<UI2DSelectBase> _pCloselBBase;
-
     bool _start;  //このモードが開始した
     bool _end;   //このモードが閉じた
     bool _myClose;
 
     int _closeB;
 
+    bool _onSound;
 };

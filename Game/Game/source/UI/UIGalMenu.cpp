@@ -35,8 +35,9 @@ UIGalMenu::UIGalMenu() {
 	_pCoinNumInAndOut = nullptr;
 	_pTrustNumInAndOut = nullptr;
 	
+	_pSoundManager = nullptr;
 	//_pMoleculeTween = nullptr;
-
+	
 	_start = false;
 	_end = false;
 
@@ -59,7 +60,20 @@ UIGalMenu::UIGalMenu() {
 UIGalMenu::~UIGalMenu() {
 }
 
-bool UIGalMenu::Init() {
+bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager) {
+
+	if (soundManager != nullptr) {
+		bool seTitle = soundManager->LoadSECommon();
+
+		if (!seTitle) {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	_pSoundManager = soundManager;
 
 	_pCancelSelectBase.reset(new UI2DSelectBase);
 	_pSettingSelectBase.reset(new UI2DSelectBase);
@@ -112,16 +126,15 @@ bool UIGalMenu::Init() {
 		return false;
 	}
 
-	/*
 	auto onSelect = [this]() {
 		//ƒTƒEƒ“ƒh–Â‚ç‚·
 		_pSoundManager->PlaySECommon(SoundManager::SECommon::Select);
 	};
-	*/
 
-	//_pUpButton->SetOnSelect(onSelect);
-	//_pDownButton->SetOnSelect(onSelect);
-	//_pCloselBScript->SetOnSelect(onSelect);
+	_pCancelSelectBase->SetOnSelect(onSelect);
+	_pSettingSelectBase->SetOnSelect(onSelect);
+	_pBstorySelectBase->SetOnSelect(onSelect);
+	_pBitemSelectBase->SetOnSelect(onSelect);
 
     return true;
 }
@@ -172,6 +185,7 @@ void UIGalMenu::Process() {
 	_pCoinNumInAndOut->Process();
 	_pTrustNumInAndOut->Process();
 
+	_pSoundManager->Process();
 }
 
 void UIGalMenu::Draw() {
