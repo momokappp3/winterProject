@@ -23,6 +23,7 @@ bool Face::Init(int handle) {
     _modelHandle = handle;
     _pFaceTween.reset(new VectorTween);
 
+    return true;
 }
 
 void Face::Process() {

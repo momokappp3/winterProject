@@ -29,13 +29,7 @@ public:
         _molecule = molecule;
     }
 
-    /*
-    void SetCoin(int coin) {
-        _coin = coin;
-    }
-    */
-
-    void SetFavor(int favor) {
+    void SetFavor(int favor) {  //参照渡しに変更
         _favor = favor;
     }
 
@@ -93,11 +87,12 @@ private:
     std::unique_ptr<UI2DSelectBase> _pUpButton;
     std::unique_ptr<UI2DSelectBase> _pDownButton;
 
-    std::function<void(void)> _onOK;
-
-    int _molecule;
+    int _molecule;  //barの値
+    int _favor;  //数字に渡す値
     int _coin;
-    int _favor;
+    int _mentalNum;  //赤いバーの値
+
+    int _basicFavor;
     int _giveCoin;
 
     bool _sakeItem;

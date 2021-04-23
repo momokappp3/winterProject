@@ -21,6 +21,8 @@ public:
 		OK2,  //ƒtƒH[ƒ“
 		Cancel,  //•Â‚¶‚é‚Æ‚«‚Ì‰¹
 		Mistake,
+		BarUp,
+		BarDown,
 
 		Max
 	};

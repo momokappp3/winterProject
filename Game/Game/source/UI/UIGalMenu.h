@@ -4,8 +4,9 @@
 #include "UI2DSelectBase.h"
 #include "UIInAndOut.h" 
 #include "../../../../AppFrame/Tween.h"
-#include "UIGauge.h"
+#include "../MentalGauge.h"
 #include "UINumber.h"
+#include "../LevelUpGauge.h"
 
 class UIGalMenu{
 public:
@@ -62,7 +63,16 @@ public:
     }
 
     void SetFavor(int favor) {
-        _favor = favor;
+        if (_basicFavor != favor) {
+            _basicFavor += favor;
+        }
+    }
+
+    void PlusMentalNum(int plus) {
+        _mentalNum += plus;
+    }
+    void MinusMentalNum(int minus) {
+        _mentalNum -= minus;
     }
 
 private:
@@ -77,8 +87,8 @@ private:
     std::unique_ptr<UI2DSelectBase> _pBstorySelectBase;
     std::unique_ptr<UI2DSelectBase> _pBitemSelectBase;
 
-    std::unique_ptr<UIGauge> _pBarPinkBase;
-    std::unique_ptr<UIGauge> _pBarRedBase;
+    std::unique_ptr<LevelUpGauge> _pBarPinkBase;
+    std::unique_ptr<MentalGauge> _pBarRedBase;
 
     std::unique_ptr<UI2DBase> _pCircleBase;
 
@@ -115,10 +125,13 @@ private:
     int _mouseX;
     int _mouseY;
 
-    int _molecule;
+    int _basicFavor;  //全ての合計
+    int _lastBasicFavor;  //前の合計値
+    int _molecule;  //ピンクbarの値
+    int _favor;  //数字の値
     int _coin;
-    int _favor;
+    int _mentalNum;  //赤barの値
 
     int _lastMolecule;
-
+    int _lastMentalNum;
 };

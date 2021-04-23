@@ -23,7 +23,6 @@ GalGameUI::GalGameUI() {
     _pScriptEngin = nullptr;
     _pMouseInput = nullptr;
 
-    _onOK = nullptr;
     _faceInfo = {0, 0.0, 0.0, 0, 0,0};
 
     _pCloselBScript = nullptr;
@@ -152,10 +151,6 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
     _pDownButton->SetOnSelect(onSelect);
     _pCloselBScript->SetOnSelect(onSelect);
 
-    _onOK = [this]() {
-        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
-    };
-
     return true;
 }
 
@@ -164,26 +159,24 @@ void GalGameUI::Process() {
     _pMouseInput->Process();
     _pUIPopUp->Process();
 
-    if (_pScriptEngin->IsFavor()) {
-
+    /*if (_pScriptEngin->IsFavor()) {
+        
         int getNowFavor = 0;
         
         getNowFavor = _pScriptEngin->GetFavor();  //分子9900まで
 
         _favor += getNowFavor / 100;
         _molecule = getNowFavor % 100;
+        
     }
     
     if (_molecule >= 9900) {
         _molecule = 9900;
-    }
+    }*/
 
-    _pUIGalMenu->SetFavor(_favor);
-    _pUIGalMenu->SetMolecule(_molecule);
+    //_pUIGalMenu->SetFavor(_favor);
+    _pUIGalMenu->SetMolecule(_pScriptEngin->IsFavor());  //???????
 
-    
-    //!_pScriptEngin->GetFace() 呼んだ時点で関数が実行されるので
-    //nullptrになる
     if (_pScriptEngin->IsGetFace()) {
         _isFaceInfo = true;
         _faceInfo = _pScriptEngin->GetFace();
@@ -281,6 +274,7 @@ void GalGameUI::Process() {
         _pUIGalStory->SetStart(true);  //設定を開く
         _pUIGalStory->SetNowMode(true);
         _type = GalGameUIType::Story;
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //スクリプトエンジンxボタンの処理
@@ -352,6 +346,7 @@ void GalGameUI::Process() {
     _pSoundManager->Process();
 
     _pUIGalMenu->SetCoin(_coin);
+    _pUIGalMenu->SetFavor(_favor);  //追加
 
     _downB = false;
     _upB = false;
@@ -401,6 +396,9 @@ void GalGameUI::ItemProcess() {
             _coin -= _giveCoin;
             _okFlag = true;
             _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
+
+            _pUIGalMenu->PlusMentalNum(10);  //とりあえず
+
         }
         else {
             _pSoundManager->PlaySECommon(SoundManager::SECommon::Mistake);
@@ -422,6 +420,8 @@ void GalGameUI::ItemProcess() {
         _sakeItem = true;
         _pDrunkTime->SetStart(DRUNK_TIME);
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
+
+        _pUIGalMenu->PlusMentalNum(30);
     }
 
     if (_pUIGalItem->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
@@ -440,6 +440,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory0StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory0String());
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //1Story
@@ -449,7 +450,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory1StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory1String());
-        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //2Story
@@ -459,7 +460,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory2StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory2String());
-        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //3Story
@@ -469,7 +470,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory3StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory3String());
-        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //4Story
@@ -479,7 +480,7 @@ void GalGameUI::StoryProcess() {
         _pUIGalStory->SetStory4StringDraw(true);
 
         _pUIPopUp->SetPopString(_pUIGalStory->GetStory4String());
-        //_pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //PopUpOK
@@ -510,6 +511,9 @@ void GalGameUI::Draw() {
 
     if (_pUIPopUp->GetNowMode()) {
         if (_pUIPopUp->GetClose() && _pUIPopUp->GetTrgLeft() || _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
+            if (_pUIPopUp->GetClose()) {
+                _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
+            }
             _pUIPopUp->SetNowMode(false);
             _pUIGalItem->StringAllFalse();
             _pUIGalStory->StringAllFalse();
@@ -518,7 +522,6 @@ void GalGameUI::Draw() {
             _pDownButton->SetDraw(0,false);
             _pDownButton->SetDraw(1, false);
             _okFlag = false;
-            _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
         }
         _pUIPopUp->Draw();
     }
@@ -532,8 +535,8 @@ void GalGameUI::Draw() {
     _pUpButton->Draw();
     _pDownButton->Draw();
 
-   // DrawFormatString(20, 780, GetColor(255, 165, 0), "数字:%d",_favor);
-    //DrawFormatString(20, 880, GetColor(255, 165, 0),"ber:%d",_molecule);
+    //DrawFormatString(20, 780, GetColor(255, 165, 0), "GameUI数字:%d",_favor);
+    //DrawFormatString(20, 880, GetColor(255, 165, 0),"GameUIber:%d",_molecule);
 
 }
 

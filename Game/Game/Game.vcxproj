@@ -159,7 +159,8 @@
     <ClCompile Include="ResourceServer.cpp" />
     <ClCompile Include="source\ApplicationMain.cpp" />
     <ClCompile Include="source\Face.cpp" />
-    <ClCompile Include="source\mental.cpp" />
+    <ClCompile Include="source\LevelUpGauge.cpp" />
+    <ClCompile Include="source\MentalGauge.cpp" />
     <ClCompile Include="source\Mode\Action3DGame.cpp" />
     <ClCompile Include="source\Mode\GalGame.cpp" />
     <ClCompile Include="source\Mode\ModeGame.cpp" />
@@ -204,7 +205,8 @@
     <ClInclude Include="ResourceServer.h" />
     <ClInclude Include="source\ApplicationMain.h" />
     <ClInclude Include="source\Face.h" />
-    <ClInclude Include="source\mental.h" />
+    <ClInclude Include="source\LevelUpGauge.h" />
+    <ClInclude Include="source\MentalGauge.h" />
     <ClInclude Include="source\Mode\Action3DGame.h" />
     <ClInclude Include="source\Mode\GalGame.h" />
     <ClInclude Include="source\Mode\ModeGame.h" />

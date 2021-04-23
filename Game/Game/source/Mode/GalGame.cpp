@@ -103,14 +103,14 @@ bool GalGame::Process() {
 
 	//第一引数:表情番号　2:表情の最小変化　3:表情の最大変化 4:変化速度  
 	if (CheckHitKey(KEY_INPUT_G)) {
-		_pFace->SetInfo(4, 0.0, 0.4, 90);
+		_pFace->SetInfo(6, 0.0, 1.0, 90);
 	}
 
 	if (CheckHitKey(KEY_INPUT_H)) {
-		_pFace->SetInfo(2, 0.0, 0.6, 120);
+		_pFace->SetInfo(2, 0.0, 0.75, 120);
 	}
 	if (CheckHitKey(KEY_INPUT_J)) {
-		_pFace->SetInfo(15, 0.0, 1.0, 50);
+		_pFace->SetInfo(6, 0.0, 0.4, 50,300);
 	}
 	if (CheckHitKey(KEY_INPUT_K)) {  //眠たげ
 		_pFace->SetInfo(18, 0.0, 1.0, 120,800);

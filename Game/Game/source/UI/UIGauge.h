@@ -18,7 +18,7 @@ public:
     void Process()override;
     void Draw() override;
 
-	bool SetRate(int rate);  //これを呼ばないとバグの可能性あり
+	virtual bool SetRate(int rate);  //これを呼ばないとバグの可能性あり
 
 	bool IsStart() {
 		if (_pTween == nullptr){
@@ -32,9 +32,7 @@ public:
 		return _rate;
 	}
 	
-
-private:
-
+protected:
 	void GetGaugeArea();
 
 	std::unique_ptr<Tween> _pTween;

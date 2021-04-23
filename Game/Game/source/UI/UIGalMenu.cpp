@@ -49,12 +49,19 @@ UIGalMenu::UIGalMenu() {
 	_mouseX = -1;
 	_mouseY = -1;
 
-	_molecule = 0;
+	_basicFavor = 0;
+	_lastBasicFavor = 0;  //前の合計値
+	_molecule = 0;  //barの値
+	_favor = 0;  //数字の値
+
+	//_molecule = 0;
 	_coin = -1;
-	_favor = -1;
+	//_favor = -1;
 
 	_lastMolecule = 0;
+	_lastMentalNum= 0;
 
+	_mentalNum = 50;
 }
 
 UIGalMenu::~UIGalMenu() {
@@ -80,8 +87,8 @@ bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager) {
 	_pBstorySelectBase.reset(new UI2DSelectBase);
 	_pBitemSelectBase.reset(new UI2DSelectBase);
 
-	_pBarPinkBase.reset(new UIGauge);
-	_pBarRedBase.reset(new UIGauge);
+	_pBarPinkBase.reset(new LevelUpGauge);
+	_pBarRedBase.reset(new MentalGauge);
 
 	_pCircleBase.reset(new UI2DBase);
 
@@ -146,17 +153,57 @@ void UIGalMenu::Process() {
 	_end = false;
 	_start = false;
 
+	//計算のプログラム
+
 	if (!_pBarPinkBase->IsStart()) {
 		if (_pBarPinkBase->GetNowRate() != _molecule) {
-			_pBarPinkBase->SetRate(_molecule);
+
+			if (_lastBasicFavor != _basicFavor) {  //もし前の値と今が違うなら
+
+				int nowFavor = _lastBasicFavor - _basicFavor;  //今入ってきた数値
+				int favorLoop = (nowFavor + _basicFavor) / 100;  //基の時点のループの回数
+				//static_castしたほうがいいのか???
+				float nowMolFavor = static_cast<float>(nowFavor) / 100.0f;
+
+				_molecule += nowMolFavor;
+
+				if (_molecule >= 100) {
+					favorLoop++;
+					_molecule -= 100;
+				}
+
+				if (_basicFavor >= 9900) {
+					_basicFavor = 9900;
+				}
+
+				_pBarPinkBase->SetRate(_molecule);
+				_pBarPinkBase->SetLoopNum(favorLoop);  //SetLoop
+				_pTrustNum->SetNum(_favor);
+				_basicFavor += nowFavor;  //合計に追加
+			}
 		}
 	}
 
-	_pBarRedBase->SetRate(100);
+	if (_mentalNum != _lastMentalNum) {
+
+		//int _lastMentalNum - _mentalNum;
+
+		if (_mentalNum > _lastMentalNum ) {
+			//up音遅延フレーム設ける
+			if (_lastMentalNum != 0) {
+				_pSoundManager->PlaySECommon(SoundManager::SECommon::BarUp,200);
+			}
+		}
+		else {
+			//down音遅延フレーム設ける
+			_pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown,200);
+		}
+
+		_pBarRedBase->SetRate(_mentalNum);
+	}
 
 	_pCoinNum->SetNum(_coin);
-	_pTrustNum->SetNum(_favor);
-
+	
 	_pCancelSelectBase->Process();
 	_pSettingSelectBase->Process();
 	_pBstorySelectBase->Process();
@@ -186,6 +233,9 @@ void UIGalMenu::Process() {
 	_pTrustNumInAndOut->Process();
 
 	_pSoundManager->Process();
+
+	_lastBasicFavor = _basicFavor;
+	_lastMentalNum = _mentalNum;
 }
 
 void UIGalMenu::Draw() {
@@ -203,6 +253,9 @@ void UIGalMenu::Draw() {
 	_pCoinBaseBase->Draw();
 	_pCoinNum->Draw();
 	_pTrustNum->Draw();
+
+	//DrawFormatString(20, 950, GetColor(255, 205, 0), "GameMenu数字:%d", _favor);
+	//DrawFormatString(20, 1000, GetColor(255, 205, 0), "GameMenubar:%d", _molecule);
 }
 
 //================================================
