@@ -13,6 +13,7 @@
 
 /*
 UIのやり取り
+アイテム使用
 */
 
 class GalGameUI {
@@ -32,6 +33,8 @@ public:
     void SetFavor(int favor) {  //参照渡しに変更
         _favor = favor;
     }
+    //====================================
+    //boolSetGet
 
     bool GetSakeItem() {
         return _sakeItem;
@@ -51,6 +54,20 @@ public:
 
     void SetGoAction(bool action) {
         _goAction = action;
+    }
+
+    bool GetKaneOK() {
+        return _kaneOK;
+    }
+    void SetKaneOK(bool ok) {
+        _kaneOK = ok;
+    }
+
+    bool GetKaneNO() {
+        return _kaneNo;
+    }
+    void SetKaneNo(bool no) {
+        _kaneNo = no;
     }
 
     FaceInfo GetFaceInfo() {
@@ -96,6 +113,8 @@ private:
     int _giveCoin;
 
     bool _sakeItem;
+    bool _kaneOK;
+    bool _kaneNo;
     bool _goTitle;
     bool _goAction;
 

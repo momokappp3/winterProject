@@ -12,6 +12,7 @@ UITime::UITime() {
 	_isStart = false;
 	_isStop = false;
 	_isEnd = false;
+	_isEndNow = false;
 
 	_pTimeBase = nullptr;
     _pUINumber = nullptr;
@@ -86,7 +87,6 @@ bool UITime::Init(int maxNum ,int digit) {
 
 void UITime::Process() {
 
-
 	_pTimeBase->SetPoint(0, _pBaseInAndOut->GetNowPosition());
 	_pUINumber->SetPoint(_pNumInAndOut->GetNowPosition());
 
@@ -112,6 +112,7 @@ void UITime::Process() {
 
 		if (_nowNum == 0) {
 			_isEnd = true;
+			_isEndNow = true;
 
 			//êŠ‚ð“®‚©‚·‚µ‚Ü‚¤ˆ—
 			_pBaseInAndOut->SetIsEnd(true);
@@ -120,11 +121,17 @@ void UITime::Process() {
 
 		_pUINumber->SetNum(_nowNum);
 	}
+	/*
+	if (_isEnd) {
+		_isEndNow = true;
+	}
+	*/
 }
 
 void UITime::Draw() {
 	_pTimeBase->Draw();
     _pUINumber->Draw();
+	_isEndNow = false;
 }
 
 void UITime::SetStart(int startNum) {

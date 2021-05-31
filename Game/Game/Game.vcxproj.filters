@@ -57,9 +57,6 @@
     <ClCompile Include="AnimationOtoko.cpp">
       <Filter>ソース ファイル\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceServer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>ソース ファイル\Animation</Filter>
     </ClCompile>
@@ -171,6 +168,9 @@
     <ClCompile Include="source\MentalGauge.cpp">
       <Filter>ソース ファイル\Face</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceServer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -190,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="AnimationOtoko.h">
       <Filter>ソース ファイル\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceServer.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>ソース ファイル\Animation</Filter>
@@ -310,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="source\MentalGauge.h">
       <Filter>ソース ファイル\Face</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceServer.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

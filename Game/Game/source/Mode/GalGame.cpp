@@ -96,18 +96,12 @@ bool GalGame::Process() {
 
 		_pFace->SetInfo(info.faceNum, info.min, info.max, info.tweenFrame, info.stopTime);
 	}
-	
-	if (CheckHitKey(KEY_INPUT_D)) {
-		//_pOnnaModel->Play(true, 1, 5.0f);
-	}
 
-	//第一引数:表情番号　2:表情の最小変化　3:表情の最大変化 4:変化速度  
+
+	
+	//第一引数:表情番号　2:表情の最小変化　3:表情の最大変化 4:変化速度 5:StopTime
 	if (CheckHitKey(KEY_INPUT_G)) {
 		_pFace->SetInfo(6, 0.0, 1.0, 90);
-	}
-
-	if (CheckHitKey(KEY_INPUT_H)) {
-		_pFace->SetInfo(2, 0.0, 0.75, 120);
 	}
 	if (CheckHitKey(KEY_INPUT_J)) {
 		_pFace->SetInfo(6, 0.0, 0.4, 50,300);
@@ -152,6 +146,16 @@ bool GalGame::Process() {
 		_pOnnaModel->Process();
 	}
 
+
+
+	if (_pGalGameUI->GetKaneOK()) {
+		_pGalGameUI->SetKaneOK(false);
+		_pFace->SetInfo(1, 0.0, 0.4, 90);
+	}
+	if (_pGalGameUI->GetKaneNO()) {
+		_pGalGameUI->SetKaneNo(false);
+		_pFace->SetInfo(2, 0.0, 0.3, 50);
+	}
 	if (_pGalGameUI->GetGoTitle()) {
 		_pGalGameUI->SetGoTitle(false);
 
@@ -159,7 +163,6 @@ bool GalGame::Process() {
 		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "Title");  // 次の
 		_pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 	}
-
 	if (_pGalGameUI->GetGoActoin()) {
 		_pGalGameUI->SetGoAction(false);
 

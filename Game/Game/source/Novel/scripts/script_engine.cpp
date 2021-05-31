@@ -745,8 +745,10 @@ namespace amg
         _pFace.reset(new CommandFace(line, scripts));
 
         if (!_pFace->Check()) {
-            return false;
+            return false;  //ずっとこっちに来てしまう
         }
+
+
 
         _isFace = true;
 

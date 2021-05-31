@@ -22,6 +22,10 @@ public:
         return _nowNum;
     }
 
+    bool GetEndNow() {
+        return _isEndNow;
+    }
+
 private:
 
     std::unique_ptr<UI2DBase> _pTimeBase;
@@ -38,4 +42,6 @@ private:
     bool _isStart;
     bool _isStop;
     bool _isEnd;
+
+    bool _isEndNow;  //全フレームがスタートで今エンドの時true;
 };

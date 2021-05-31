@@ -1,10 +1,6 @@
-/*
-** 共有リソースを制御するためのサーバ
-*/
-
 #include "DxLib.h"
-#include "ResourceServer.h"
 #include <vector>
+#include "ResourceServer.h"
 
 namespace {
     // 静的メンバ実体
@@ -28,7 +24,6 @@ void ResourceServer::ClearGraph() {
     }
     _mapGraph3D.clear();
 }
-
 
 //拡張　複数のインスタンスを生成する場合そのままハンドルを返す
 int ResourceServer::MV1LoadModel(const TCHAR* FileName,bool multiple) {

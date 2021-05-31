@@ -5,7 +5,7 @@
 #include "../../Utility.h"
 
 //#define PI 3.1415926535897932384626433832795f
-#define DRUNK_TIME 80
+#define DRUNK_TIME 10
 
 GalGameUI::GalGameUI() {
 
@@ -158,8 +158,8 @@ void GalGameUI::Process() {
 
     _pMouseInput->Process();
     _pUIPopUp->Process();
-
-    /*if (_pScriptEngin->IsFavor()) {
+    /*
+    if (_pScriptEngin->IsFavor()) {
         
         int getNowFavor = 0;
         
@@ -172,10 +172,20 @@ void GalGameUI::Process() {
     
     if (_molecule >= 9900) {
         _molecule = 9900;
-    }*/
+    }
+    */
 
     //_pUIGalMenu->SetFavor(_favor);
-    _pUIGalMenu->SetMolecule(_pScriptEngin->IsFavor());  //???????
+    //_pUIGalMenu->SetMolecule(_pScriptEngin->IsFavor());  //???????
+
+    if (_pScriptEngin->IsFavor()) {
+
+        int getNowFavor = 0;
+
+        getNowFavor = _pScriptEngin->GetFavor();
+
+        _favor += getNowFavor;
+    }
 
     if (_pScriptEngin->IsGetFace()) {
         _isFaceInfo = true;
@@ -263,9 +273,19 @@ void GalGameUI::Process() {
         _type = GalGameUIType::Item;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
-
-    if (_pDrunkTime->GetNowTime() == 0) {
+    /*
+    if (_pDrunkTime->GetNowTime() == 1) {  //boolçÏÇÈ
         _sakeItem = false;
+        //â∫Ç∞ÇÈèàóù
+        _pUIGalMenu->MinusMentalNum(30);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown,100);
+    }
+    */
+
+    if (_pDrunkTime->GetEndNow()) {
+        _sakeItem = false;
+        _pUIGalMenu->MinusMentalNum(30);
+        _pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown, 100);
     }
 
     _pUIGalStory->Process();
@@ -346,7 +366,7 @@ void GalGameUI::Process() {
     _pSoundManager->Process();
 
     _pUIGalMenu->SetCoin(_coin);
-    _pUIGalMenu->SetFavor(_favor);  //í«â¡
+    //_pUIGalMenu->SetFavor(_favor);  //í«â¡
 
     _downB = false;
     _upB = false;
@@ -398,10 +418,12 @@ void GalGameUI::ItemProcess() {
             _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 
             _pUIGalMenu->PlusMentalNum(10);  //Ç∆ÇËÇ†Ç¶Ç∏
+            _kaneOK = true;
 
         }
         else {
             _pSoundManager->PlaySECommon(SoundManager::SECommon::Mistake);
+            _kaneNo = true;
         }
     }
 
@@ -535,8 +557,8 @@ void GalGameUI::Draw() {
     _pUpButton->Draw();
     _pDownButton->Draw();
 
-    //DrawFormatString(20, 780, GetColor(255, 165, 0), "GameUIêîéö:%d",_favor);
-    //DrawFormatString(20, 880, GetColor(255, 165, 0),"GameUIber:%d",_molecule);
+    DrawFormatString(20, 780, GetColor(255, 165, 0), "GameUIêîéö:%d",_favor);
+    DrawFormatString(20, 880, GetColor(255, 165, 0),"GameUIber:%d",_molecule);
 
 }
 

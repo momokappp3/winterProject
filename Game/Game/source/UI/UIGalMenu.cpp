@@ -156,9 +156,9 @@ void UIGalMenu::Process() {
 	//計算のプログラム
 
 	if (!_pBarPinkBase->IsStart()) {
-		if (_pBarPinkBase->GetNowRate() != _molecule) {
+		if (_pBarPinkBase->GetNowRate() != _molecule) {  //ここおかしいか
 
-			if (_lastBasicFavor != _basicFavor) {  //もし前の値と今が違うなら
+			//if (_lastBasicFavor != _basicFavor) {  //もし前の値と今が違うなら
 
 				int nowFavor = _lastBasicFavor - _basicFavor;  //今入ってきた数値
 				int favorLoop = (nowFavor + _basicFavor) / 100;  //基の時点のループの回数
@@ -180,7 +180,7 @@ void UIGalMenu::Process() {
 				_pBarPinkBase->SetLoopNum(favorLoop);  //SetLoop
 				_pTrustNum->SetNum(_favor);
 				_basicFavor += nowFavor;  //合計に追加
-			}
+			//}
 		}
 	}
 
