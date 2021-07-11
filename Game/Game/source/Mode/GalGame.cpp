@@ -22,9 +22,11 @@ GalGame::GalGame() {
 	_pFace = nullptr;
 	_pSoundManager = nullptr;
 
-	_favor = 0;
-	_molecule = 0;
-	_coin = 0;
+	_pPlayerInfo = nullptr;
+
+	//_favor = 0;
+	//_molecule = 0;
+	//_coin = 0;
 }
 
 GalGame::~GalGame() {
@@ -48,7 +50,12 @@ bool GalGame::Initialize() {
 	_pFace.reset(new Face);
 	_pSoundManager.reset(new SoundManager);
 
-	if (!_pGalGameUI->Init(_pSoundManager)||!_pSoundManager->Init()){
+	_pPlayerInfo.reset(new PlayerInfo);
+
+	_pPlayerInfo->SetCoin(5000, true);
+	_pPlayerInfo->SetMentalNum(50, true);
+
+	if (!_pGalGameUI->Init(_pSoundManager,_pPlayerInfo)||!_pSoundManager->Init()){
 		return false;	
 	}
 
@@ -67,10 +74,6 @@ bool GalGame::Initialize() {
 	_pRoomModel->Load("model/room/roomkagu.pmx");
 
 	_pFace->Init(_pOnnaModel->GetHandle());
-	
-	_favor = 0;
-	_molecule = 0;
-	_coin = 5000;
 
 	return true;
 }
@@ -97,8 +100,6 @@ bool GalGame::Process() {
 		_pFace->SetInfo(info.faceNum, info.min, info.max, info.tweenFrame, info.stopTime);
 	}
 
-
-	
 	//第一引数:表情番号　2:表情の最小変化　3:表情の最大変化 4:変化速度 5:StopTime
 	if (CheckHitKey(KEY_INPUT_G)) {
 		_pFace->SetInfo(6, 0.0, 1.0, 90);

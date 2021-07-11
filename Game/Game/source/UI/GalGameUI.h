@@ -1,3 +1,9 @@
+/*****************************************************************//**
+ * \file   GalGameUI.h
+ * \brief  UIのやりとりアイテム使用
+ * \author momoka
+ * \date   2021 7/9
+ *********************************************************************/
 #pragma once
 #include "GalGameUI.h"
 #include "UIGalMenuInit.h"
@@ -11,28 +17,16 @@
 #include "UITime.h"
 #include "../Novel/scripts/script_engine.h"
 
-/*
-UIのやり取り
-アイテム使用
-*/
-
 class GalGameUI {
 public:
     GalGameUI();
     virtual ~GalGameUI();
 
-    bool Init(std::shared_ptr<SoundManager>& soundManager);
+    bool Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo);
     void Process();
     void Draw();
     void Terminate();
 
-    void SetMolecule(int molecule) {
-        _molecule = molecule;
-    }
-
-    void SetFavor(int favor) {  //参照渡しに変更
-        _favor = favor;
-    }
     //====================================
     //boolSetGet
 
@@ -104,10 +98,7 @@ private:
     std::unique_ptr<UI2DSelectBase> _pUpButton;
     std::unique_ptr<UI2DSelectBase> _pDownButton;
 
-    int _molecule;  //barの値
-    int _favor;  //数字に渡す値
-    int _coin;
-    int _mentalNum;  //赤いバーの値
+    std::shared_ptr<PlayerInfo> _pPlayerInfo;
 
     int _basicFavor;
     int _giveCoin;

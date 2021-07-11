@@ -1,7 +1,5 @@
 #pragma once
-
 #include "appframe.h"
-
 #include <string>
 #include "ModeMenu.h"
 

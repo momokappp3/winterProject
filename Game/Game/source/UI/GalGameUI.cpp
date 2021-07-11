@@ -40,13 +40,15 @@ GalGameUI::GalGameUI() {
     _okFlag = false;
     _isFaceInfo = false;
 
+    _pPlayerInfo = nullptr;
+
     _giveCoin = 0;
 }
 
 GalGameUI::~GalGameUI() {
 }
 
-bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
+bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo) {
 
     if (soundManager != nullptr) {
         bool seTitle = soundManager->LoadSECommon();
@@ -60,6 +62,12 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
     }
 
     _pSoundManager = soundManager;
+
+    if (playerInfo == nullptr) {
+        return false;
+    }
+
+    _pPlayerInfo = playerInfo;
 
     _type = GalGameUIType::MenuIinit;
 
@@ -78,7 +86,7 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
     _pUpButton.reset(new UI2DSelectBase);
     _pDownButton.reset(new UI2DSelectBase);
 
-    if (!_pUIGalMenu->Init(_pSoundManager) || !_pUIGalMenuInit->Init(_pSoundManager) || !_pUIGalItem->Init(_pSoundManager) ||
+    if (!_pUIGalMenu->Init(_pSoundManager, _pPlayerInfo) || !_pUIGalMenuInit->Init(_pSoundManager) || !_pUIGalItem->Init(_pSoundManager) ||
         !_pUIGalSetting->Init(_pSoundManager) || !_pUIGalStory->Init(_pSoundManager) || !_pUIPopUp->Init(_pSoundManager)) {
         return false;
     }
@@ -140,7 +148,6 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager) {
     _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::END);
 
     _giveCoin = 2500;
-    _coin = 5000;
 
     auto onSelect = [this]() {
         //ƒTƒEƒ“ƒh–Â‚ç‚·
@@ -184,7 +191,8 @@ void GalGameUI::Process() {
 
         getNowFavor = _pScriptEngin->GetFavor();
 
-        _favor += getNowFavor;
+        //_favor += getNowFavor;
+        _pPlayerInfo->SetFavor(getNowFavor, true);
     }
 
     if (_pScriptEngin->IsGetFace()) {
@@ -273,18 +281,18 @@ void GalGameUI::Process() {
         _type = GalGameUIType::Item;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
-    /*
-    if (_pDrunkTime->GetNowTime() == 1) {  //boolì‚é
+    
+    //Žð‚Ì‰º‚°‚éˆ—
+    if (_sakeItem && _pDrunkTime->GetNowTime() == 1) {
         _sakeItem = false;
-        //‰º‚°‚éˆ—
-        _pUIGalMenu->MinusMentalNum(30);
+        _pPlayerInfo->SetMentalNum(30, false);
         _pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown,100);
     }
-    */
+    
 
     if (_pDrunkTime->GetEndNow()) {
         _sakeItem = false;
-        _pUIGalMenu->MinusMentalNum(30);
+        _pPlayerInfo->SetMentalNum(30, false);
         _pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown, 100);
     }
 
@@ -364,9 +372,7 @@ void GalGameUI::Process() {
     _pDownButton->Process();
     _pMouseInput->LastProcess();
     _pSoundManager->Process();
-
-    _pUIGalMenu->SetCoin(_coin);
-    //_pUIGalMenu->SetFavor(_favor);  //’Ç‰Á
+    _pPlayerInfo->Process();
 
     _downB = false;
     _upB = false;
@@ -412,12 +418,15 @@ void GalGameUI::ItemProcess() {
     }
 
     if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pUIGalItem->GetNowItemType() == 0 && !_okFlag) {  //“ñ‰ñ–Ú‚É—ˆ‚Ä‚¢‚é
-        if (_coin >= _giveCoin) {
-            _coin -= _giveCoin;
+        if ( _pPlayerInfo->GetCoin() >= _giveCoin) {
+            _pPlayerInfo->SetCoin(_giveCoin, false);
             _okFlag = true;
             _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 
-            _pUIGalMenu->PlusMentalNum(10);  //‚Æ‚è‚ ‚¦‚¸
+            //_pUIGalMenu->PlusMentalNum(10);  //‚Æ‚è‚ ‚¦‚¸
+
+            _pPlayerInfo->SetMentalNum(10, true);
+
             _kaneOK = true;
 
         }
@@ -443,7 +452,7 @@ void GalGameUI::ItemProcess() {
         _pDrunkTime->SetStart(DRUNK_TIME);
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 
-        _pUIGalMenu->PlusMentalNum(30);
+        _pPlayerInfo->SetMentalNum(30, true);
     }
 
     if (_pUIGalItem->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
@@ -557,9 +566,8 @@ void GalGameUI::Draw() {
     _pUpButton->Draw();
     _pDownButton->Draw();
 
-    DrawFormatString(20, 780, GetColor(255, 165, 0), "GameUI”Žš:%d",_favor);
-    DrawFormatString(20, 880, GetColor(255, 165, 0),"GameUIber:%d",_molecule);
-
+   //DrawFormatString(20, 780, GetColor(255, 165, 0), "GameUI”Žš:%d",_pPlayerInfo->GetMentalNum());
+   // DrawFormatString(20, 880, GetColor(255, 165, 0),"GameUIber:%d",_molecule);
 }
 
 void GalGameUI::Terminate() {

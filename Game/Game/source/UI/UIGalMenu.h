@@ -7,13 +7,14 @@
 #include "../MentalGauge.h"
 #include "UINumber.h"
 #include "../LevelUpGauge.h"
+#include "../PlayerInfo.h"
 
 class UIGalMenu{
 public:
     UIGalMenu();
     virtual ~UIGalMenu();
 
-    bool Init(std::shared_ptr<SoundManager>& soundManager);
+    bool Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo);
     void Process();
     void Draw();
 
@@ -53,28 +54,7 @@ public:
     void SetSelectItem(int num) {
         _item = num;
     }
-
-    void SetMolecule(int molecule) {
-        _molecule = molecule;
-    }
-
-    void SetCoin(int coin) {
-        _coin = coin;
-    }
-
-    void SetFavor(int favor) {
-        if (_basicFavor != favor) {
-            _basicFavor += favor;
-        }
-    }
-
-    void PlusMentalNum(int plus) {
-        _mentalNum += plus;
-    }
-    void MinusMentalNum(int minus) {
-        _mentalNum -= minus;
-    }
-
+    
 private:
 
     bool DrawInit();
@@ -113,6 +93,7 @@ private:
     std::unique_ptr<UIInAndOut> _pTrustNumInAndOut;
 
     std::shared_ptr<SoundManager> _pSoundManager;
+    std::shared_ptr<PlayerInfo> _pPlayerInfo;
 
     bool _start;
     bool _end;
@@ -127,10 +108,6 @@ private:
 
     int _basicFavor;  //全ての合計
     int _lastBasicFavor;  //前の合計値
-    int _molecule;  //ピンクbarの値
-    int _favor;  //数字の値
-    int _coin;
-    int _mentalNum;  //赤barの値
 
     int _lastMolecule;
     int _lastMentalNum;

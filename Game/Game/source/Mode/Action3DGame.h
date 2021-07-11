@@ -25,4 +25,4 @@ private:
 	std::unique_ptr<Input> _pInput;
 	//std::unique_ptr<Animation> _pAnimation;
 
-};
+};				

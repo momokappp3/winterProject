@@ -88,7 +88,6 @@ private:
 	std::vector<const TCHAR*> _vBgmFileName;
 	std::vector<struct DelayPlay> _vDelayPlay;
 
-	
 	std::vector<int> _vSECommonHandle;
 	std::vector<int> _vSETitleHandle;
 	std::vector<int> _vSETitleMenuHandle;
@@ -100,5 +99,4 @@ private:
 
 	int _bgmFadeCount;
 	float _bgmFadeFrame;
-
 };

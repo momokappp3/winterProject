@@ -1,3 +1,9 @@
+/*****************************************************************//**
+ * \file   GalGame.h
+ * \brief  ゲームシーン
+ * \author momoka
+ * \date   2021 7/9
+ *********************************************************************/
 #pragma once
 #include "../../AppFrame/source/appframe.h"
 #include <memory>
@@ -11,6 +17,7 @@
 #include "../UI/GalGameUI.h"
 #include "../SoundManager.h"
 #include "../Face.h"
+#include "../PlayerInfo.h"
 
 class GalGame : public ModeBase {
 public:
@@ -22,12 +29,7 @@ public:
 	virtual bool Process();
 	virtual bool Render();
 
-	void SetFavor(int favor) {
-		_favor = favor;
-	}
-
 private:
-
 	std::unique_ptr<Camera> _pCamera;
 	std::unique_ptr<Model> _pCharaModel;
 	std::unique_ptr<Model> _pRoomModel;
@@ -41,9 +43,5 @@ private:
 
 	std::unique_ptr<MouseInput> _pMouseInput;
 
-	int _favor;  //好感度(num)
-	int _molecule;  //好感度分子(ber)
-	int _coin;
-
-
+	std::shared_ptr<PlayerInfo> _pPlayerInfo;
 };

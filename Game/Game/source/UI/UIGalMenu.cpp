@@ -51,23 +51,17 @@ UIGalMenu::UIGalMenu() {
 
 	_basicFavor = 0;
 	_lastBasicFavor = 0;  //前の合計値
-	_molecule = 0;  //barの値
-	_favor = 0;  //数字の値
-
-	//_molecule = 0;
-	_coin = -1;
-	//_favor = -1;
+	//_molecule = 0;  //barの値
+	//_favor = 0;  //数字の値
 
 	_lastMolecule = 0;
-	_lastMentalNum= 0;
-
-	_mentalNum = 50;
+	_lastMentalNum = 0;
 }
 
 UIGalMenu::~UIGalMenu() {
 }
 
-bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager) {
+bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo) {
 
 	if (soundManager != nullptr) {
 		bool seTitle = soundManager->LoadSECommon();
@@ -81,6 +75,14 @@ bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager) {
 	}
 
 	_pSoundManager = soundManager;
+
+	if (playerInfo == nullptr) {
+		return false;
+	}
+
+	_pPlayerInfo = playerInfo;
+
+	_lastMentalNum = _pPlayerInfo->GetMentalNum();
 
 	_pCancelSelectBase.reset(new UI2DSelectBase);
 	_pSettingSelectBase.reset(new UI2DSelectBase);
@@ -125,7 +127,7 @@ bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	MoveInit();
 
-	if (!_pBarPinkBase->Init(40) || !_pBarRedBase->Init(80)) {
+	if (!_pBarPinkBase->Init(40) || !_pBarRedBase->Init(_pPlayerInfo->GetMentalNum())) {
 		return false;
 	}
 
@@ -155,8 +157,11 @@ void UIGalMenu::Process() {
 
 	//計算のプログラム
 
+	int molecule = _pPlayerInfo->GetMolecule();
+	int favor = _pPlayerInfo->GetFavor();
+
 	if (!_pBarPinkBase->IsStart()) {
-		if (_pBarPinkBase->GetNowRate() != _molecule) {  //ここおかしいか
+		if (_pBarPinkBase->GetNowRate() != molecule) {  //ここおかしいか
 
 			//if (_lastBasicFavor != _basicFavor) {  //もし前の値と今が違うなら
 
@@ -165,30 +170,30 @@ void UIGalMenu::Process() {
 				//static_castしたほうがいいのか???
 				float nowMolFavor = static_cast<float>(nowFavor) / 100.0f;
 
-				_molecule += nowMolFavor;
+				molecule += nowMolFavor;
 
-				if (_molecule >= 100) {
+				if (molecule >= 100) {
 					favorLoop++;
-					_molecule -= 100;
+					molecule -= 100;
 				}
 
 				if (_basicFavor >= 9900) {
 					_basicFavor = 9900;
 				}
 
-				_pBarPinkBase->SetRate(_molecule);
+				_pBarPinkBase->SetRate(molecule);
 				_pBarPinkBase->SetLoopNum(favorLoop);  //SetLoop
-				_pTrustNum->SetNum(_favor);
+				_pTrustNum->SetNum(favor);
 				_basicFavor += nowFavor;  //合計に追加
 			//}
 		}
 	}
 
-	if (_mentalNum != _lastMentalNum) {
+	if (_pPlayerInfo->GetMentalNum() != _lastMentalNum) {
 
 		//int _lastMentalNum - _mentalNum;
 
-		if (_mentalNum > _lastMentalNum ) {
+		if (_pPlayerInfo->GetMentalNum() > _lastMentalNum ) {
 			//up音遅延フレーム設ける
 			if (_lastMentalNum != 0) {
 				_pSoundManager->PlaySECommon(SoundManager::SECommon::BarUp,200);
@@ -199,10 +204,10 @@ void UIGalMenu::Process() {
 			_pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown,200);
 		}
 
-		_pBarRedBase->SetRate(_mentalNum);
+		_pBarRedBase->SetRate(_pPlayerInfo->GetMentalNum());  //1回だけ
 	}
 
-	_pCoinNum->SetNum(_coin);
+	_pCoinNum->SetNum(_pPlayerInfo->GetCoin());
 	
 	_pCancelSelectBase->Process();
 	_pSettingSelectBase->Process();
@@ -235,7 +240,7 @@ void UIGalMenu::Process() {
 	_pSoundManager->Process();
 
 	_lastBasicFavor = _basicFavor;
-	_lastMentalNum = _mentalNum;
+	_lastMentalNum = _pPlayerInfo->GetMentalNum();
 }
 
 void UIGalMenu::Draw() {
