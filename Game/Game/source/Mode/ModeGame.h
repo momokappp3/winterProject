@@ -4,7 +4,7 @@
 #include "ModeMenu.h"
 
 // 計算用マクロ
-#define	PI	(3.1415926535897932386f)
+#define	PI 3.1415926535897932386f
 #define	DEG2RAD(x)			( ((x) / 180.0f ) * PI )
 #define	RAD2DEG(x)			( ((x) * 180.0f ) / PI )
 

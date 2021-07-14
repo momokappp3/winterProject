@@ -1,9 +1,4 @@
-﻿//!
-//! @file scripts_data.cpp
-//!
-//! @brief スクリプトの読み込み実装
-//!
-#include "scripts_data.h"
+﻿#include "scripts_data.h"
 #include "amg_string.h"
 #include "../picojson/picojson.h"
 #include <windows.h>
@@ -16,6 +11,7 @@ namespace {
 }
 
 namespace amg{
+
     //!
     //! @fn bool ScriptsData::LoadJson(const TCHAR* path)
     //! @brief スクリプト用 Json ファイルの読込
@@ -68,8 +64,8 @@ namespace amg{
     //! @param[in] utf8 UTF-8 文字コードの std::string
     //! @return UTF-16 文字コードの std::wstring
     //!
-    std::wstring ScriptsData::ConvertUTF8ToWide(const std::string& utf8) const
-    {
+    std::wstring ScriptsData::ConvertUTF8ToWide(const std::string& utf8) const{
+
         if (utf8.empty()) {
             return EMPTY_WSTR;
         }
@@ -97,6 +93,7 @@ namespace amg{
     //! @return マルチバイト文字コードの std::string
     //!
     std::string ScriptsData::ConvertWideToMultiByte(const std::wstring& utf16) const{
+
         if (utf16.empty()) {
             return EMPTY_STR;
         }
@@ -123,8 +120,8 @@ namespace amg{
     //! @return スクリプト数
     //! @details スクリプトはインタプリタ方式で 1 スクリプト 1 行となります。
     //!
-    unsigned int ScriptsData::GetScriptNum()  const
-    {
+    unsigned int ScriptsData::GetScriptNum()  const{
+
         if (scripts == nullptr) {
             return 0;
         }
@@ -162,8 +159,8 @@ namespace amg{
     //! の様なフォーマットになっています。
     //! それを ',' で区切った vector の string 配列として返します。
     //!
-    std::vector<std::string> ScriptsData::GetScript(const unsigned int index) const
-    {
+    std::vector<std::string> ScriptsData::GetScript(const unsigned int index) const{
+
         const auto line = GetScriptLine(index);
 
         return string::Split(line, DELIMITER);

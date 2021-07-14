@@ -1,10 +1,11 @@
-﻿//!
-//! @file script_engine.h
-//!
-//! @brief スクリプトエンジンの定義
-//!
+﻿/*****************************************************************//**
+ * \file   script_engine.h
+ * \brief  jsonの読み込んだ情報を他で使えるように
+ *         スクリプトエンジン
+ * \author 真中先生 momoka
+ * \date   2021 7/14
+ *********************************************************************/
 #pragma once
-
 #include "amg_rect.h"
 #include <tchar.h>
 #include <vector>
@@ -12,6 +13,7 @@
 #include <memory>
 #include "../../../../../AppFrame/Types.h"
 #include "../scripts/command_face.h"
+#include "../../PlayerInfo.h"
 
 namespace amg{
     class InputManager;
@@ -34,19 +36,13 @@ namespace amg{
         ScriptEngine& operator=(const ScriptEngine& right) = default;
         ScriptEngine& operator=(ScriptEngine&& right) noexcept = default;
 
-        bool Initialize(const TCHAR* path);
+        bool Initialize(const TCHAR* path, std::shared_ptr<PlayerInfo>& playerInfo);
         void Destroy();
 
         void Update();
         void Render() const;
 
         bool IsExit() const;
-
-        int GetFavor() {
-
-            _isFavor = false;
-            return _favor;
-        }
 
         FaceInfo GetFace() {
 
@@ -129,18 +125,17 @@ namespace amg{
         std::vector<std::unique_ptr<CommandDraw>> draw_list;
         std::unique_ptr<CommandFace> _pFace;
 
+        std::shared_ptr<PlayerInfo> _pPlayerInfo;
+
         ScriptState state;
 
         unsigned int max_line;
         unsigned int now_line;
         unsigned int wait_count;
 
-        int _favor;
-
         int _font;
 
         //画像ハンドル
-        
         int _commandHandle1;
         int _commandHandle2;
 

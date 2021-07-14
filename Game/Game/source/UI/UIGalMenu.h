@@ -106,9 +106,6 @@ private:
     int _mouseX;
     int _mouseY;
 
-    int _basicFavor;  //全ての合計
-    int _lastBasicFavor;  //前の合計値
-
     int _lastMolecule;
     int _lastMentalNum;
 };

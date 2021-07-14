@@ -6,63 +6,63 @@
 #include "GalGame.h"
 #include "ModeGame.h"
 
-#define CAMERA_TITLE_POSITION { -18.026157f, 14.650770f, -34.953270f }
-#define CAMERA_TITLE_TARGET {-18.026155f, 16.672798f, 1.052301f}
+const VECTOR CAMERA_TITLE_POSITION = { -18.026157f, 14.650770f, -34.953270f };
+const VECTOR CAMERA_TITLE_TARGET = { -18.026155f, 16.672798f, 1.052301f };
 
-#define CAMERA_INIT_POSITION {-3.857570f, 19.892756f, -25.599190f }
-#define CAMERA_INIT_TARGET {-10.132383f, 13.788612f, 1.892545f}
+const VECTOR CAMERA_INIT_POSITION = { -3.857570f, 19.892756f, -25.599190f };
+const VECTOR CAMERA_INIT_TARGET = { -10.132383f, 13.788612f, 1.892545f };
 
-#define CAMERA_MENU_POSITION {8.390586f, 22.943768f, -36.676380f }
-#define CAMERA_MENU_TARGET {15.942330f, 13.788612f, 4.937160f}
+const VECTOR CAMERA_MENU_POSITION = { 8.390586f, 22.943768f, -36.676380f };
+const VECTOR CAMERA_MENU_TARGET = { 15.942330f, 13.788612f, 4.937160f };
 
-#define ScaleStage {2.40,2.50,2.40}
+const VECTOR ScaleStage = { 2.40,2.50,2.40 };
 
-#define PositionLove {-32.447, 23.073, 0.000}
-#define PositionLove2 {-21.778, 18.026, 3.305}
-#define PositionSweet {-28.778,13.000,0.00}
-#define PositionEx {-18.984, 9.326,0.000}
-#define Position2Heart {-11.537, 13.000, 0.000}
-#define Position2Heart2 {-7.000, 13.000, 0.000}
+const VECTOR PositionLove = { -32.447, 23.073, 0.000 };
+const VECTOR PositionLove2 = { -21.778, 18.026, 3.305 };
+const VECTOR PositionSweet = { -28.778,13.000,0.00 };
+const VECTOR PositionEx = { -18.984, 9.326,0.000 };
+const VECTOR Position2Heart = { -11.537, 13.000, 0.000 };
+const VECTOR Position2Heart2 = { -7.000, 13.000, 0.000 };
 
 //塗りつぶしハート1
-#define ScaleHeart {1.040, 1.040, 1.040}
-#define PositionHeart {-23.747, 23.352, 0.00}
-#define RotationHeart {0.30, -0.395, 0.969}  //  0.135, 5.969
+const VECTOR ScaleHeart = { 1.040, 1.040, 1.040 };
+const VECTOR PositionHeart = { -23.747, 23.352, 0.00 };
+const VECTOR RotationHeart = { 0.30, -0.395, 0.969 };  //  0.135, 5.969
 
 //塗りつぶしハート2
-#define ScaleHeart2 {1.230, 1.230, 1.230}
-#define PositionHeart2 {-38.839, 18.305, 0.000}
-#define RotationHeart2 {0.2, 0.10, -0.359}
+const VECTOR ScaleHeart2 = { 1.230, 1.230, 1.230 };
+const VECTOR PositionHeart2 = { -38.839, 18.305, 0.000 };
+const VECTOR RotationHeart2 = { 0.2, 0.10, -0.359 };
 
 //TitleInit
-#define PositionInitLove {-32.447, -7.073, 0.000}
-#define PositionInitLove2 {-21.778, -12.026, 3.305}
-#define PositionInitSweet {-28.778,-17.000,0.00}
-#define PositionInitEx {-18.984, -21.326,0.000}
-#define PositionInit2Heart {-11.537, -17.000, 0.000}
-#define PositionInit2Heart2 {-7.000, -17.000, 0.000}
-#define PositionInitHeart {-23.747, -7.352, 0.00}
-#define PositionInitHeart2 {-38.839, -12.305, 0.000}
+const VECTOR PositionInitLove = { -32.447, -7.073, 0.000 };
+const VECTOR PositionInitLove2 = { -21.778, -12.026, 3.305 };
+const VECTOR PositionInitSweet = { -28.778,-17.000,0.00 };
+const VECTOR PositionInitEx = { -18.984, -21.326,0.000 };
+const VECTOR PositionInit2Heart = { -11.537, -17.000, 0.000 };
+const VECTOR PositionInit2Heart2 = { -7.000, -17.000, 0.000 };
+const VECTOR PositionInitHeart = { -23.747, -7.352, 0.00 };
+const VECTOR PositionInitHeart2 = { -38.839, -12.305, 0.000 };
 
 //TitleMenu
-#define ScaleTitleMenu {0.650, 0.650, 0.650}
-#define PositionNewGame {31.005, 28.121, 0.00}
-#define PositionLoadGame {31.005, 21.631, 0.00}
-#define PositionOption {37.494, 15.142, 0.00}
-#define PositionHelp {43.263, 8.653, 0.00}
-#define PositionExit {45.426, 2.163, 0.00}
+const VECTOR ScaleTitleMenu = { 0.650, 0.650, 0.650 };
+const VECTOR PositionNewGame = { 31.005, 28.121, 0.00 };
+const VECTOR PositionLoadGame = { 31.005, 21.631, 0.00 };
+const VECTOR PositionOption = { 37.494, 15.142, 0.00 };
+const VECTOR PositionHelp = { 43.263, 8.653, 0.00 };
+const VECTOR PositionExit = { 45.426, 2.163, 0.00 };
 
-#define PositionInitNewGame {11.5, -5.047, 0.00}
-#define PositionInitLoadGame {11.5, -5.047, 0.00}
-#define PositionInitOption {11.5, -5.047, 0.00}
-#define PositionInitHelp {11.5, -5.047, 0.00}
-#define PositionInitExit {11.5, -5.047, 0.00}
+const VECTOR PositionInitNewGame = { 11.5, -5.047, 0.00 };
+const VECTOR PositionInitLoadGame = { 11.5, -5.047, 0.00 };
+const VECTOR PositionInitOption = { 11.5, -5.047, 0.00 };
+const VECTOR PositionInitHelp = { 11.5, -5.047, 0.00 };
+const VECTOR PositionInitExit = { 11.5, -5.047, 0.00 };
 
-#define PositionSelectNewGame {11.5, -5.047, -200.00}
-#define PositionSelectLoadGame {11.5, -5.047, -200.00}
-#define PositionSelectOption {11.5, -5.047, -200.00}
-#define PositionSelectHelp {11.5, -5.047, -200.00}
-#define PositionSelectExit {11.5, -5.047, -200.00}
+const VECTOR PositionSelectNewGame = { 11.5, -5.047, -200.00 };
+const VECTOR PositionSelectLoadGame = { 11.5, -5.047, -200.00 };
+const VECTOR PositionSelectOption = { 11.5, -5.047, -200.00 };
+const VECTOR PositionSelectHelp = { 11.5, -5.047, -200.00 };
+const VECTOR PositionSelectExit = { 11.5, -5.047, -200.00 };
 
 ModeTitle::ModeTitle() {
 

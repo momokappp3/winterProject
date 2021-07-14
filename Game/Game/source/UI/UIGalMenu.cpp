@@ -3,8 +3,6 @@
 #include "../../Utility.h"
 #include <array>
 
-//#define PI 3.1415926535897932384626433832795f
-
 UIGalMenu::UIGalMenu() {
 
     _pCancelSelectBase = nullptr;
@@ -48,11 +46,6 @@ UIGalMenu::UIGalMenu() {
 
 	_mouseX = -1;
 	_mouseY = -1;
-
-	_basicFavor = 0;
-	_lastBasicFavor = 0;  //前の合計値
-	//_molecule = 0;  //barの値
-	//_favor = 0;  //数字の値
 
 	_lastMolecule = 0;
 	_lastMentalNum = 0;
@@ -161,17 +154,17 @@ void UIGalMenu::Process() {
 	int favor = _pPlayerInfo->GetFavor();
 
 	if (!_pBarPinkBase->IsStart()) {
-		if (_pBarPinkBase->GetNowRate() != molecule) {  //ここおかしいか
+		if (_pBarPinkBase->GetNowRate() != molecule) {
+			if (_lastMolecule != molecule) {  //もし前の値と今が違うなら
 
-			//if (_lastBasicFavor != _basicFavor) {  //もし前の値と今が違うなら
-
-				int nowFavor = _lastBasicFavor - _basicFavor;  //今入ってきた数値
-				int favorLoop = (nowFavor + _basicFavor) / 100;  //基の時点のループの回数
+				/*
+				//int nowFavor = _lastBasicFavor - _basicFavor;  //今入ってきた数値
+				//int favorLoop = (nowFavor + _basicFavor) / 100;  //基の時点のループの回数
 				//static_castしたほうがいいのか???
-				float nowMolFavor = static_cast<float>(nowFavor) / 100.0f;
+				//float nowMolFavor = static_cast<float>(nowFavor) / 100.0f;
 
-				molecule += nowMolFavor;
-
+				//molecule += nowMolFavor;
+				
 				if (molecule >= 100) {
 					favorLoop++;
 					molecule -= 100;
@@ -180,19 +173,19 @@ void UIGalMenu::Process() {
 				if (_basicFavor >= 9900) {
 					_basicFavor = 9900;
 				}
-
-				_pBarPinkBase->SetRate(molecule);
+				
 				_pBarPinkBase->SetLoopNum(favorLoop);  //SetLoop
-				_pTrustNum->SetNum(favor);
 				_basicFavor += nowFavor;  //合計に追加
-			//}
+
+				*/
+
+				_pBarPinkBase->SetRate(molecule);  //pinkレベルアップゲージ
+			}
 		}
 	}
+	_pTrustNum->SetNum(_pPlayerInfo->GetFavor());  //好感度数字
 
 	if (_pPlayerInfo->GetMentalNum() != _lastMentalNum) {
-
-		//int _lastMentalNum - _mentalNum;
-
 		if (_pPlayerInfo->GetMentalNum() > _lastMentalNum ) {
 			//up音遅延フレーム設ける
 			if (_lastMentalNum != 0) {
@@ -203,11 +196,10 @@ void UIGalMenu::Process() {
 			//down音遅延フレーム設ける
 			_pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown,200);
 		}
-
 		_pBarRedBase->SetRate(_pPlayerInfo->GetMentalNum());  //1回だけ
 	}
 
-	_pCoinNum->SetNum(_pPlayerInfo->GetCoin());
+	_pCoinNum->SetNum(_pPlayerInfo->GetCoin());  //コイン数字
 	
 	_pCancelSelectBase->Process();
 	_pSettingSelectBase->Process();
@@ -239,8 +231,8 @@ void UIGalMenu::Process() {
 
 	_pSoundManager->Process();
 
-	_lastBasicFavor = _basicFavor;
 	_lastMentalNum = _pPlayerInfo->GetMentalNum();
+	_lastMolecule = molecule;
 }
 
 void UIGalMenu::Draw() {
@@ -259,8 +251,9 @@ void UIGalMenu::Draw() {
 	_pCoinNum->Draw();
 	_pTrustNum->Draw();
 
-	//DrawFormatString(20, 950, GetColor(255, 205, 0), "GameMenu数字:%d", _favor);
-	//DrawFormatString(20, 1000, GetColor(255, 205, 0), "GameMenubar:%d", _molecule);
+	DrawFormatString(20, 950, GetColor(255, 205, 0), "GameMenu数字:%d", _pPlayerInfo->GetFavor());
+	DrawFormatString(20, 970, GetColor(255, 205, 0), "GameMenu分子:%d", _pPlayerInfo->GetMolecule());
+	DrawFormatString(20, 1000, GetColor(255, 205, 0), "GameMenubar:%d", _pPlayerInfo->GetMentalNum());
 }
 
 //================================================

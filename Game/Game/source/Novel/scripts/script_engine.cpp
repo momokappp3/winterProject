@@ -1,8 +1,5 @@
 ﻿//!
 //! @file script_engine.cpp
-
-
-
 // i コマンドとラベルを消す　関連するところ消す
 //!
 //! @brief スクリプトエンジンの実装
@@ -155,11 +152,13 @@ namespace amg
         input_manager = nullptr;
         scripts_data = nullptr;
         _pFace = nullptr;
+        _pPlayerInfo = nullptr;
+
         state = ScriptState::PARSING;
         max_line = 0;
         now_line = 0;
         wait_count = 0;
-        _favor = 0;
+        //_favor = 0;
         cursor_x = 0;
         cursor_y = 0;
         cursor_image_handle = -1;
@@ -188,11 +187,13 @@ namespace amg
     //! DX ライブラリの設定などを行い
     //! スクリプトエンジンが動作する様にします。
     //!
-    bool ScriptEngine::Initialize(const TCHAR* path){
+    bool ScriptEngine::Initialize(const TCHAR* path, std::shared_ptr<PlayerInfo>& playerInfo){
 
-        if (path == nullptr || input_manager != nullptr || scripts_data != nullptr) {
+        if (path == nullptr || input_manager != nullptr || scripts_data != nullptr || playerInfo == nullptr) {
             return false;
         }
+
+        _pPlayerInfo = playerInfo;
 
         _commandHandle1 = ResourceServer::LoadGraph("png/novel/myComment.png");
         _commandHandle2 = ResourceServer::LoadGraph("png/novel/selectMyComment.png");
@@ -437,8 +438,8 @@ namespace amg
     //! @details スクリプトを 1 行単位で処理します。
     //! (インタープリタ方式)
     //!
-    void ScriptEngine::Parsing()
-    {
+    void ScriptEngine::Parsing(){
+
         auto stop_parsing = false;
 
         while (!stop_parsing && (now_line >= 0) && (now_line < max_line)) {
@@ -745,10 +746,8 @@ namespace amg
         _pFace.reset(new CommandFace(line, scripts));
 
         if (!_pFace->Check()) {
-            return false;  //ずっとこっちに来てしまう
+            return false;  //×ずっとこっちに来てしまう
         }
-
-
 
         _isFace = true;
 
@@ -800,7 +799,11 @@ namespace amg
 
                     std::string favor = choice->GetFavor();
 
-                    _favor += atoi(favor.c_str());
+                    //_favor += atoi(favor.c_str());  //データが入っている
+
+                    int num = atoi(favor.c_str());
+
+                    _pPlayerInfo->SetFavor(num, true);
 
                     _isFavor = true;
 

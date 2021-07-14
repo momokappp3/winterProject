@@ -1,19 +1,16 @@
-﻿//!
-//! @file scripts_data.h
-//!
-//! @brief スクリプトの読み込み定義
-//!
+﻿/*****************************************************************//**
+ * \file   scripts_data.h
+ * \brief  スクリプトの読み込み
+ * \author 真中先生
+ *********************************************************************/
 #pragma once
-
 #include <tchar.h>
 #include <vector>
 #include <string>
 #include <memory>
 
-namespace amg
-{
-    class ScriptsData
-    {
+namespace amg{
+    class ScriptsData{
     public:
         ScriptsData() = default;
         ScriptsData(const ScriptsData&) = default;

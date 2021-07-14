@@ -3,10 +3,10 @@
 #include "ModeTitle.h"
 #include "Action3DGame.h"
 
-#define novelCameraPositionEnd { 0.006049f,21.895990f,-10.059654f }
-#define novelCameraPositionStart { 0.1f, 10.0f, -20.0f }
-#define novelCameraTargetStart {0.0f, 10.0f, 0.0f}
-#define novelCameraTargetEnd {0.006048f, 11.331523f, 12.522373f}
+const VECTOR novelCameraPositionEnd = { 0.006049f,21.895990f,-10.059654f };
+const VECTOR novelCameraPositionStart = { 0.1f, 10.0f, -20.0f };
+const VECTOR novelCameraTargetStart = { 0.0f, 10.0f, 0.0f };
+const VECTOR novelCameraTargetEnd = { 0.006048f, 11.331523f, 12.522373f };
 
 GalGame::GalGame() {
 

@@ -15,10 +15,11 @@ public:
 
     //GetŠÖ”
     int GetFavor() {
-        return _favor;
+        return _favor / 100;
     }
+
     int GetMolecule() {
-        return _molecule;
+        return _favor % 100;
     }
     int GetCoin() {
         return _coin;

@@ -4,8 +4,7 @@
 #include "../Mode/GalGame.h"
 #include "../../Utility.h"
 
-//#define PI 3.1415926535897932384626433832795f
-#define DRUNK_TIME 10
+const int DRUNK_TIME = 10;
 
 GalGameUI::GalGameUI() {
 
@@ -137,7 +136,7 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
     _pDownButton->SetRect();
 
 
-    if (!_pScriptEngin->Initialize("source/excel/test.json")) {
+    if (!_pScriptEngin->Initialize("source/excel/test.json",_pPlayerInfo)) {
         return false;
     }
 
@@ -184,16 +183,17 @@ void GalGameUI::Process() {
 
     //_pUIGalMenu->SetFavor(_favor);
     //_pUIGalMenu->SetMolecule(_pScriptEngin->IsFavor());  //???????
-
+    /*
     if (_pScriptEngin->IsFavor()) {
 
         int getNowFavor = 0;
 
-        getNowFavor = _pScriptEngin->GetFavor();
+        getNowFavor = _pPlayerInfo->GetFavor();
 
         //_favor += getNowFavor;
         _pPlayerInfo->SetFavor(getNowFavor, true);
     }
+    */
 
     if (_pScriptEngin->IsGetFace()) {
         _isFaceInfo = true;
