@@ -35,6 +35,19 @@ int Utility::ImageHitDetection(int x, int y, UI2DBase* ui2DBase) {
 
 		return 0;
 	}
-
     return 1;
+}
+
+bool Utility::HitRect(int x, int y, Point leftUp, Point rightDown){
+
+	Point dif = { rightDown.x - leftUp.x,rightDown.y - leftUp.y };
+
+	Point rightUp = { leftUp.x + dif.x, leftUp.y };
+	Point leftDown = { leftUp.x,rightDown.y };
+
+	if (x > leftUp.x && y > leftUp.y && x < rightUp.x && y > rightUp.y &&
+		x > leftDown.x && y < leftDown.y && x < rightDown.x && y < rightDown.y) {
+		return true;
+	}
+	return false;
 }

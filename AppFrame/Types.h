@@ -2,7 +2,7 @@
 #include <String>
 #include < tchar.h>
 
-enum class GalGameUIType {
+enum class RoomGameUIType {
 
 	MenuIinit = 0,
 	Menu,
@@ -49,5 +49,4 @@ struct FaceInfo {
 	int tweenFrame;
 	int stopTime;
 	int delay;
-
 };

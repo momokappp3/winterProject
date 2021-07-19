@@ -6,10 +6,10 @@
 #include "UIPopUp.h"
 #include "../../../../AppFrame/Types.h"
 
-class UIGalItem:public UIUseBase {
+class UIRoomItem:public UIUseBase {
 public:
-    UIGalItem();
-    virtual ~UIGalItem();
+    UIRoomItem();
+    virtual ~UIRoomItem();
 
     //オーバーライド取った
     bool Init(std::shared_ptr<SoundManager>& soundManager);
@@ -47,7 +47,7 @@ public:
         _itemType = type;
     }
 
-    void StringAllFalse() {
+    void StrinRoomlFalse() {
         _moneyString.isDraw = false;
         _tequilaString.isDraw = false;
     }

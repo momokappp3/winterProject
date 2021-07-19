@@ -9,10 +9,10 @@
 #include "../LevelUpGauge.h"
 #include "../PlayerInfo.h"
 
-class UIGalMenu{
+class UIRoomMenu{
 public:
-    UIGalMenu();
-    virtual ~UIGalMenu();
+    UIRoomMenu();
+    virtual ~UIRoomMenu();
 
     bool Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo);
     void Process();

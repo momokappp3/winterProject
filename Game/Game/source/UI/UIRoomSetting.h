@@ -4,10 +4,10 @@
 #include "UI2DSelectBase.h"
 #include "../../../../AppFrame/Tween.h"
 
-class UIGalSetting :public UIUseBase{
+class UIRoomSetting :public UIUseBase{
 public:
-    UIGalSetting();
-    virtual ~UIGalSetting();
+    UIRoomSetting();
+    virtual ~UIRoomSetting();
 
     //オーバーライド
     bool Init(std::shared_ptr<SoundManager>& soundManager);

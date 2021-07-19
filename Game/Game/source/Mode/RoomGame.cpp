@@ -1,4 +1,4 @@
-#include "../Mode/GalGame.h"
+#include "../Mode/RoomGame.h"
 #include <string>
 #include "ModeTitle.h"
 #include "Action3DGame.h"
@@ -8,7 +8,7 @@ const VECTOR novelCameraPositionStart = { 0.1f, 10.0f, -20.0f };
 const VECTOR novelCameraTargetStart = { 0.0f, 10.0f, 0.0f };
 const VECTOR novelCameraTargetEnd = { 0.006048f, 11.331523f, 12.522373f };
 
-GalGame::GalGame() {
+RoomGame::RoomGame() {
 
 	_pCamera = nullptr;
 	_pCharaModel = nullptr;
@@ -18,7 +18,7 @@ GalGame::GalGame() {
 	_pInput = nullptr;
 	_pVectorTweenPotion = nullptr;
 	_pVectorTweenTarget = nullptr;
-	_pGalGameUI = nullptr;
+	_pRoomGameUI = nullptr;
 	_pFace = nullptr;
 	_pSoundManager = nullptr;
 
@@ -29,10 +29,10 @@ GalGame::GalGame() {
 	//_coin = 0;
 }
 
-GalGame::~GalGame() {
+RoomGame::~RoomGame() {
 }
 
-bool GalGame::Initialize() {
+bool RoomGame::Initialize() {
 
 	if (!ModeBase::Initialize()) {
 		return false;
@@ -45,7 +45,7 @@ bool GalGame::Initialize() {
 	_pOnnaRedModel.reset(new AnimationBase);
 	_pVectorTweenPotion.reset(new VectorTween);
 	_pVectorTweenTarget.reset(new VectorTween);
-	_pGalGameUI.reset(new GalGameUI);
+	_pRoomGameUI.reset(new RoomGameUI);
 	_pMouseInput.reset(new MouseInput);
 	_pFace.reset(new Face);
 	_pSoundManager.reset(new SoundManager);
@@ -55,7 +55,7 @@ bool GalGame::Initialize() {
 	_pPlayerInfo->SetCoin(5000, true);
 	_pPlayerInfo->SetMentalNum(50, true);
 
-	if (!_pGalGameUI->Init(_pSoundManager,_pPlayerInfo)||!_pSoundManager->Init()){
+	if (!_pRoomGameUI->Init(_pSoundManager,_pPlayerInfo)||!_pSoundManager->Init()){  //falseに来てる×
 		return false;	
 	}
 
@@ -78,7 +78,7 @@ bool GalGame::Initialize() {
 	return true;
 }
 
-bool GalGame::Process() {
+bool RoomGame::Process() {
 
 	if (_pMouseInput == nullptr) {
 		return false;
@@ -88,14 +88,14 @@ bool GalGame::Process() {
 	_pOnnaModel->Play(true, 0, 0.3f);
 	_pOnnaRedModel->Play(true, 0, 0.3f);
 
-	//FaceInfo info = _pGalGameUI->GetFaceInfo();
+	//FaceInfo info = _pRoomGameUI->GetFaceInfo();
 	//_pFace->SetInfo(info.faceNum, info.min, info.max, info.tweenFrame,info.stopTime);
 
 
 	//ここで落ちている boolをUIクラスでGetにしたらtrueにSetの時falseにすることで一回だけSetさせて解決
 	
-	if (_pGalGameUI != nullptr && _pGalGameUI->GetIsFaceInfo()) {
-		FaceInfo info = _pGalGameUI->GetFaceInfo();
+	if (_pRoomGameUI != nullptr && _pRoomGameUI->GetIsFaceInfo()) {
+		FaceInfo info = _pRoomGameUI->GetFaceInfo();
 
 		_pFace->SetInfo(info.faceNum, info.min, info.max, info.tweenFrame, info.stopTime);
 	}
@@ -140,7 +140,7 @@ bool GalGame::Process() {
 		_pCamera->SetTarget(tX, tY, tZ);
 	}
 
-	if (_pGalGameUI->GetSakeItem()) {
+	if (_pRoomGameUI->GetSakeItem()) {
 		_pOnnaRedModel->Process();
 	}
 	else {
@@ -149,23 +149,23 @@ bool GalGame::Process() {
 
 
 
-	if (_pGalGameUI->GetKaneOK()) {
-		_pGalGameUI->SetKaneOK(false);
+	if (_pRoomGameUI->GetKaneOK()) {
+		_pRoomGameUI->SetKaneOK(false);
 		_pFace->SetInfo(1, 0.0, 0.4, 90);
 	}
-	if (_pGalGameUI->GetKaneNO()) {
-		_pGalGameUI->SetKaneNo(false);
+	if (_pRoomGameUI->GetKaneNO()) {
+		_pRoomGameUI->SetKaneNo(false);
 		_pFace->SetInfo(2, 0.0, 0.3, 50);
 	}
-	if (_pGalGameUI->GetGoTitle()) {
-		_pGalGameUI->SetGoTitle(false);
+	if (_pRoomGameUI->GetGoTitle()) {
+		_pRoomGameUI->SetGoTitle(false);
 
 		ModeServer::GetInstance()->Del(this);  // このモードを削除予約
 		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "Title");  // 次の
 		_pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 	}
-	if (_pGalGameUI->GetGoActoin()) {
-		_pGalGameUI->SetGoAction(false);
+	if (_pRoomGameUI->GetGoActoin()) {
+		_pRoomGameUI->SetGoAction(false);
 
 		ModeServer::GetInstance()->Del(this);  // このモードを削除予約
 		ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action3DGame");  // 次の
@@ -176,7 +176,7 @@ bool GalGame::Process() {
 	_pCamera->Process();
 	_pRoomModel->Process();
 
-	_pGalGameUI->Process();
+	_pRoomGameUI->Process();
 	_pInput->Process();
 	_pVectorTweenPotion->Process();
 	_pVectorTweenTarget->Process();
@@ -186,18 +186,18 @@ bool GalGame::Process() {
 	return true;
 }
 
-bool GalGame::Render() {
+bool RoomGame::Render() {
 
 	_pRoomModel->Render();
 
-	if (_pGalGameUI->GetSakeItem()) {
+	if (_pRoomGameUI->GetSakeItem()) {
 		_pOnnaRedModel->Render();
 	}
 	else {
 		_pOnnaModel->Render();
 	}
 
-	_pGalGameUI->Draw();
+	_pRoomGameUI->Draw();
 	_pMouseInput->Draw();  //最後に必ず置く
 
 	//debug情報
@@ -208,8 +208,8 @@ bool GalGame::Render() {
 	return true;
 }
 
-bool GalGame::Terminate() {
+bool RoomGame::Terminate() {
 
-	_pGalGameUI->Terminate();
+	_pRoomGameUI->Terminate();
 	return true;
 }

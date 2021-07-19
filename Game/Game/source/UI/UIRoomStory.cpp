@@ -1,8 +1,8 @@
-#include "UIGalStory.h"
+#include "UIRoomStory.h"
 #include "../../ResourceServer.h"
 #include "../../Utility.h"
 
-UIGalStory::UIGalStory() {
+UIRoomStory::UIRoomStory() {
 
 	_pBackImageBase = nullptr;
 	_pSoundManager = nullptr;
@@ -27,10 +27,10 @@ UIGalStory::UIGalStory() {
 
 }
 
-UIGalStory::~UIGalStory() {
+UIRoomStory::~UIRoomStory() {
 }
 
-bool UIGalStory::Init(std::shared_ptr<SoundManager>& soundManager) {
+bool UIRoomStory::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	if (soundManager != nullptr) {
 		bool seTitle = soundManager->LoadSECommon();
@@ -58,7 +58,7 @@ bool UIGalStory::Init(std::shared_ptr<SoundManager>& soundManager) {
 	_closePoint = { 1012,100 };
 	UIUseBase::Init();
 
-	int handle = ResourceServer::LoadGraph("png/galUI/use/useStoryBase.png");
+	int handle = ResourceServer::LoadGraph("png/RoomUI/use/useStoryBase.png");
 
 	if (handle == -1) {
 		return false;
@@ -71,8 +71,8 @@ bool UIGalStory::Init(std::shared_ptr<SoundManager>& soundManager) {
 		_vComandSelect.push_back(false);
 	}
 
-	handle = ResourceServer::LoadGraph("png/galUI/use/useStringBase.png");
-	int handle2 = ResourceServer::LoadGraph("png/galUI/use/useStringBaseSelect.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/use/useStringBase.png");
+	int handle2 = ResourceServer::LoadGraph("png/RoomUI/use/useStringBaseSelect.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -132,7 +132,7 @@ bool UIGalStory::Init(std::shared_ptr<SoundManager>& soundManager) {
 	return true;
 }
 
-void UIGalStory::Process() {
+void UIRoomStory::Process() {
 
 	_vComandSelect[0] = _pStringImageBase0->GetSelect();
 	_pStringImageBase0->SetSelect(Utility::ImageHitDetection(_mouseX, _mouseY, _pStringImageBase0.get()));
@@ -160,7 +160,7 @@ void UIGalStory::Process() {
 	_pSoundManager->Process();
 }
 
-void UIGalStory::Draw() {
+void UIRoomStory::Draw() {
 
 	if (_nowMode) {
 		_pBackImageBase->Draw();

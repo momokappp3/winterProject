@@ -229,7 +229,7 @@ int ModeServer::Process() {
 			}
 
 			// Processコール
-			(*ite)->Process();
+			(*ite)->Process();  //Titleから×
 
 			// Modeが無い場合 (Reboot時)
 			if (_vMode.empty()) {

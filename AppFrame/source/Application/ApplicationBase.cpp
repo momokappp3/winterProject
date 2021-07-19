@@ -1,8 +1,6 @@
-
 #include "ApplicationBase.h"
 
 ApplicationBase	*ApplicationBase::_lpInstance = NULL;
-
 
 ApplicationBase::ApplicationBase() {
 	_lpInstance = this;
@@ -65,8 +63,7 @@ bool ApplicationBase::Render() {
 }
 
 bool ApplicationBase::Terminate() {
-	// DXライブラリ開放
-	DxLib_End();
-
+	
+	DxLib_End();  // DXライブラリ開放
 	return true;
 }

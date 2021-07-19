@@ -1,10 +1,10 @@
-#include "UIGalMenuInit.h"
+#include "UIRoomMenuInit.h"
 #include "../../ResourceServer.h"
 #include "../../Utility.h"
 
-UIGalMenuInit::UIGalMenuInit(){
+UIRoomMenuInit::UIRoomMenuInit(){
 
-	_ModeType = GalGameUIType::Max;
+	_ModeType = RoomGameUIType::Max;
 
 	_pMenuSelectBase = nullptr;
 	_pMenuInAndOut = nullptr;
@@ -19,10 +19,10 @@ UIGalMenuInit::UIGalMenuInit(){
 	_num = 0;
 }
 
-UIGalMenuInit::~UIGalMenuInit() {
+UIRoomMenuInit::~UIRoomMenuInit() {
 }
 
-bool UIGalMenuInit::Init(std::shared_ptr<SoundManager>& soundManager) {
+bool UIRoomMenuInit::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	if (soundManager != nullptr) {
 		bool seTitle = soundManager->LoadSECommon();
@@ -37,15 +37,15 @@ bool UIGalMenuInit::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	_pSoundManager = soundManager;
 
-	_ModeType = GalGameUIType::MenuIinit;
+	_ModeType = RoomGameUIType::MenuIinit;
 
 	_pMenuSelectBase.reset(new UI2DSelectBase);
 	_pMenuInAndOut.reset(new UIInAndOut);
 
 	_pMenuInAndOut->Init();
 
-	int handle = ResourceServer::LoadGraph("png/galUI/menu.png");
-	int handle2 = ResourceServer::LoadGraph("png/galUI/menu_select.png");
+	int handle = ResourceServer::LoadGraph("png/RoomUI/menu.png");
+	int handle2 = ResourceServer::LoadGraph("png/RoomUI/menu_select.png");
 
 
 	if (handle == -1 && handle2 == -1) { 
@@ -83,7 +83,7 @@ bool UIGalMenuInit::Init(std::shared_ptr<SoundManager>& soundManager) {
 	return true;
 }
 
-void UIGalMenuInit::Process() {
+void UIRoomMenuInit::Process() {
 
 	_select = _pMenuSelectBase->GetSelect();
 
@@ -105,7 +105,7 @@ void UIGalMenuInit::Process() {
 
 }
 
-void UIGalMenuInit::Draw() {
+void UIRoomMenuInit::Draw() {
 
 	_pMenuSelectBase->Draw();
 }

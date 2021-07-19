@@ -8,16 +8,16 @@
 #include "../../../../AppFrame/Input.h"
 #include "../SoundManager.h"
 
-class UIGalMenuInit {
+class UIRoomMenuInit {
 public:
-    UIGalMenuInit();
-    virtual ~UIGalMenuInit();
+    UIRoomMenuInit();
+    virtual ~UIRoomMenuInit();
 
     bool Init(std::shared_ptr<SoundManager>& soundManager);
     void Process();
     void Draw();
 
-    GalGameUIType GetType() {
+    RoomGameUIType GetType() {
         return _ModeType;
     }
 
@@ -43,7 +43,7 @@ public:
 
 private:
 
-    GalGameUIType _ModeType;
+    RoomGameUIType _ModeType;
 
     std::unique_ptr<UI2DSelectBase> _pMenuSelectBase;
     std::unique_ptr<UIInAndOut> _pMenuInAndOut;

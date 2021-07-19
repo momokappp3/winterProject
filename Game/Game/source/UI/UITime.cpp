@@ -38,7 +38,7 @@ bool UITime::Init(int maxNum ,int digit) {
 		return false;
 	}
 
-	int handle = ResourceServer::LoadGraph("png/galUI/numBase.png");
+	int handle = ResourceServer::LoadGraph("png/RoomUI/numBase.png");
 
 	if (handle == -1) {
 		return false;
@@ -49,16 +49,16 @@ bool UITime::Init(int maxNum ,int digit) {
 	_pTimeBase->SetDrawInfo(info);
 
 	std::array<int, 10> trustHandle{
-	ResourceServer::LoadGraph("png/galUI/number/trust0.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust1.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust2.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust3.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust4.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust5.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust6.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust7.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust8.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust9.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust0.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust1.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust2.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust3.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust4.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust5.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust6.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust7.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust8.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust9.png"),
 	};
 	
 	for (int i = 0; i < 10; i++) {

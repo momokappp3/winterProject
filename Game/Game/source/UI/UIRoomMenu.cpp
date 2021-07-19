@@ -1,9 +1,9 @@
-#include "UIGalMenu.h"
+#include "UIRoomMenu.h"
 #include "../../ResourceServer.h"
 #include "../../Utility.h"
 #include <array>
 
-UIGalMenu::UIGalMenu() {
+UIRoomMenu::UIRoomMenu() {
 
     _pCancelSelectBase = nullptr;
 	_pSettingSelectBase = nullptr;
@@ -51,10 +51,10 @@ UIGalMenu::UIGalMenu() {
 	_lastMentalNum = 0;
 }
 
-UIGalMenu::~UIGalMenu() {
+UIRoomMenu::~UIRoomMenu() {
 }
 
-bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo) {
+bool UIRoomMenu::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo) {
 
 	if (soundManager != nullptr) {
 		bool seTitle = soundManager->LoadSECommon();
@@ -107,7 +107,7 @@ bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
 
 	//_pMoleculeTween.reset(new Tween);
 
-	if (!DrawInit()) {  //画像のDrawInfo初期化処理
+	if (!DrawInit()) {  //画像のDrawInfo初期化処理  falseに来ている
 		return false;
 	}
 
@@ -141,7 +141,7 @@ bool UIGalMenu::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
     return true;
 }
 
-void UIGalMenu::Process() {
+void UIRoomMenu::Process() {
 
 	MoveProcess();
 
@@ -156,29 +156,12 @@ void UIGalMenu::Process() {
 	if (!_pBarPinkBase->IsStart()) {
 		if (_pBarPinkBase->GetNowRate() != molecule) {
 			if (_lastMolecule != molecule) {  //もし前の値と今が違うなら
+			
 
-				/*
-				//int nowFavor = _lastBasicFavor - _basicFavor;  //今入ってきた数値
-				//int favorLoop = (nowFavor + _basicFavor) / 100;  //基の時点のループの回数
-				//static_castしたほうがいいのか???
-				//float nowMolFavor = static_cast<float>(nowFavor) / 100.0f;
+				//前の好感度の合計 - 今の好感度の合計 
+				_lastMolecule - molecule;
 
-				//molecule += nowMolFavor;
-				
-				if (molecule >= 100) {
-					favorLoop++;
-					molecule -= 100;
-				}
-
-				if (_basicFavor >= 9900) {
-					_basicFavor = 9900;
-				}
-				
-				_pBarPinkBase->SetLoopNum(favorLoop);  //SetLoop
-				_basicFavor += nowFavor;  //合計に追加
-
-				*/
-
+				_pBarPinkBase->SetLoopNum(0);  //SetLoop(何回Maxに到達させるか)
 				_pBarPinkBase->SetRate(molecule);  //pinkレベルアップゲージ
 			}
 		}
@@ -235,7 +218,7 @@ void UIGalMenu::Process() {
 	_lastMolecule = molecule;
 }
 
-void UIGalMenu::Draw() {
+void UIRoomMenu::Draw() {
 
 	_pCancelSelectBase->Draw();
 	_pSettingSelectBase->Draw();
@@ -257,12 +240,12 @@ void UIGalMenu::Draw() {
 }
 
 //================================================
-bool UIGalMenu::DrawInit() {
+bool UIRoomMenu::DrawInit() {
 
 	//×ボタン 差は180
 
-	int handle = ResourceServer::LoadGraph("png/galUI/closeButton.png");
-	int handle2 = ResourceServer::LoadGraph("png/galUI/closeButton_select.png");
+	int handle = ResourceServer::LoadGraph("png/RoomUI/closeButton.png");
+	int handle2 = ResourceServer::LoadGraph("png/RoomUI/closeButton_select.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -277,8 +260,8 @@ bool UIGalMenu::DrawInit() {
 	//========================================================================
 	//設定アイコン
 
-	handle = ResourceServer::LoadGraph("png/galUI/setting.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/setting_select.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/setting.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/setting_select.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -293,8 +276,8 @@ bool UIGalMenu::DrawInit() {
 	//=========================================================================
 	//ストーリーボタン
 
-	handle = ResourceServer::LoadGraph("png/galUI/button_story_brack.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/button_story_white.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/button_story_brack.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/button_story_white.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -309,8 +292,8 @@ bool UIGalMenu::DrawInit() {
 	//=========================================================================
 	//アイテムボタン
 
-	handle = ResourceServer::LoadGraph("png/galUI/button_item_black.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/button_item_white.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/button_item_black.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/button_item_white.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -325,8 +308,8 @@ bool UIGalMenu::DrawInit() {
 	//==========================================================================
 	//体力ゲージPink 700*50
 
-	handle = ResourceServer::LoadGraph("png/galUI/bar_base.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/bar_pink.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/bar_base.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/bar_pink.png");
 	
 
 	if (handle == -1 && handle2 == -1) {
@@ -343,8 +326,8 @@ bool UIGalMenu::DrawInit() {
 	//===========================================================================
 	//体力ゲージRed  600*40
 
-	handle = ResourceServer::LoadGraph("png/galUI/bar_base_2.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/bar_red.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/bar_base_2.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/bar_red.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -358,7 +341,7 @@ bool UIGalMenu::DrawInit() {
 
 	//=============================================================
 	//サークル 430*430
-	handle = ResourceServer::LoadGraph("png/galUI/uiCircle.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/uiCircle.png");
 
 	if (handle == -1) {
 		return false;
@@ -370,7 +353,7 @@ bool UIGalMenu::DrawInit() {
 
 	//==========================================================
 	//CoinBase 215*52
-	handle = ResourceServer::LoadGraph("png/galUI/number/coinBase.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/number/coinBase.png");
 
 	if (handle == -1) {
 		return false;
@@ -383,16 +366,16 @@ bool UIGalMenu::DrawInit() {
 	//======================================================
 	//CoinNum
 	std::array<int, 10> coinHandle{
-		ResourceServer::LoadGraph("png/galUI/number/coin0.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin1.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin2.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin3.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin4.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin5.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin6.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin7.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin8.png"),
-		ResourceServer::LoadGraph("png/galUI/number/coin9.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin0.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin1.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin2.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin3.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin4.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin5.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin6.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin7.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin8.png"),
+		ResourceServer::LoadGraph("png/RoomUI/number/coin9.png"),
 	};
 
 	//coinの位置はDrawでSetする
@@ -408,16 +391,16 @@ bool UIGalMenu::DrawInit() {
 	//trustNum
 	
 	std::array<int, 10> trustHandle{
-	ResourceServer::LoadGraph("png/galUI/number/trust0.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust1.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust2.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust3.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust4.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust5.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust6.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust7.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust8.png"),
-	ResourceServer::LoadGraph("png/galUI/number/trust9.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust0.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust1.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust2.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust3.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust4.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust5.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust6.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust7.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust8.png"),
+	ResourceServer::LoadGraph("png/RoomUI/number/trust9.png"),
 	};
 
 	//数字の位置はSetでする
@@ -432,7 +415,7 @@ bool UIGalMenu::DrawInit() {
 	return true;
 }
 
-void UIGalMenu::MoveInit() {
+void UIRoomMenu::MoveInit() {
 
 	//=====================================
 	_pCancelSelectBase->SetRadius(20.0f);  //typeをサークルにしている
@@ -525,7 +508,7 @@ void UIGalMenu::MoveInit() {
 
 }
 
-void UIGalMenu::MoveProcess() {
+void UIRoomMenu::MoveProcess() {
 
 	_cancel = _pCancelSelectBase->GetSelect();
 

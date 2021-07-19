@@ -1,4 +1,4 @@
-#include "UIGalItem.h"
+#include "UIRoomItem.h"
 #include "../../ResourceServer.h"
 #include "../../Utility.h"
 #include <String>
@@ -8,7 +8,7 @@ namespace {
 	std::string last = _T("円渡す");
 }
 
-UIGalItem::UIGalItem() {
+UIRoomItem::UIRoomItem() {
 
 	//_pTween = nullptr;
 
@@ -25,10 +25,10 @@ UIGalItem::UIGalItem() {
 	_itemType = -1;
 }
 
-UIGalItem::~UIGalItem() {
+UIRoomItem::~UIRoomItem() {
 }
 
-bool UIGalItem::Init(std::shared_ptr<SoundManager>& soundManager) {
+bool UIRoomItem::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	if (soundManager != nullptr) {
 		bool seTitle = soundManager->LoadSECommon();
@@ -54,7 +54,7 @@ bool UIGalItem::Init(std::shared_ptr<SoundManager>& soundManager) {
 	_closePoint = { 1112,100 };
 	UIUseBase::Init();
 
-	int handle = ResourceServer::LoadGraph("png/galUI/use/useItemBase.png");
+	int handle = ResourceServer::LoadGraph("png/RoomUI/use/useItemBase.png");
 
 	if (handle == -1) {
 		return false;
@@ -65,8 +65,8 @@ bool UIGalItem::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	//====================================================================
 	//お金アイテムボタン
-	handle = ResourceServer::LoadGraph("png/galUI/use/moneyBItem.png");
-	int handle2 = ResourceServer::LoadGraph("png/galUI/use/moneyBItemSelect.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/use/moneyBItem.png");
+	int handle2 = ResourceServer::LoadGraph("png/RoomUI/use/moneyBItemSelect.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -82,8 +82,8 @@ bool UIGalItem::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	//=============================================================
 	//テキーラアイテムボタン
-	handle = ResourceServer::LoadGraph("png/galUI/use/useBTequila.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/use/useBTequilaSelect.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/use/useBTequila.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/use/useBTequilaSelect.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -109,7 +109,7 @@ bool UIGalItem::Init(std::shared_ptr<SoundManager>& soundManager) {
 	return true;
 }
 
-void UIGalItem::Process() {
+void UIRoomItem::Process() {
 
 	UIUseBase::Process();
 
@@ -127,7 +127,7 @@ void UIGalItem::Process() {
 	UIUseBase::Process();
 }
 
-void UIGalItem::Draw() {
+void UIRoomItem::Draw() {
 
 	if (_nowMode) {
 		_pBackImageBase->Draw();
@@ -138,7 +138,7 @@ void UIGalItem::Draw() {
 	}
 }
 
-void UIGalItem::SetGiveCoin(int coin) {
+void UIRoomItem::SetGiveCoin(int coin) {
 
 	_giveCoin = coin;
 	_coinString = fast + std::to_string(_giveCoin) + last;

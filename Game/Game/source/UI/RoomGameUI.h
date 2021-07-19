@@ -1,26 +1,26 @@
 /*****************************************************************//**
- * \file   GalGameUI.h
+ * \file   RoomGameUI.h
  * \brief  UIのやりとりアイテム使用
  * \author momoka
  * \date   2021 7/9
  *********************************************************************/
 #pragma once
-#include "GalGameUI.h"
-#include "UIGalMenuInit.h"
+#include "RoomGameUI.h"
+#include "UIRoomMenuInit.h"
 #include <memory>
 #include ".././.../../../../../AppFrame/Types.h"
 #include "../../../../AppFrame/MouseInput.h"
-#include "UIGalMenu.h"
-#include "UIGalSetting.h"
-#include "UIGalItem.h"
-#include "UIGalStory.h"
+#include "UIRoomMenu.h"
+#include "UIRoomSetting.h"
+#include "UIRoomItem.h"
+#include "UIRoomStory.h"
 #include "UITime.h"
 #include "../Novel/scripts/script_engine.h"
 
-class GalGameUI {
+class RoomGameUI {
 public:
-    GalGameUI();
-    virtual ~GalGameUI();
+    RoomGameUI();
+    virtual ~RoomGameUI();
 
     bool Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo);
     void Process();
@@ -78,14 +78,14 @@ private:
     void ItemProcess();
     void StoryProcess();
 
-    GalGameUIType _type;  //現在表示しているタイプ
+    RoomGameUIType _type;  //現在表示しているタイプ
     FaceInfo _faceInfo;
 
-    std::unique_ptr<UIGalMenuInit> _pUIGalMenuInit;
-    std::unique_ptr<UIGalMenu> _pUIGalMenu;
-    std::unique_ptr<UIGalSetting> _pUIGalSetting;
-    std::unique_ptr<UIGalItem> _pUIGalItem;
-    std::unique_ptr<UIGalStory> _pUIGalStory;
+    std::unique_ptr<UIRoomMenuInit> _pUIRoomMenuInit;
+    std::unique_ptr<UIRoomMenu> _pUIRoomMenu;
+    std::unique_ptr<UIRoomSetting> _pUIRoomSetting;
+    std::unique_ptr<UIRoomItem> _pUIRoomItem;
+    std::unique_ptr<UIRoomStory> _pUIRoomStory;
     std::shared_ptr<SoundManager> _pSoundManager;
 
     std::unique_ptr<UIPopUp> _pUIPopUp;

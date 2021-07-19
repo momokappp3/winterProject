@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "UIUseBase.h"
 #include "UI2DBase.h"
 #include "UI2DSelectBase.h"
@@ -7,10 +6,10 @@
 #include "../../../../AppFrame/Types.h"
 #include <vector>
 
-class UIGalStory :public UIUseBase {
+class UIRoomStory :public UIUseBase {
 public:
-    UIGalStory();
-    virtual ~UIGalStory();
+    UIRoomStory();
+    virtual ~UIRoomStory();
 
     //overrideŽæ‚Á‚½
     bool Init(std::shared_ptr<SoundManager>& soundManager);
@@ -79,7 +78,7 @@ public:
         return _story4String;
     }
 
-    void StringAllFalse() {
+    void StrinRoomlFalse() {
         _story0String.isDraw = false;
         _story1String.isDraw = false;
         _story2String.isDraw = false;
@@ -111,7 +110,6 @@ private:
     std::unique_ptr<UI2DSelectBase> _pStringImageBase4;
     std::shared_ptr<SoundManager> _pSoundManager;
 
-
     int _imageSize;
     int _lastImageSize;
 
@@ -122,5 +120,4 @@ private:
     PopString _story4String;
 
     int _typeString;
-
 };

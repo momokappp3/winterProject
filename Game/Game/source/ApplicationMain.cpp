@@ -1,33 +1,24 @@
-/*
-
-ƒ‚[ƒh‚Ì“o˜^
-
-*/
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "../source/Mode/ModeTitle.h"
-#include "Mode/GalGame.h"
-//#include "../Action3DGame.h"
+#include "Mode/RoomGame.h"
+#include "Mode/Action3DGame.h"
 
-// ŽÀ‘Ì
-ApplicationMain	g_oApplicationMain;
+ApplicationMain	g_oApplicationMain;  // ŽÀ‘Ì
 
 bool ApplicationMain::Initialize(HINSTANCE hInstance) {
-	if (!ApplicationBase::Initialize(hInstance)) { return false; }
+
+	if (!ApplicationBase::Initialize(hInstance)) {
+		return false;
+	}
 
 	// Å‰‚Ìƒ‚[ƒh‚Ì“o˜^
 	ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
-	//ModeServer::GetInstance()->Add(new GalGame(), 1, "GalGame");
+	//ModeServer::GetInstance()->Add(new RoomGame(), 1, "RoomGame");
 	//ModeServer::GetInstance()->Add(new Action3DGame(), 2, "Action");
 
 	return true;
 }
-
-bool ApplicationMain::Terminate() {
-	ApplicationBase::Terminate();
-	return true;
-}
-
 
 bool ApplicationMain::Input() {
 	ApplicationBase::Input();
@@ -44,3 +35,7 @@ bool ApplicationMain::Render() {
 	return true;
 }
 
+bool ApplicationMain::Terminate() {
+	ApplicationBase::Terminate();
+	return true;
+}

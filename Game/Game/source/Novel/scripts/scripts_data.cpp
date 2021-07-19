@@ -54,7 +54,6 @@ namespace amg{
 
             scripts->push_back(mbs);
         }
-
         return true;
     }
     

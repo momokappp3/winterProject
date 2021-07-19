@@ -3,8 +3,9 @@
 #include <Dxlib.h>
 #include "../../ResourceServer.h"
 #include "Action3DGame.h"
-#include "GalGame.h"
+#include "RoomGame.h"
 #include "ModeGame.h"
+#include "../../Utility.h"
 
 const VECTOR CAMERA_TITLE_POSITION = { -18.026157f, 14.650770f, -34.953270f };
 const VECTOR CAMERA_TITLE_TARGET = { -18.026155f, 16.672798f, 1.052301f };
@@ -380,7 +381,7 @@ bool ModeTitle::Process() {
 		switch (_menuKind) {
 		case Kind::NewGame:
 			ModeServer::GetInstance()->Del(this);  // ‚±‚Ìƒ‚[ƒh‚ðíœ—\–ñ
-			ModeServer::GetInstance()->Add(new GalGame(), 3, "GalGame");  // ŽŸ‚Ìƒ‚[ƒh‚ð“o˜^
+			ModeServer::GetInstance()->Add(new RoomGame(), 3, "RoomGame");  // ŽŸ‚Ìƒ‚[ƒh‚ð“o˜^
 			_pSoundManager->DeleteSETitle();
 			_pSoundManager->PlayBgm(SoundManager::BGM::InGame);
 			break;
@@ -476,10 +477,9 @@ void ModeTitle::TouchTitleMenu() {
 	_hitOption = MV1CollCheck_Line(_pOption->GetHandle(), 5, startI, endI);
 	_hitHelp = MV1CollCheck_Line(_pHelp->GetHandle(), 5, startI, endI);
 	_hitExit = MV1CollCheck_Line(_pExit->GetHandle(), 1, startI, endI);
-
-
 	
-	if (_hitNewGame.HitFlag == 1) {
+	if (/*_hitNewGame.HitFlag == 1*/
+		Utility::HitRect(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), { 888,151 }, {1675,290})) {
 
 		_pNewGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::NewGame;
@@ -493,7 +493,8 @@ void ModeTitle::TouchTitleMenu() {
 		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 	
-	if (_hitLoadGame.HitFlag == 1) {
+	if (/*_hitLoadGame.HitFlag == 1*/
+		Utility::HitRect(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), { 897,330 }, { 1703,436 })) {
 
 		_pLoadGame->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::LoadGame;
@@ -505,7 +506,8 @@ void ModeTitle::TouchTitleMenu() {
 		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 
-	if (_hitOption.HitFlag == 1) {
+	if (/*_hitOption.HitFlag == 1*/
+		Utility::HitRect(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), { 1217,493 }, { 1684,572 })) {
 
 		_pOption->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Option;
@@ -519,18 +521,20 @@ void ModeTitle::TouchTitleMenu() {
 		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 
-	if (_hitHelp.HitFlag == 1) {
+	if (/*_hitHelp.HitFlag == 1*/
+		Utility::HitRect(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), { 1411,620 }, { 1686,698 })) {
 
 		_pHelp->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::Help;
 		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
-		//_pHelp->GetTransform().SetRotateY(0.0f);
+		_pHelp->GetTransform().SetRotateY(0.0f);
 		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 	}
 	
-	if (_hitExit.HitFlag == 1) {
+	if (/*_hitExit.HitFlag == 1*/
+		Utility::HitRect(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), { 1427,741 }, { 1660,806 })) {
 
 		_pExit->GetTransform().AddRotateY(5.0f);
 		_menuKind = Kind::End;
@@ -538,7 +542,7 @@ void ModeTitle::TouchTitleMenu() {
 		//DrawString(100, 420, " HIT", GetColor(255, 0, 0));
 	}
 	else {
-		//_pExit->GetTransform().SetRotateY(0.0f);
+		_pExit->GetTransform().SetRotateY(0.0f);
 		//DrawString(100, 450, " NOTHIT", GetColor(255, 0, 0));
 
 	}

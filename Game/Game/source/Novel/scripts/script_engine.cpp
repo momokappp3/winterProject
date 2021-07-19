@@ -201,7 +201,7 @@ namespace amg
         input_manager.reset(new InputManager());
         scripts_data.reset(new ScriptsData());
 
-        if (!scripts_data->LoadJson(path)) {  //ここで落ちている
+        if (!scripts_data->LoadJson(path)) {  //パスが合っているか
             return false;
         }
 
@@ -746,7 +746,7 @@ namespace amg
         _pFace.reset(new CommandFace(line, scripts));
 
         if (!_pFace->Check()) {
-            return false;  //×ずっとこっちに来てしまう
+            return false;
         }
 
         _isFace = true;
@@ -791,15 +791,12 @@ namespace amg
                 // 選択エリアがクリックされていたら処理は終了
                 if (is_click) {
                     state = ScriptState::PARSING;
-                    // 指定の行番号にする
 
+                    // 指定の行番号にする
                     now_line = choice->GetLineNumber();
 
                     //now_lineの3番目を取ってくる
-
                     std::string favor = choice->GetFavor();
-
-                    //_favor += atoi(favor.c_str());  //データが入っている
 
                     int num = atoi(favor.c_str());
 

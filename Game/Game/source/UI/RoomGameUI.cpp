@@ -1,20 +1,20 @@
-#include "GalGameUI.h"
+#include "RoomGameUI.h"
 #include "../ApplicationMain.h"
 #include "../Mode/ModeTitle.h"
-#include "../Mode/GalGame.h"
+#include "../Mode/RoomGame.h"
 #include "../../Utility.h"
 
 const int DRUNK_TIME = 10;
 
-GalGameUI::GalGameUI() {
+RoomGameUI::RoomGameUI() {
 
-    _type = GalGameUIType::Max;
+    _type = RoomGameUIType::Max;
 
-    _pUIGalMenuInit = nullptr;
-    _pUIGalMenu = nullptr;
-    _pUIGalSetting = nullptr;
-    _pUIGalItem = nullptr;
-    _pUIGalStory = nullptr;
+    _pUIRoomMenuInit = nullptr;
+    _pUIRoomMenu = nullptr;
+    _pUIRoomSetting = nullptr;
+    _pUIRoomItem = nullptr;
+    _pUIRoomStory = nullptr;
     _pSoundManager = nullptr;
 
     _pUIPopUp = nullptr;
@@ -44,10 +44,10 @@ GalGameUI::GalGameUI() {
     _giveCoin = 0;
 }
 
-GalGameUI::~GalGameUI() {
+RoomGameUI::~RoomGameUI() {
 }
 
-bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo) {
+bool RoomGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_ptr<PlayerInfo>& playerInfo) {
 
     if (soundManager != nullptr) {
         bool seTitle = soundManager->LoadSECommon();
@@ -68,13 +68,13 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
 
     _pPlayerInfo = playerInfo;
 
-    _type = GalGameUIType::MenuIinit;
+    _type = RoomGameUIType::MenuIinit;
 
-    _pUIGalMenuInit.reset(new UIGalMenuInit);
-    _pUIGalMenu.reset(new UIGalMenu);
-    _pUIGalSetting.reset(new UIGalSetting);
-    _pUIGalItem.reset(new UIGalItem);
-    _pUIGalStory.reset(new UIGalStory);
+    _pUIRoomMenuInit.reset(new UIRoomMenuInit);
+    _pUIRoomMenu.reset(new UIRoomMenu);
+    _pUIRoomSetting.reset(new UIRoomSetting);
+    _pUIRoomItem.reset(new UIRoomItem);
+    _pUIRoomStory.reset(new UIRoomStory);
 
     _pUIPopUp.reset(new UIPopUp);
     _pDrunkTime.reset(new UITime);
@@ -85,14 +85,14 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
     _pUpButton.reset(new UI2DSelectBase);
     _pDownButton.reset(new UI2DSelectBase);
 
-    if (!_pUIGalMenu->Init(_pSoundManager, _pPlayerInfo) || !_pUIGalMenuInit->Init(_pSoundManager) || !_pUIGalItem->Init(_pSoundManager) ||
-        !_pUIGalSetting->Init(_pSoundManager) || !_pUIGalStory->Init(_pSoundManager) || !_pUIPopUp->Init(_pSoundManager)) {
+    if (!_pUIRoomMenu->Init(_pSoundManager, _pPlayerInfo) || !_pUIRoomMenuInit->Init(_pSoundManager) || !_pUIRoomItem->Init(_pSoundManager) ||
+        !_pUIRoomSetting->Init(_pSoundManager) || !_pUIRoomStory->Init(_pSoundManager) || !_pUIPopUp->Init(_pSoundManager)) {  //×falseに来ている
         return false;
     }
 
     //xボタン
-    int handle = ResourceServer::LoadGraph("png/galUI/closeButton.png");
-    int handle2 = ResourceServer::LoadGraph("png/galUI/closeButton_select.png");
+    int handle = ResourceServer::LoadGraph("png/RoomUI/closeButton.png");
+    int handle2 = ResourceServer::LoadGraph("png/RoomUI/closeButton_select.png");
 
     if (handle == -1 && handle2 == -1) {
         return false;
@@ -106,8 +106,8 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
     _pCloselBScript->SetRadius(20);
 
     //上矢印
-    handle = ResourceServer::LoadGraph("png/galUI/use/arrowUp.png");
-    handle2 = ResourceServer::LoadGraph("png/galUI/use/arrowUpSelect.png");
+    handle = ResourceServer::LoadGraph("png/RoomUI/use/arrowUp.png");
+    handle2 = ResourceServer::LoadGraph("png/RoomUI/use/arrowUpSelect.png");
 
     if (handle == -1 && handle2 == -1) {
         return false;
@@ -121,8 +121,8 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
     _pUpButton->SetRect();
 
     //下矢印
-    handle = ResourceServer::LoadGraph("png/galUI/use/arrowDown.png");
-    handle2 = ResourceServer::LoadGraph("png/galUI/use/arrowDownSelect.png");
+    handle = ResourceServer::LoadGraph("png/RoomUI/use/arrowDown.png");
+    handle2 = ResourceServer::LoadGraph("png/RoomUI/use/arrowDownSelect.png");
 
     if (handle == -1 && handle2 == -1) {
         return false;
@@ -160,7 +160,7 @@ bool GalGameUI::Init(std::shared_ptr<SoundManager>& soundManager, std::shared_pt
     return true;
 }
 
-void GalGameUI::Process() {
+void RoomGameUI::Process() {
 
     _pMouseInput->Process();
     _pUIPopUp->Process();
@@ -171,7 +171,8 @@ void GalGameUI::Process() {
         
         getNowFavor = _pScriptEngin->GetFavor();  //分子9900まで
 
-        _favor += getNowFavor / 100;
+        
+        += getNowFavor / 100;
         _molecule = getNowFavor % 100;
         
     }
@@ -181,8 +182,8 @@ void GalGameUI::Process() {
     }
     */
 
-    //_pUIGalMenu->SetFavor(_favor);
-    //_pUIGalMenu->SetMolecule(_pScriptEngin->IsFavor());  //???????
+    //_pUIRoomMenu->SetFavor(_favor);
+    //_pUIRoomMenu->SetMolecule(_pScriptEngin->IsFavor());  //???????
     /*
     if (_pScriptEngin->IsFavor()) {
 
@@ -200,85 +201,85 @@ void GalGameUI::Process() {
         _faceInfo = _pScriptEngin->GetFace();
     }
 
-    if (_type == GalGameUIType::Setting) {
+    if (_type == RoomGameUIType::Setting) {
         SettingProcess();
     }
 
-    if (_type == GalGameUIType::Item) {
+    if (_type == RoomGameUIType::Item) {
         ItemProcess();
     }
 
-    if (_type == GalGameUIType::Story) {
+    if (_type == RoomGameUIType::Story) {
         StoryProcess();
     }
 
-    if (_type == GalGameUIType::MenuIinit) {
-        _pUIGalMenuInit->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
+    if (_type == RoomGameUIType::MenuIinit) {
+        _pUIRoomMenuInit->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
     }
 
-    if (_type == GalGameUIType::Menu && _type!=GalGameUIType::Item && _type != GalGameUIType::Story && 
-        _type != GalGameUIType::Item && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
+    if (_type == RoomGameUIType::Menu && _type!=RoomGameUIType::Item && _type != RoomGameUIType::Story && 
+        _type != RoomGameUIType::Item && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
 
-        _pUIGalMenu->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
+        _pUIRoomMenu->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
     }
 
-    if (_type == GalGameUIType::Setting && _type != GalGameUIType::Item && _type != GalGameUIType::Story &&
+    if (_type == RoomGameUIType::Setting && _type != RoomGameUIType::Item && _type != RoomGameUIType::Story &&
         _pMouseInput->GetYNum() && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
 
-        _pUIGalSetting->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
-        _pUIGalMenu->SetSelectSetting(0);  //音が他のところをクリックしても鳴るため
+        _pUIRoomSetting->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
+        _pUIRoomMenu->SetSelectSetting(0);  //音が他のところをクリックしても鳴るため
     }
 
-    if (_type == GalGameUIType::Item && _type != GalGameUIType::Story && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
+    if (_type == RoomGameUIType::Item && _type != RoomGameUIType::Story && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
 
-        _pUIGalItem->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
-        _pUIGalItem->SetMouseLeft(_pMouseInput->GetLeft());
-        _pUIGalMenu->SetSelectItem(0);   //音が他のところをクリックしても鳴るため
+        _pUIRoomItem->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
+        _pUIRoomItem->SetMouseLeft(_pMouseInput->GetLeft());
+        _pUIRoomMenu->SetSelectItem(0);   //音が他のところをクリックしても鳴るため
     }
 
-    if (_type == GalGameUIType::Story && !_pUIPopUp->GetNowMode() &&
-        _type != GalGameUIType::Item && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
+    if (_type == RoomGameUIType::Story && !_pUIPopUp->GetNowMode() &&
+        _type != RoomGameUIType::Item && _pScriptEngin->GetState() == amg::ScriptEngine::ScriptState::END) {
 
-        _pUIGalStory->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
-        _pUIGalMenu->SetSelectSetting(0);  //音が他のところをクリックしても鳴るため
+        _pUIRoomStory->SetMousePoint(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
+        _pUIRoomMenu->SetSelectSetting(0);  //音が他のところをクリックしても鳴るため
     }
 
     _pUIPopUp->SetMouse(_pMouseInput->GetXNum(), _pMouseInput->GetYNum());
     _pUIPopUp->SetTrgLeft(_pMouseInput->GetTrgLeft());
 
     //menuを押したとき処理
-    if (_pUIGalMenuInit->GetSelect() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalMenuInit->SetEnd(true);  //endの座標まで持っていく
-        _pUIGalMenu->SetStart(true);  //startの座標までもっていく
-        _type = GalGameUIType::Menu;
+    if (_pUIRoomMenuInit->GetSelect() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomMenuInit->SetEnd(true);  //endの座標まで持っていく
+        _pUIRoomMenu->SetStart(true);  //startの座標までもっていく
+        _type = RoomGameUIType::Menu;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //cancelを押したとき処理
-    if (_pUIGalMenu->GetSelectCancel() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalMenu->SetEnd(true);  //外の座標までもっていく
-        _pUIGalMenuInit->SetStart(true);  //中の座標まで持っていく
-        _type = GalGameUIType::MenuIinit;
+    if (_pUIRoomMenu->GetSelectCancel() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomMenu->SetEnd(true);  //外の座標までもっていく
+        _pUIRoomMenuInit->SetStart(true);  //中の座標まで持っていく
+        _type = RoomGameUIType::MenuIinit;
 
-        _pUIGalStory->SetAddImageSize(1);
+        _pUIRoomStory->SetAddImageSize(1);
         _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 
-    _pUIGalSetting->Process();
+    _pUIRoomSetting->Process();
     //settingを押したとき処理
-    if (_pUIGalMenu->GetSelectSetting() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalSetting->SetStart(true);  //設定を開く
-        _pUIGalSetting->SetNowMode(true);
-        _type = GalGameUIType::Setting;
+    if (_pUIRoomMenu->GetSelectSetting() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomSetting->SetStart(true);  //設定を開く
+        _pUIRoomSetting->SetNowMode(true);
+        _type = RoomGameUIType::Setting;
          _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
-    _pUIGalItem->Process();
+    _pUIRoomItem->Process();
     //itemを押したとき処理
-    if (_pUIGalMenu->GetSelectItem() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalItem->SetStart(true);  //設定を開く
-        _pUIGalItem->SetNowMode(true);
-        _type = GalGameUIType::Item;
+    if (_pUIRoomMenu->GetSelectItem() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomItem->SetStart(true);  //設定を開く
+        _pUIRoomItem->SetNowMode(true);
+        _type = RoomGameUIType::Item;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
     
@@ -296,12 +297,12 @@ void GalGameUI::Process() {
         _pSoundManager->PlaySECommon(SoundManager::SECommon::BarDown, 100);
     }
 
-    _pUIGalStory->Process();
+    _pUIRoomStory->Process();
     //storyを押したとき処理
-    if (_pUIGalMenu->GetSelectStory() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalStory->SetStart(true);  //設定を開く
-        _pUIGalStory->SetNowMode(true);
-        _type = GalGameUIType::Story;
+    if (_pUIRoomMenu->GetSelectStory() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomStory->SetStart(true);  //設定を開く
+        _pUIRoomStory->SetNowMode(true);
+        _type = RoomGameUIType::Story;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
@@ -321,7 +322,7 @@ void GalGameUI::Process() {
         }
     }
 
-    if (_type == GalGameUIType::Item && _pUIPopUp->GetNowMode() && _pUIGalItem->GetNowItemType() == 0) {
+    if (_type == RoomGameUIType::Item && _pUIPopUp->GetNowMode() && _pUIRoomItem->GetNowItemType() == 0) {
         //上ボタンの処理
         _upB = _pUpButton->GetSelect();
         _pUpButton->SetSelect(Utility::ImageHitDetection(_pMouseInput->GetXNum(), _pMouseInput->GetYNum(), _pUpButton.get()));
@@ -345,27 +346,27 @@ void GalGameUI::Process() {
                 }
             }
         }
-        _pUIPopUp->SetPopString(_pUIGalItem->GetMoneyString());
+        _pUIPopUp->SetPopString(_pUIRoomItem->GetMoneyString());
     }
 
-    if (_giveCoin != _pUIGalItem->GetGiveCoin()) {  //1回しかセットしない
-        _pUIGalItem->SetGiveCoin(_giveCoin);
+    if (_giveCoin != _pUIRoomItem->GetGiveCoin()) {  //1回しかセットしない
+        _pUIRoomItem->SetGiveCoin(_giveCoin);
     }
 
     //ストーリーが始まっているなら全て閉じ状態   スクリプトエンジン閉じると立ち上がるので直す
     if (_pScriptEngin->GetState() != amg::ScriptEngine::ScriptState::END) {
-        _pUIGalItem->StringAllFalse();
-        _pUIGalStory->StringAllFalse();
+        _pUIRoomItem->StrinRoomlFalse();
+        _pUIRoomStory->StrinRoomlFalse();
         _pUIPopUp->SetNowMode(false);
-        _pUIGalStory->SetEnd(true);
-        _pUIGalStory->SetNowMode(false);
-        _type = GalGameUIType::Menu;
+        _pUIRoomStory->SetEnd(true);
+        _pUIRoomStory->SetNowMode(false);
+        _type = RoomGameUIType::Menu;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 
-    _pUIGalMenuInit->Process();
+    _pUIRoomMenuInit->Process();
     _pDrunkTime->Process();
-    _pUIGalMenu->Process();
+    _pUIRoomMenu->Process();
     _pScriptEngin->Update();
     _pCloselBScript->Process();
     _pUpButton->Process();
@@ -378,36 +379,36 @@ void GalGameUI::Process() {
     _upB = false;
 }
 
-void GalGameUI::SettingProcess() {
+void RoomGameUI::SettingProcess() {
 
-    if (_pUIGalSetting->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {   //0=外出
+    if (_pUIRoomSetting->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {   //0=外出
         //外出モードに変更の処理
         _goAction = true;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
     }
 
-    if (_pUIGalSetting->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {  //1 = title
+    if (_pUIRoomSetting->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {  //1 = title
         //タイトルモードに変更の処理
         _goTitle = true;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
     }
 
-    if (_pUIGalSetting->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalSetting->SetEnd(true);
-        _pUIGalSetting->SetNowMode(false);
-        _type = GalGameUIType::Menu;
+    if (_pUIRoomSetting->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomSetting->SetEnd(true);
+        _pUIRoomSetting->SetNowMode(false);
+        _type = RoomGameUIType::Menu;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 }
 
-void GalGameUI::ItemProcess() {
+void RoomGameUI::ItemProcess() {
 
     //金
-    if (_pUIGalItem->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {
+    if (_pUIRoomItem->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) {
         _pUIPopUp->SetNowMode(true);
-        _pUIGalItem->SetMoneyStringDraw(true);
-        _pUIPopUp->SetPopString(_pUIGalItem->GetMoneyString());
-        _pUIGalItem->SetNowItemType(0);
+        _pUIRoomItem->SetMoneyStringDraw(true);
+        _pUIPopUp->SetPopString(_pUIRoomItem->GetMoneyString());
+        _pUIRoomItem->SetNowItemType(0);
 
         _pUpButton->SetDraw(0, true);
         _pUpButton->SetDraw(1, true);
@@ -417,13 +418,13 @@ void GalGameUI::ItemProcess() {
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
-    if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pUIGalItem->GetNowItemType() == 0 && !_okFlag) {  //二回目に来ている
+    if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pUIRoomItem->GetNowItemType() == 0 && !_okFlag) {  //二回目に来ている
         if ( _pPlayerInfo->GetCoin() >= _giveCoin) {
             _pPlayerInfo->SetCoin(_giveCoin, false);
             _okFlag = true;
             _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
 
-            //_pUIGalMenu->PlusMentalNum(10);  //とりあえず
+            //_pUIRoomMenu->PlusMentalNum(10);  //とりあえず
 
             _pPlayerInfo->SetMentalNum(10, true);
 
@@ -437,17 +438,17 @@ void GalGameUI::ItemProcess() {
     }
 
     //酒
-    if (_pUIGalItem->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {
+    if (_pUIRoomItem->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) {
         _pUIPopUp->SetNowMode(true);
-        _pUIGalItem->SetTequilaStringDraw(true);
-        _pUIGalItem->SetNowItemType(1);
+        _pUIRoomItem->SetTequilaStringDraw(true);
+        _pUIRoomItem->SetNowItemType(1);
 
-        _pUIPopUp->SetPopString(_pUIGalItem->GetTequilaString());
+        _pUIPopUp->SetPopString(_pUIRoomItem->GetTequilaString());
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     if (_pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft() && _pDrunkTime->GetNowTime() == 0 &&
-        _pUIGalItem->GetNowItemType() == 1) {
+        _pUIRoomItem->GetNowItemType() == 1) {
         _sakeItem = true;
         _pDrunkTime->SetStart(DRUNK_TIME);
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
@@ -455,90 +456,90 @@ void GalGameUI::ItemProcess() {
         _pPlayerInfo->SetMentalNum(30, true);
     }
 
-    if (_pUIGalItem->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalItem->SetEnd(true);
-        _pUIGalItem->SetNowMode(false);
-        _type = GalGameUIType::Menu;
+    if (_pUIRoomItem->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomItem->SetEnd(true);
+        _pUIRoomItem->SetNowMode(false);
+        _type = RoomGameUIType::Menu;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 }
 
-void GalGameUI::StoryProcess() {
+void RoomGameUI::StoryProcess() {
 
     //0Story
-    if (_pUIGalStory->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) { 
+    if (_pUIRoomStory->GetComandSelect(0) && _pMouseInput->GetTrgLeft()) { 
         _pUIPopUp->SetNowMode(true);
-        _pUIGalStory->SetStory0StringDraw(true);
+        _pUIRoomStory->SetStory0StringDraw(true);
 
-        _pUIPopUp->SetPopString(_pUIGalStory->GetStory0String());
+        _pUIPopUp->SetPopString(_pUIRoomStory->GetStory0String());
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //1Story
-    if (_pUIGalStory->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) { 
+    if (_pUIRoomStory->GetComandSelect(1) && _pMouseInput->GetTrgLeft()) { 
         _pUIPopUp->SetNowMode(true);
 
-        _pUIGalStory->SetStory1StringDraw(true);
+        _pUIRoomStory->SetStory1StringDraw(true);
 
-        _pUIPopUp->SetPopString(_pUIGalStory->GetStory1String());
+        _pUIPopUp->SetPopString(_pUIRoomStory->GetStory1String());
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //2Story
-    if (_pUIGalStory->GetComandSelect(2) && _pMouseInput->GetTrgLeft()) {  //1 = title
+    if (_pUIRoomStory->GetComandSelect(2) && _pMouseInput->GetTrgLeft()) {  //1 = title
         _pUIPopUp->SetNowMode(true);
 
-        _pUIGalStory->SetStory2StringDraw(true);
+        _pUIRoomStory->SetStory2StringDraw(true);
 
-        _pUIPopUp->SetPopString(_pUIGalStory->GetStory2String());
+        _pUIPopUp->SetPopString(_pUIRoomStory->GetStory2String());
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //3Story
-    if (_pUIGalStory->GetComandSelect(3) && _pMouseInput->GetTrgLeft()) {  //1 = title
+    if (_pUIRoomStory->GetComandSelect(3) && _pMouseInput->GetTrgLeft()) {  //1 = title
         _pUIPopUp->SetNowMode(true);
 
-        _pUIGalStory->SetStory3StringDraw(true);
+        _pUIRoomStory->SetStory3StringDraw(true);
 
-        _pUIPopUp->SetPopString(_pUIGalStory->GetStory3String());
+        _pUIPopUp->SetPopString(_pUIRoomStory->GetStory3String());
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //4Story
-    if (_pUIGalStory->GetComandSelect(4) && _pMouseInput->GetTrgLeft()) {  //1 = title
+    if (_pUIRoomStory->GetComandSelect(4) && _pMouseInput->GetTrgLeft()) {  //1 = title
         _pUIPopUp->SetNowMode(true);
 
-        _pUIGalStory->SetStory4StringDraw(true);
+        _pUIRoomStory->SetStory4StringDraw(true);
 
-        _pUIPopUp->SetPopString(_pUIGalStory->GetStory4String());
+        _pUIPopUp->SetPopString(_pUIRoomStory->GetStory4String());
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK);
     }
 
     //PopUpOK
-    if (_pUIGalStory->GetStringType() == 0 && _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
+    if (_pUIRoomStory->GetStringType() == 0 && _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
         _pScriptEngin->ReInitialize();
         _pScriptEngin->SetState(amg::ScriptEngine::ScriptState::PARSING);
         _pSoundManager->PlaySECommon(SoundManager::SECommon::OK2);
     }
 
     //PopUpClose
-    if (_pUIGalStory->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
-        _pUIGalStory->SetEnd(true);
-        _pUIGalStory->SetNowMode(false);
-        _type = GalGameUIType::Menu;
+    if (_pUIRoomStory->GetClose() == 1 && _pMouseInput->GetTrgLeft()) {
+        _pUIRoomStory->SetEnd(true);
+        _pUIRoomStory->SetNowMode(false);
+        _type = RoomGameUIType::Menu;
         _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
     }
 }
 
-void GalGameUI::Draw() {
+void RoomGameUI::Draw() {
 
     _pMouseInput->Draw();
-    _pUIGalSetting->Draw();
-    _pUIGalStory->Draw();
-    _pUIGalMenuInit->Draw();
-    _pUIGalMenu->Draw();
+    _pUIRoomSetting->Draw();
+    _pUIRoomStory->Draw();
+    _pUIRoomMenuInit->Draw();
+    _pUIRoomMenu->Draw();
 
-    _pUIGalItem->Draw();
+    _pUIRoomItem->Draw();
 
     if (_pUIPopUp->GetNowMode()) {
         if (_pUIPopUp->GetClose() && _pUIPopUp->GetTrgLeft() || _pUIPopUp->GetOk() && _pUIPopUp->GetTrgLeft()) {
@@ -546,8 +547,8 @@ void GalGameUI::Draw() {
                 _pSoundManager->PlaySECommon(SoundManager::SECommon::Cancel);
             }
             _pUIPopUp->SetNowMode(false);
-            _pUIGalItem->StringAllFalse();
-            _pUIGalStory->StringAllFalse();
+            _pUIRoomItem->StrinRoomlFalse();
+            _pUIRoomStory->StrinRoomlFalse();
             _pUpButton->SetDraw(0,false);
             _pUpButton->SetDraw(1, false);
             _pDownButton->SetDraw(0,false);
@@ -570,6 +571,6 @@ void GalGameUI::Draw() {
    // DrawFormatString(20, 880, GetColor(255, 165, 0),"GameUIber:%d",_molecule);
 }
 
-void GalGameUI::Terminate() {
+void RoomGameUI::Terminate() {
     _pScriptEngin->Destroy();
 }

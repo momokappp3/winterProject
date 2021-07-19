@@ -43,7 +43,7 @@ bool UIPopUp::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	//=================================================================
 	//popupBase
-	int handle = ResourceServer::LoadGraph("png/galUI/use/popUp.png");
+	int handle = ResourceServer::LoadGraph("png/RoomUI/use/popUp.png");
 
 	if (handle == -1) {
 		return false;
@@ -55,8 +55,8 @@ bool UIPopUp::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	//====================================================================
 	//OKƒ{ƒ^ƒ“
-	handle = ResourceServer::LoadGraph("png/galUI/use/OkB.png");
-	int handle2 = ResourceServer::LoadGraph("png/galUI/use/OkBSelect.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/use/OkB.png");
+	int handle2 = ResourceServer::LoadGraph("png/RoomUI/use/OkBSelect.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -73,8 +73,8 @@ bool UIPopUp::Init(std::shared_ptr<SoundManager>& soundManager) {
 	//====================================================================
 	//close
 
-	handle = ResourceServer::LoadGraph("png/galUI/closeButton.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/closeButton_select.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/closeButton.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/closeButton_select.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;

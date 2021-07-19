@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   GalGame.h
+ * \file   RoomGame.h
  * \brief  ÉQÅ[ÉÄÉVÅ[Éì
  * \author momoka
  * \date   2021 7/9
@@ -14,15 +14,15 @@
 #include "../Novel/scripts/script_engine.h"
 #include "../.././../../AppFrame/Input.h"
 #include "../../../../AppFrame/VectorTween.h"
-#include "../UI/GalGameUI.h"
+#include "../UI/RoomGameUI.h"
 #include "../SoundManager.h"
 #include "../Face.h"
 #include "../PlayerInfo.h"
 
-class GalGame : public ModeBase {
+class RoomGame : public ModeBase {
 public:
-	GalGame();
-	virtual ~GalGame();
+	RoomGame();
+	virtual ~RoomGame();
 
 	virtual bool Initialize() override;
 	virtual bool Terminate()override;
@@ -38,7 +38,7 @@ private:
 	std::unique_ptr<Input> _pInput;
 	std::unique_ptr<VectorTween> _pVectorTweenPotion;
 	std::unique_ptr<VectorTween> _pVectorTweenTarget;
-	std::unique_ptr<GalGameUI> _pGalGameUI;
+	std::unique_ptr<RoomGameUI> _pRoomGameUI;
 	std::unique_ptr<Face> _pFace;
 
 	std::unique_ptr<MouseInput> _pMouseInput;

@@ -2,7 +2,8 @@
 #include "amg_string.h"
 
 namespace {
-    constexpr size_t SCRIPT_NUM = 7;
+    //constexpr size_t SCRIPT_NUM = 7;
+    constexpr size_t SCRIPT_NUM = 6;
 }
 
 namespace amg {
@@ -51,7 +52,8 @@ namespace amg {
 
         _tweenFrame = value;
 
-        if (!string::ToInt(script[5], value)) {
+        /*
+        if (!string::ToInt(script[5], value)) {  //Å~falseÇ…
             return false;
         }
 
@@ -60,6 +62,7 @@ namespace amg {
         if (!string::ToInt(script[6], value)) {
             return false;
         }
+        */
 
         _delay = value;
 

@@ -1,8 +1,8 @@
-#include "UIGalSetting.h"
+#include "UIRoomSetting.h"
 #include "../../ResourceServer.h"
 #include "../../Utility.h"
 
-UIGalSetting::UIGalSetting() {
+UIRoomSetting::UIRoomSetting() {
 
 	_pTween = nullptr;
 
@@ -13,10 +13,10 @@ UIGalSetting::UIGalSetting() {
 
 }
 
-UIGalSetting::~UIGalSetting() {
+UIRoomSetting::~UIRoomSetting() {
 }
 
-bool UIGalSetting::Init(std::shared_ptr<SoundManager>& soundManager) {
+bool UIRoomSetting::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	if (soundManager != nullptr) {
 		bool seTitle = soundManager->LoadSECommon();
@@ -43,7 +43,7 @@ bool UIGalSetting::Init(std::shared_ptr<SoundManager>& soundManager) {
 	_closePoint = {1780,460};
 	UIUseBase::Init();
 
-	int handle = ResourceServer::LoadGraph("png/galUI/use/useSettingBase.png");
+	int handle = ResourceServer::LoadGraph("png/RoomUI/use/useSettingBase.png");
 
 	if (handle == -1) {
 		return false;
@@ -54,8 +54,8 @@ bool UIGalSetting::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	//====================================================================
 	//外出ボタン
-	handle = ResourceServer::LoadGraph("png/galUI/use/useBOut.png");
-	int handle2 = ResourceServer::LoadGraph("png/galUI/use/useBOutSelect.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/use/useBOut.png");
+	int handle2 = ResourceServer::LoadGraph("png/RoomUI/use/useBOutSelect.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -71,8 +71,8 @@ bool UIGalSetting::Init(std::shared_ptr<SoundManager>& soundManager) {
 
 	//=============================================================
 	//Titleボタン
-	handle = ResourceServer::LoadGraph("png/galUI/use/useBTitle.png");
-	handle2 = ResourceServer::LoadGraph("png/galUI/use/useBTitleSelect.png");
+	handle = ResourceServer::LoadGraph("png/RoomUI/use/useBTitle.png");
+	handle2 = ResourceServer::LoadGraph("png/RoomUI/use/useBTitleSelect.png");
 
 	if (handle == -1 && handle2 == -1) {
 		return false;
@@ -100,7 +100,7 @@ bool UIGalSetting::Init(std::shared_ptr<SoundManager>& soundManager) {
 	return true;
 }
 
-void UIGalSetting::Process() {
+void UIRoomSetting::Process() {
 
 	UIUseBase::Process();
 
@@ -117,7 +117,7 @@ void UIGalSetting::Process() {
 	UIUseBase::Process();
 }
 
-void UIGalSetting::Draw() {
+void UIRoomSetting::Draw() {
 
 	if (_nowMode) {
 		_pBackImageBase->Draw();

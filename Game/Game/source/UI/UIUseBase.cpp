@@ -33,8 +33,8 @@ bool UIUseBase::Init() {
 
     _pCloselBBase.reset(new UI2DSelectBase);
 
-    int handle = ResourceServer::LoadGraph("png/galUI/closeButton.png");
-    int handle2 = ResourceServer::LoadGraph("png/galUI/closeButton_select.png");
+    int handle = ResourceServer::LoadGraph("png/RoomUI/closeButton.png");
+    int handle2 = ResourceServer::LoadGraph("png/RoomUI/closeButton_select.png");
 
     if (handle == -1 && handle2 == -1) {
         return false;
